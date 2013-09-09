@@ -1,0 +1,64 @@
+#!/bin/sh
+if [ $# -lt 1 ]
+then 
+	echo "********************************************************************************"
+	echo "*  extract a particular file from tar balls in a directory.                    *"
+	echo "*  example: extractfiles [filename] [option1=rename] [option2=dirname]         *"    
+	echo "*    filename = is required. the file you want to extract. can use wild cards. *"
+	echo "*    option1 =  rename the extracted file. ==1 to rename the file with a index *"
+	echo "*    option2 = make a dir and move all the extracted files into it.            *"
+	echo "********************************************************************************"
+	exit -1
+else
+	if [ $# -eq 3 ]
+	then
+		mkdir $3
+	fi
+	
+   echo "STARTING"
+	echo "TYPE $1"
+	type="$1"
+	currdir=`pwd`
+	#echo "currdir = $currdir"
+	`cd $pwd` || exit -1
+	#`cd $currdir` || exit -1
+	#echo $?
+	#echo `pwd`
+	#rm -f HaloStudy.root >& /dev/null
+	n=0	
+	for file in `ls | grep tgz$`
+	do
+		echo "TARBALL FILE $file"
+   	#dir="`pwd`/$1"files""
+    	#mkdir -p $dir
+    	#echo $dir
+	 	#tar xvzf $file 'Pho*' ##working do not change 
+	 	#tar xvzf $file 'HaloStudy*' ##working do not change 
+	 	#tar xvzf $file "$type"
+		#echo $type
+	 	exfile=`tar xvzf $file "$type"`
+    	if [ $? -ne 0 ]
+#	if [ ! -e HaloStudy.root ]
+    	then
+      	echo '>>> file not found <<<'
+		else
+			n=`expr $n + 1`
+			#echo "n=$n"
+			if [ $# -gt 1 ]
+			then
+				if [ $2 -ne 0 ]
+				then
+					#FILE='Stuple.root'
+					#mv -v $FILE "Stuple_$n.root"
+					#mv -v $type $type'_'$n
+					if [ $# -eq 3 ]
+					then
+						mv -v $exfile "$3/$exfile'_'$n"
+					else
+						mv -v $exfile $exfile'_'$n
+					fi
+				fi
+    		fi
+		fi
+	done 
+fi

@@ -1,0 +1,120 @@
+////////////////////////////////////////////////////////////
+// This will create a flat stuples for me.                //
+////////////////////////////////////////////////////////////
+// Author: Samantha K. Hewamanage <samantha@fnal.gov>
+
+#include "samantha/utils/PhoEleFilter.hh"
+#include "Stntuple/loop/TStnAna.hh"
+#include <iostream>
+#include "samantha/utils/FreeFunctions.hh"
+
+ClassImp(PhoEleFilter)
+
+//_____________________________________________________________________________
+PhoEleFilter::PhoEleFilter(const char* name, const char* title):
+  TStnModule(name,title),
+  bRunPermit(true)
+{
+	std::cout << "Hello I am PhoEleFilter module" << std::endl;
+}
+
+//_____________________________________________________________________________
+PhoEleFilter::~PhoEleFilter() {
+}
+
+//_____________________________________________________________________________
+void PhoEleFilter::SaveHistograms() {
+}
+
+//_____________________________________________________________________________
+void PhoEleFilter::BookHistograms()
+{
+}
+
+
+//_____________________________________________________________________________
+int PhoEleFilter::BeginJob()
+{
+
+
+  	initSpMod = (InitSuperPhotons*) ((TStnAna*) GetAna()->GetModule("InitSuperPhotons"));
+	if (!initSpMod) {
+		StdOut(__FILE__,__LINE__,3,"InitSuperPhotons module required!.");
+		bRunPermit = false;
+	}
+	tightMod = (TagTightPhotons*) ((TStnAna*) GetAna()->GetModule("TagTightPhotons"));
+	if (tightMod == NULL) {
+		StdErr(__FILE__,__LINE__,3,"Could not find module TagTightPhotons!");
+		bRunPermit = false;
+	}
+	looseMod = (TagLoosePhotons*) ((TStnAna*) GetAna()->GetModule("TagLoosePhotons"));
+	if (looseMod == NULL) {
+		StdErr(__FILE__,__LINE__,3,"Could not find module TagLoosePhotons!");
+		bRunPermit = false;
+	}
+//	tightEleMod = (TagElectrons*) ((TStnAna*) GetAna()->GetModule("TagElectrons"));
+//	if (tightEleMod == NULL) {
+//		StdErr(__FILE__,__LINE__,3,"Could not find module TagElectrons!");
+//		bRunPermit = false;
+//	}
+	looseEleMod = (TagLooseElectrons*) ((TStnAna*) GetAna()->GetModule("TagLooseElectrons"));
+	if (looseEleMod == NULL) {
+		StdErr(__FILE__,__LINE__,3,"Could not find module TagElectrons!");
+		bRunPermit = false;
+	}
+
+
+	BookHistograms();
+
+	counter.evtsProcessed		= 0;
+	counter.evtsPassModule 		= 0;
+	
+	return 0;
+}
+
+//_____________________________________________________________________________
+int PhoEleFilter::BeginRun()
+{
+
+	return 0;
+} //BeginRun
+
+/*-------------------------------------------------------------------*/
+// EVENT LOOP
+/*-------------------------------------------------------------------*/
+int PhoEleFilter::Event(int ientry)
+{
+	SetPassed(0);
+	counter.evtsProcessed++;
+	if (! bRunPermit) exit (1);
+
+	for (int i=0; i < initSpMod->GetSuperPhoSize(); i++) {
+		if (initSpMod->GetSuperPhoton(i)->IsTightPhoton() || initSpMod->GetSuperPhoton(i)->IsLoosePhoton()) {
+				SetPassed(1);
+				break;
+		}
+		if (initSpMod->GetSuperPhoton(i)->IsTightElectron() || initSpMod->GetSuperPhoton(i)->IsLooseElectron()) {
+				SetPassed(1);
+				break;
+		}
+	}
+
+
+	if (GetPassed()) counter.evtsPassModule++;
+	return 0;
+
+} // Event
+
+
+//____________________________________________________________________
+//  END JOB SUMMARY
+//____________________________________________________________________
+int PhoEleFilter::EndJob() {
+
+	printf("[PEF:00:]----- end job: ---- %s\n",GetName());
+	std::cout << "[PEF:01:] Events Processed ----------- = " << counter.evtsProcessed << std::endl;
+	std::cout << "[PEF:02:] Events Pass this module ---- = " << counter.evtsPassModule << std::endl;
+
+	printf("---------------------------------------------------\n");
+	return 0;
+}

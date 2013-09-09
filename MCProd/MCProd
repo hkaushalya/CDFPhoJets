@@ -1,0 +1,775 @@
+#!/usr/bin/env bash
+#------------------------------------------------------------------------------
+#  call format: MCProd [-V debug_mode] [-J job_number] [-b book] [-d dsid] \
+#                      [-i hepg_file ] [-R run_number] [-n nevents] \
+#                      [-m 1:1:1:1] [-r release:qual:compiler]
+#
+# examples: 
+# ---------
+#  mcProduction/scripts/MCProd -J 10 -b cdfpewk -d wewk1t -R 151435 -n 10
+#  mcProduction/scripts/MCProd -J 1  -b cdfptop -d ztopli -n 10 -x USE_TIKI=1
+#
+#  to run a local job (w/o making a tarball):
+#  -----------------------------------------
+#  mcProduction/scripts/MCProd -J 1  -b cdfptop -d ztopli -n 10 -x USE_TIKI=1 -x SOURCE_ME=0
+#
+# Comments (obsolete, being updated):
+# ------------------------------------
+#
+#  -m 1:1:1:1 tells to execute all 4 steps
+#  
+#  To run TRGSim++/Production only:
+#
+#  MCProd -J 1 -m 0:0:1:1 -f ./sim.0001.30841.root
+#
+# where -m 0:0:1:1 tells to run only step 3+4 (TRGSim++ + ProductionExe)
+#       -f ./sim.0001.30841.root defines the input file for TRGSim++
+#        job_number is a placeholder in this case - input file defines 
+#        everything
+# -----------------------------------------------------------------------------
+# assume that the script starts from the directory where tarfile is unpacked
+# force running directory to be MCProd.PID
+#------------------------------------------------------------------------------
+export             WORK_DIR=$PWD
+export                 BOOK=cdfpexo
+export    CDFSIM_INPUT_HEPG=
+export           DATASET_ID=pexog0
+export            DB_SERVER=cdfrep01
+export         DEBUG_SCRIPT=none
+export   INEL_CROSS_SECTION=61.7e-27
+export           JOB_NUMBER=1
+export       JOB_OUTPUT_DIR=$PWD
+export          JOB_TCL_DIR=$WORK_DIR/jobs/tcl
+export              LOGFILE=
+export          MC_BOOK_DIR=$WORK_DIR/mcProduction/book
+export               MC_JOB=1
+export              NEVENTS=0
+export           PROD_on_MC=1                 ; # "ProductionExe naming"
+export                   PT=0.0
+export                 QUAL=default
+export           RUN_NUMBER=151435
+export        RUNMC_TCL_DIR=$WORK_DIR/mcProduction/tcl
+export        SINGLE_RUN_MC=0
+export            SOURCE_ME=1
+# export            TCL_DIR=$WORK_DIR/mcProduction/tcl
+export         PROD_TCL_DIR=$WORK_DIR/Production
+export          SIM_TCL_DIR=$WORK_DIR/SimulationMods/test
+export      TRIGSIM_TCL_DIR=$WORK_DIR/TriggerMods/test
+export   TRIGSIM_INPUT_FILE=
+export         TRIGSIM_ONLY=
+export             WORK_DIR=$PWD
+export   FIRST_EVTS_TO_READ=1
+export         USER_GENMODE=0
+#-------------------------------------------------------------------------------
+# The env variable CALIB_USE_FRONTIER is set in run1segment. If a user want to run
+# MCProd script in standalone, then he can uncomment the next line to get Frontier 
+# DataBase.
+#-------------------------------------------------------------------------------
+#export   CALIB_USE_FRONTIER=1
+#-------------------------------------------------------------------------------
+      debug=
+    run_gen=1
+    run_sim=1
+run_trigsim=1
+   run_prod=1
+         rc=0
+echo [MCProd]: running on `hostname -f`  at `date`
+#------------------------------------------------------------------------------
+export OPTIND=1
+while getopts :b:d:f:g:h:i:J:k:l:m:n:N:o:p:r:R:s:u:v:V:w:x: OPT; do
+    case $OPT in
+        b)                                          # input dataset
+	    export BOOK=${OPTARG}
+            if [ $DEBUG_SCRIPT != "none" ] ; then 
+              echo [MCProd]: BOOK=$BOOK
+            fi
+            ;;
+        d)                                          # input dataset
+	    export DATASET_ID=${OPTARG}
+            if [ $DEBUG_SCRIPT != "none" ] ; then 
+              echo [MCProd]:   DATASET_ID=${OPTARG}
+            fi
+            ;;
+        f)                                          # input file (for trigsim)
+	    export TRIGSIM_INPUT_FILE=${OPTARG}
+            if [ $DEBUG_SCRIPT != "none" ] ; then 
+              echo [MCProd]:   TRIGSIM_INPUT_FILE=${OPTARG}
+            fi
+            ;;
+        g)                                          # estimated event size in kB
+            export    EVENT_SIZE=$OPTARG
+                 echo EVENT_SIZE=$EVENT_SIZE
+            ;;
+        h)                                          # sleep interval for copying output
+            export     SLEEP=$OPTARG
+                 echo SLEEP=$SLEEP
+            ;;
+        i)                                          # input HEPG file has to 
+                                                   # be defined for mode=1
+             export CDFSIM_INPUT_HEPG=${OPTARG}
+             if [ $DEBUG_SCRIPT != "none" ] ; then 
+               echo [MCProd]:   CDFSIM_INPUT_HEPG=${OPTARG}
+             fi
+             ;;
+        J)                                          # input file (for trigsim)
+	    export JOB_NUMBER=${OPTARG}
+            if [ $DEBUG_SCRIPT != "none" ] ; then 
+              echo  [MCProd]:  JOB_NUMBER=${JOB_NUMBER}
+            fi
+            ;;
+        k)                                          # number of sleep intervals before killing job
+            export     NSLEEP=$OPTARG
+                 echo NSLEEP=$NSLEEP
+            ;;
+        l)                                          # log file
+	    export     LOGFILE=$OPTARG
+	    ;;
+        m)                                          # mode: defines which steps to run
+
+                run_gen=`echo $OPTARG | awk -F : '{print $1}'`
+                run_sim=`echo $OPTARG | awk -F : '{print $2}'`
+            run_trigsim=`echo $OPTARG | awk -F : '{print $3}'`
+               run_prod=`echo $OPTARG | awk -F : '{print $4}'`
+	    if [ $DEBUG_SCRIPT != "none" ] ; then
+              echo [MCProd]:   run_gen=$run_gen
+              echo [MCProd]:   run_sim=$run_sim
+              echo [MCProd]:   run_trigsim=$run_trigsim
+              echo [MCProd]:   run_prod=$run_prod
+            fi
+
+            ;;
+        n)                                          # number of events
+            export NEVENTS=$OPTARG
+	    if [ .$OPTARG != "." ] ; then
+              export NEVENTS=`echo $OPTARG | awk -F : '{print $1}'`
+                      debug1=`echo $OPTARG | awk -F : '{print $2}'`
+                      debug2=`echo $OPTARG | awk -F : '{print $3}'`
+                      debug3=`echo $OPTARG | awk -F : '{print $4}'`
+            fi
+            if [ $DEBUG_SCRIPT != "none" ] ; then echo [MCProd]:   NEVENTS=$NEVENTS ; fi
+            ;;
+        N)                                          # output directory
+              export SOURCE_ME=$0
+	    ;;
+        o)                                          # output directory
+              export JOB_OUTPUT_DIR=$OPTARG
+	    ;;
+        p)                                          # Pt
+	    export     PT=$OPTARG
+	    ;;
+        r)                                          # offline version
+            x=`echo $OPTARG | awk -F : '{print $1}'`
+            if [ ".$x" != "." ] ; then export RELEASE=$x ; fi
+            x=`echo $OPTARG | awk -F : '{print $2}'`
+            if [ ".$x" != "." ] ; then export QUAL=$x ; fi
+
+            if [ $DEBUG_SCRIPT != "none" ] ; then 
+              echo [MCProd]: RELEASE=$RELEASE ; 
+              echo [MCProd]: QUAL=$QUAL ; 
+            fi
+            ;;
+        R)                                          # run number
+	    export     RUN_NUMBER=$OPTARG
+            export     SINGLE_RUN_MC=1
+	    ;;
+        s)                                          # storage location
+            export     STORAGE=$OPTARG
+                 echo STORAGE=$STORAGE
+            ;;
+        u)                                          # project size in GB
+            export  PROJ_SIZE=$OPTARG
+               echo PROJ_SIZE=$PROJ_SIZE
+            ;;
+        v)                                          # debug script, 
+                                                    # should go first
+	    export  DEBUG_SCRIPT=$OPTARG
+	    ;;
+        V)                                          # debug script, 
+                                                    # should go first
+	    export  DEBUG_SCRIPT=$OPTARG
+	    ;;
+        w)                                          # work directory
+            export             WORK_DIR=$OPTARG
+            export          JOB_TCL_DIR=${WORK_DIR}/jobs/tcl
+            export         PROD_TCL_DIR=$WORK_DIR/Production
+            export      TRIGSIM_TCL_DIR=$WORK_DIR/TriggerMods/test
+            export          SIM_TCL_DIR=$WORK_DIR/SimulationMods/test
+            export        RUNMC_TCL_DIR=$WORK_DIR/mcProduction/tcl
+            export          MC_BOOK_DIR=$WORK_DIR/mcProduction/book
+#	    echo   WORK_DIR=$WORK_DIR
+	    ;;
+        x)                                          # export
+            export       $OPTARG
+            if [ $DEBUG_SCRIPT != "none" ] ; then 
+              echo [MCProd]:  export $OPTARG
+            fi
+	    ;;
+        *)
+           echo [MCProd]: OTHER: $OPT $OPTARG
+           usage
+           ;;
+     esac
+done
+
+#-----------------------------------------------------------------------
+export RELEASE=`cat $WORK_DIR/.base_release`
+export OUTPUT_DIR=$JOB_OUTPUT_DIR
+index=`printf "%04i" $JOB_NUMBER`
+#-----------------------------------------------------------------------
+#  setup right version of the CDF software
+#  run the job in $RUNNING_DIR relying on it beind a subdirectory of
+#-----------------------------------------------------------------------
+export          RUNNING_DIR=$PWD/$DATASET_ID.$JOB_NUMBER
+
+if [ -d $RUNNING_DIR ] ; then rm -rf $RUNNING_DIR/* ;
+else                          mkdir $RUNNING_DIR    ; fi
+ 
+echo [MCProd]: SOURCE_ME=$SOURCE_ME
+if [ $SOURCE_ME != 0 ] ; then 
+    echo [MCProd]: sourcing $WORK_DIR/mcProduction/scripts/source_me 
+    . $WORK_DIR/mcProduction/scripts/source_me
+else
+  source ~cdfsoft/cdf2.shrc
+  setup cdfsoft2 $RELEASE
+  if [ $QUAL != "default" ] ; then srt_setup -a SRT_QUAL=$QUAL ; fi
+  echo [MCProd]: setup cdfsoft BFARCH=$BFARCH
+fi
+
+# if [ $DEBUG_SCRIPT != "none" ] ; then
+#   echo [MCProd]: PATH=${PATH}
+#   echo [MCProd]: LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+# fi
+#------------------------------------------------------------------------------
+# initialize logfile
+#------------------------------------------------------------------------------
+export EXEFILE=$WORK_DIR/bin/$BFARCH/cdfSim
+export TCLFILE=$RUNMC_TCL_DIR/mcprod_template.tcl 
+if [ ".$LOGFILE" == "." ] ; then 
+  export LOGFILE=mcprod.${DATASET_ID}.${index}.log ; 
+fi
+if [ -e $LOGFILE ] ; then rm $LOGFILE ; fi
+. $WORK_DIR/cdfopr/scripts/init_logfile
+#------------------------------------------------------------------------------
+# Modified to use iomap file stored in tarball creation on farms 8 Jan 2003 AFS
+# use special IOMAP file on the Fermilab Production Farm 
+# outside the Farm use the DB replica
+#------------------------------------------------------------------------------
+if [ .`hostname | grep -i fncdf` != "." ] ; then
+
+  export IOMAP_FILE=$WORK_DIR/farmsonly/iomap_cdfofprd_direct.txt
+
+  echo [MCProd]: "Using database IOMAP_FILE " $IOMAP_FILE        >> $LOGFILE
+
+  # Modify mc_outputDH.tcl if running on the production farm at FNAL: obsolete code
+  #sed s/\#dataBaseId/dataBaseId/ mcProduction/tcl/mc_outputDH.tcl \
+  #   > mcProduction/tcl/mc_outputDH.tcl.tmp
+  #mv mcProduction/tcl/mc_outputDH.tcl.tmp mcProduction/tcl/mc_outputDH.tcl
+else
+  echo [MCProd]: "Using default built-in database iomap file"   >> $LOGFILE
+fi
+#------------------------------------------------------------------------------
+# parse dataset description line (in the end this could be a table in the DB)
+#------------------------------------------------------------------------------
+get_key=$WORK_DIR/mcProduction/scripts/get_key
+
+if [ .$USE_TIKI == "." ] ; then
+
+  dataset_description_file=$MC_BOOK_DIR/$BOOK/$DATASET_ID
+            can_be_sourced=`$get_key $dataset_description_file CAN_BE_SOURCED`
+#------------------------------------------------------------------------------
+# set environment variables if requested in the dataset definition file
+# skip lines starting from "#" (bash comments) and "<" (HTML keys)
+#------------------------------------------------------------------------------
+  if [ ".$can_be_sourced" == "." ] ; then
+    script_to_be_sourced=$$.source.tmp
+    cat $dataset_description_file | \
+        awk '{if ((substr($0,1,1) != "#")&&(substr($0,1,1) != "<")) print $0}' | \
+        grep export > $script_to_be_sourced
+  else 
+#------------------------------------------------------------------------------
+# new development: dataset definition file can be sourced, do it
+#------------------------------------------------------------------------------
+    script_to_be_sourced=$dataset_description_file
+  fi
+elif   [ .$DATASET_DEFINITION_FILE != "." ] ; then
+#------------------------------------------------------------------------------
+#  passed from the outside (currently from run1segment)
+#------------------------------------------------------------------------------
+  dataset_description_file=$DATASET_DEFINITION_FILE
+      script_to_be_sourced=$SCRIPT_TO_BE_SOURCED
+else
+#------------------------------------------------------------------------------
+#  very new development: USE_TIKI is defined, assume that mysql is available
+#  get dataset description and script to be sourced from www-cdf.fnal.gov
+#------------------------------------------------------------------------------
+  dataset_description_file=$DATASET_ID.mcprod.parameters
+  delimitor=mcprod.parameters
+
+  . cdfopr/scripts/tiki_get_data www-cdf.fnal.gov wiki_page \
+                 . $BOOK.$DATASET_ID $delimitor > $dataset_description_file
+
+  script_to_be_sourced=$DATASET_ID.mcprod.commands
+  delimitor=mcprod.script
+
+  . cdfopr/scripts/tiki_get_data www-cdf.fnal.gov wiki_page \
+                . $BOOK.$DATASET_ID $delimitor > $script_to_be_sourced
+fi
+
+if [ $DEBUG_SCRIPT != "none" ] ; then
+  echo [MCProd]:  MC_BOOK_DIR=$MC_BOOK_DIR  DATASET_ID=$DATASET_ID
+  echo [MCProd]:  dataset_description_file=$dataset_description_file
+  cat             $dataset_description_file
+fi
+
+export        DFC_BOOK=`$get_key $dataset_description_file BOOK`
+export    DATASET_NAME=`$get_key $dataset_description_file DSNAME`
+export            MODE=`$get_key $dataset_description_file GENERATION_MODE`
+export  MC_PROCESS_TCL=`$get_key $dataset_description_file MC_PROCESS_TCL`
+export   MC_FILTER_TCL=`$get_key $dataset_description_file FILTER_TCL`
+export  MC_MINBIAS_TCL=`$get_key $dataset_description_file MINBIAS_TCL`
+export        RUN_LIST=`$get_key $dataset_description_file RUN_LIST`
+export  NEV_PER_INV_NB=`$get_key $dataset_description_file NEV_PER_INV_NB`
+export NEV_PER_SECTION=`$get_key $dataset_description_file NEV_PER_SECTION`
+#------------------------------------------------------------------------------
+#  sourcing additional script if requested
+#------------------------------------------------------------------------------
+if [ -f $script_to_be_sourced ] ; then
+  echo [MCProd]: sourcing $script_to_be_sourced
+  cat    $script_to_be_sourced
+  source $script_to_be_sourced
+fi
+#------------------------------------------------------------------------------
+#  make sure that undefined parameters have reasonable defaults
+#------------------------------------------------------------------------------
+if [ .$MC_FILTER_TCL == "." ] ; then export MC_FILTER_TCL=mc_postgenNoFilter.tcl ; fi
+
+if [ $MODE == 1 ] ; then
+#------------------------------------------------------------------------------
+#  read input from HEPG file
+#------------------------------------------------------------------------------
+  EDM_EVENT_LISTER=$WORK_DIR/bin/$BFARCH/Edm_EventLister
+
+  EventLister_STRING=`$EDM_EVENT_LISTER $CDFSIM_INPUT_HEPG | grep Physics | head -1`
+  export  RUN_NUMBER=`echo $EventLister_STRING | awk '{print $3}'`
+  export RUN_SECTION=`echo $EventLister_STRING | awk '{print $4}'`
+  if [ $NEVENTS -le 0 ] ; then
+   export    NEVENTS=`$EDM_EVENT_LISTER $CDFSIM_INPUT_HEPG | grep -c Physics`
+  fi
+  # BEGIN_EVENT_NUMBER variable is used in mcprod_template.tcl, but not used when
+  # using HEPG files as input, so setting a default value
+  export BEGIN_EVENT_NUMBER=1
+fi
+
+if [ $DEBUG_SCRIPT != "none" ] ; then
+  echo [MCProd]: "MODE         =" $MODE                                >> $LOGFILE
+  echo [MCProd]: "DATASET_NAME =" $DATASET_NAME                        >> $LOGFILE
+  echo [MCProd]: "RUN_NUMBER   =" $RUN_NUMBER                          >> $LOGFILE
+  echo [MCProd]: "JOB_NUMBER   =" $JOB_NUMBER                          >> $LOGFILE
+  echo [MCProd]: "NEVENTS      =" $NEVENTS                             >> $LOGFILE
+fi
+
+#------------------------------------------------------------------------------
+# single run MC generation
+#------------------------------------------------------------------------------
+if [[ $MODE != 1 && $SINGLE_RUN_MC == 1 ]] ; then
+  echo [MCProd]: " "
+  echo [MCProd]: "WARNING: You have selected a MC generation using a unique run number = " $RUN_NUMBER
+  echo [MCProd]: "         Make sure you are using a fixed NEVENT for ALL jobs for this sample"
+  echo [MCProd]: " "
+
+  export RUN_SECTION=$JOB_NUMBER
+ 
+  # default number of events/job if not provided (taken from dataset definition file)
+  if [ $NEVENTS -le 0 ] ; then
+    export    NEVENTS=$NEV_PER_SECTION
+  fi
+
+  #define 1st event/trigger number for this job  
+  export BEGIN_EVENT_NUMBER=$[$NEVENTS*($RUN_SECTION-1)+1]
+fi
+
+
+if [[ $MODE != 1 && $SINGLE_RUN_MC == 0 ]] ; then
+#  echo ----------------- starting make_joblist.pl
+
+      echo $WORK_DIR/mcProduction/scripts/make_joblist.pl  \
+         $WORK_DIR/mcProduction/book/$RUN_LIST $NEV_PER_INV_NB \
+         $NEV_PER_SECTION $JOB_NUMBER $INEL_CROSS_SECTION
+
+ result=`$WORK_DIR/mcProduction/scripts/make_joblist.pl  \
+         $WORK_DIR/mcProduction/book/$RUN_LIST $NEV_PER_INV_NB \
+         $NEV_PER_SECTION $JOB_NUMBER $INEL_CROSS_SECTION`
+
+ echo [MCProd]: make_joblist.pl result=${result}.
+
+ export   RUN_NUMBER=`echo $result | awk '{print $1}'`
+ export  RUN_SECTION=`echo $result | awk '{print $2}'`
+ #
+ # 3rd parameter - first event number - is already calculated in
+ export BEGIN_EVENT_NUMBER=`echo $result | awk '{print $3}'`
+ #
+ if [ $NEVENTS -le 0 ] ; then
+   export    NEVENTS=`echo $result | awk '{print $4}'`
+ fi
+ export    INST_LUMI=`echo $result | awk '{print $5}'`
+
+ if [ .$MINBIAS_MODE == "." ] ; then export MINBIAS_MODE=POISSON ; fi
+
+ if [ .$MINBIAS_MEAN == "." ] ; then
+   export MINBIAS_MEAN=`echo $result | awk '{print $6}'`
+ fi
+
+ # handling input event files for LesHouches - Soushi Tsuno
+ export FIRST_EVTS_TO_READ=`echo $result | awk '{print $7}'`
+
+ if [ $DEBUG_SCRIPT != "none" ] ; then
+   echo [MCProd]: "RUN_NUMBER   =" $RUN_NUMBER                          >> $LOGFILE
+   echo [MCProd]: "RUN_SECTION  =" $RUN_SECTION                         >> $LOGFILE
+   echo [MCProd]: "BEGIN_EVENT_NUMBER =" $BEGIN_EVENT_NUMBER            >> $LOGFILE
+   echo [MCProd]: "NEVENTS      =" $NEVENTS                             >> $LOGFILE
+   echo [MCProd]: "INST_LUMI    =" $INST_LUMI                           >> $LOGFILE
+   echo [MCProd]: "MINBIAS_MEAN =" $MINBIAS_MEAN                        >> $LOGFILE
+ fi
+fi
+#-----------------------------------------------------------------------
+# handle case of ISAJET separately - it has an independent parameter file
+#-----------------------------------------------------------------------
+inputstring=`echo $MC_PROCESS_TCL | grep -i isajet`
+if [ ."$inputstring" != "." ] ; then
+  # create local parameter directory
+  mkdir -p $WORK_DIR/isapar/
+
+  #Determine parameter file name
+  PARAMETERFILE=`grep -i isapar $WORK_DIR/mcProduction/tcl/$MC_PROCESS_TCL | awk '{print $3}'`
+  PARAMETERFILE_MASTER="$WORK_DIR/mcProduction/tcl/`basename $PARAMETERFILE | sed -e 's/_\$env(JOB_NUMBER)//'`"
+  PARAMETERFILE="$PROJECT_DIR/isapar/`basename $PARAMETERFILE | sed -e 's/\$env(JOB_NUMBER)/'$JOB_NUMBER'/'`"
+  echo [MCProd]: "PARAMETERFILE (isajet) = $PARAMETERFILE" 
+  echo [MCProd]: "PARAMETERFILE_MASTER (isajet) = $PARAMETERFILE_MASTER"
+
+  #Determine random number seeds based on job number and set it in parameter file
+  export MCPRO_grndm1=$((123456789+$JOB_NUMBER*12345))
+  echo [MCProd]: "MCPRO_grndm1 (isajet) is " $MCPRO_grndm1
+  sed -e "s/MCPRO_grndm1/$MCPRO_grndm1/" ${PARAMETERFILE_MASTER} > ${PARAMETERFILE}
+fi
+#-----------------------------------------------------------------------
+# Create unique filename for output of cdfSim exe by using process ID:
+# EXEFILE and TCLFILE variables are recognized by run.sh, do not change them
+#-----------------------------------------------------------------------
+export             EXEFILE=$WORK_DIR/bin/$BFARCH/cdfSim
+export             TCLFILE=$RUNMC_TCL_DIR/mcprod_template.tcl 
+export   CDFSIM_OUTPUT_GEN=$JOB_OUTPUT_DIR/gen.${index}.$$.root
+export   CDFSIM_OUTPUT_SIM=$JOB_OUTPUT_DIR/sim.${index}.$$.root
+export TRIGSIM_OUTPUT_FILE=$JOB_OUTPUT_DIR/trig.${index}.$$.root
+export    PROD_OUTPUT_FILE=$JOB_OUTPUT_DIR/prod.${index}.$$.root
+#-----------------------------------------------------------------------
+# run every job in its own working directory
+#-----------------------------------------------------------------------
+if [ ! -d $JOB_OUTPUT_DIR ] ; then mkdir -p $JOB_OUTPUT_DIR ; fi
+cd $JOB_OUTPUT_DIR
+#-----------------------------------------------------------------------
+# Create unique random_seed input file
+#-----------------------------------------------------------------------
+. $WORK_DIR/mcProduction/scripts/create_random_seed_file
+
+if [[ .$run_gen != ".0" || .$run_sim != ".0" ]] ; then 
+#-----------------------------------------------------------------------
+#  do generation and/or detector simulation
+#  MODE = 2: 2 steps - generate physics events, then add minbias and
+#            simulate
+#-----------------------------------------------------------------------
+  if [ $MODE == 2 ] ; then
+
+    export       RUNMC_FLAG=GENERATE_ONLY
+    export     CDFSIM_INPUT=MC_GENERATOR
+    export       INPUT_FILE="none"
+    export      OUTPUT_FILE=$CDFSIM_OUTPUT_GEN
+
+    if [ $DEBUG_SCRIPT != "none" ] ; then
+      echo [MCProd]: "RUNMC_FLAG     =" $RUNMC_FLAG                               >> $LOGFILE
+      echo [MCProd]: "CDFSIM_INPUT   =" $CDFSIM_INPUT                           >> $LOGFILE
+      echo [MCProd]: "MC_PROCESS_TCL =" $MC_PROCESS_TCL                           >> $LOGFILE
+      echo [MCProd]: "MC_FILTER_TCL  =" $MC_FILTER_TCL                            >> $LOGFILE
+      echo [MCProd]: "INPUT_FILE     =" $INPUT_FILE                               >> $LOGFILE
+      echo [MCProd]: "OUTPUT_FILE    =" $OUTPUT_FILE                              >> $LOGFILE
+      echo [MCProd]: "MODE           =" $MODE                                     >> $LOGFILE
+      echo [MCProd]: "DATASET_NAME   =" $DATASET_NAME                             >> $LOGFILE
+      echo [MCProd]: "RUN_NUMBER     =" $RUN_NUMBER                               >> $LOGFILE
+      echo [MCProd]: "JOB_NUMBER     =" $JOB_NUMBER                               >> $LOGFILE
+      echo [MCProd]: "NEVENTS        =" $NEVENTS                                  >> $LOGFILE
+    fi
+
+    if [ $DEBUG_SCRIPT != "none" ] ; then
+      echo [MCProd]: . $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug1 >> $LOGFILE
+    fi
+
+    echo "[MCProd]: $WORK_DIR/mcProduction/tcl/$MC_PROCESS_TCL" >> $LOGFILE
+
+    cat $WORK_DIR/mcProduction/tcl/$MC_PROCESS_TCL              >> $LOGFILE
+
+    echo [MCProd]: . $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE >> $LOGFILE
+
+    if   [ $DEBUG_SCRIPT != "debug_only" ] ; then
+      . $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug1
+    fi
+
+    echo [MCProd]: RUNMC_FLAG=$RUNMC_FLAG EXEFILE=$EXEFILE TCLFILE=$TCLFILE rc=$rc >> $LOGFILE
+
+    if [[ $rc == 0 && .$run_sim != ".0" ]] ; then
+      echo "[MCProd]: ########################################################" >> $LOGFILE
+      echo "[MCProd]: #                   MODE 2, step 2                      " >> $LOGFILE
+      echo "[MCProd]: ########################################################" >> $LOGFILE
+#------------------------------------------------------------------------------
+# add minbias events and simulate, no filtering at this step
+#------------------------------------------------------------------------------
+      export       RUNMC_FLAG=READ_GENERATE_AND_SIMULATE
+      export     CDFSIM_INPUT=HEPG_FILE
+      export       INPUT_FILE=$CDFSIM_OUTPUT_GEN
+      export      OUTPUT_FILE=$CDFSIM_OUTPUT_SIM
+      export   MC_PROCESS_TCL=$MC_MINBIAS_TCL
+      export    MC_FILTER_TCL=mc_postgenNoFilter.tcl
+
+      export DEBUG_SCRIPT=emoe
+
+      if [ $DEBUG_SCRIPT != "none" ] ; then
+        echo [MCProd]:     RUNMC_FLAG=$RUNMC_FLAG                              >> $LOGFILE
+        echo [MCProd]:   CDFSIM_INPUT=$CDFSIM_INPUT                           >> $LOGFILE
+        echo [MCProd]:     INPUT_FILE=$INPUT_FILE                              >> $LOGFILE
+        echo [MCProd]:    OUTPUT_FILE=$OUTPUT_FILE                             >> $LOGFILE
+        echo [MCProd]: MC_PROCESS_TCL=$MC_PROCESS_TCL                          >> $LOGFILE
+        echo [MCProd]:  MC_FILTER_TCL=$MC_FILTER_TCL                           >> $LOGFILE
+        echo [MCProd]: source $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug2 >> $LOGFILE
+        echo [MCProd]: source $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug2
+      fi
+
+      echo "[MCProd]: ############## MC_PROCESS_TCL ###################"       >> $LOGFILE
+      cat $WORK_DIR/mcProduction/tcl/$MC_PROCESS_TCL                 >> $LOGFILE
+
+      if [ $DEBUG_SCRIPT != "debug_only" ] ; then
+        source $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug2
+      fi
+
+      echo [MCProd]: RUNMC_FLAG=$RUNMC_FLAG EXEFILE=$EXEFILE rc=$rc             >> $LOGFILE
+    fi
+  fi
+#------------------------------------------------------------------------------
+#  MODE = 1: read HEPG input
+#------------------------------------------------------------------------------
+  echo [MCProd]: before if [mode == 1] >> $LOGFILE
+  if [ $MODE == 1 ] ; then
+
+    if [ ."$CDFSIM_INPUT_HEPG" == "." ] ; then
+     echo [MCProd]: input HEPG file not defined for mode=1. exit              >> $LOGFILE
+     exit -1
+    fi
+
+  export    RUNMC_FLAG=READ_AND_SIMULATE
+  export  CDFSIM_INPUT=HEPG_FILE
+  export    INPUT_FILE=$CDFSIM_INPUT_HEPG
+  export   OUTPUT_FILE=$CDFSIM_OUTPUT_SIM
+
+    if [ $DEBUG_SCRIPT != "none" ] ; then
+    echo [MCProd]: . $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug1 
+    fi
+
+    if [ $DEBUG_SCRIPT != "debug_only" ] ; then
+    . $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug1 
+    fi
+
+    echo [MCProd]: RUNMC_FLAG=$RUNMC_FLAG EXEFILE=$EXEFILE rc=$rc             >> $LOGFILE
+  fi
+#-----------------------------------------------------------------------
+#  MODE = 0: generate physics process w/o overlaps - no input file
+#-----------------------------------------------------------------------
+  echo [MCProd]: before if [MODE == 0] MODE=$MODE >> $LOGFILE
+  if [[ $MODE == 0 && $USER_GENMODE == 0 ]] ; then
+
+    export    RUNMC_FLAG=GENERATE_AND_SIMULATE
+    export  CDFSIM_INPUT=MC_GENERATOR
+    export    INPUT_FILE=""
+    export   OUTPUT_FILE=$CDFSIM_OUTPUT_SIM
+
+    if [ $DEBUG_SCRIPT != "none" ] ; then
+      echo [MCProd]: "#############################################################"  >> $LOGFILE
+      echo [MCProd]: "   MODE = 0, SIMULATION step                                 "  >> $LOGFILE
+      echo [MCProd]: "#############################################################"  >> $LOGFILE
+      echo [MCProd]: MC_INPUT_TCL   = $MC_INPUT_TCL                                  
+      echo [MCProd]: OUTPUT_FILE    = $OUTPUT_FILE                                   
+
+      echo [MCProd]: source $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug1 >> $LOGFILE
+      echo [MCProd]: source $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug1
+    fi
+
+    echo [MCProd]: "##########################################################" >> $LOGFILE
+    cat            $RUNMC_TCL_DIR/mcprod_template.tcl                           >> $LOGFILE
+    echo [MCProd]: "##########################################################" >> $LOGFILE
+
+
+    if [ $DEBUG_SCRIPT != "debug_only" ] ; then
+      source $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug1
+    fi
+	 
+  else
+		#this is a hack to generate only the HEPG info without any CDFSim components.
+		#executing only the first step in MODE==2 - sam Oct, 14,2009
+	 echo "MODE=$MODE USER_GENMODE=$USER_GENMODE"
+    
+	 export       RUNMC_FLAG=GENERATE_ONLY
+    export     CDFSIM_INPUT=MC_GENERATOR
+    export       INPUT_FILE="none"
+    export      OUTPUT_FILE=$CDFSIM_OUTPUT_GEN
+
+    if [ $DEBUG_SCRIPT != "none" ] ; then
+      echo [MCProd]: "RUNMC_FLAG     =" $RUNMC_FLAG                               >> $LOGFILE
+      echo [MCProd]: "CDFSIM_INPUT   =" $CDFSIM_INPUT                           >> $LOGFILE
+      echo [MCProd]: "MC_PROCESS_TCL =" $MC_PROCESS_TCL                           >> $LOGFILE
+      echo [MCProd]: "MC_FILTER_TCL  =" $MC_FILTER_TCL                            >> $LOGFILE
+      echo [MCProd]: "INPUT_FILE     =" $INPUT_FILE                               >> $LOGFILE
+      echo [MCProd]: "OUTPUT_FILE    =" $OUTPUT_FILE                              >> $LOGFILE
+      echo [MCProd]: "MODE           =" $MODE                                     >> $LOGFILE
+      echo [MCProd]: "DATASET_NAME   =" $DATASET_NAME                             >> $LOGFILE
+      echo [MCProd]: "RUN_NUMBER     =" $RUN_NUMBER                               >> $LOGFILE
+      echo [MCProd]: "JOB_NUMBER     =" $JOB_NUMBER                               >> $LOGFILE
+      echo [MCProd]: "NEVENTS        =" $NEVENTS                                  >> $LOGFILE
+    fi
+
+    if [ $DEBUG_SCRIPT != "none" ] ; then
+      echo [MCProd]: . $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug1 >> $LOGFILE
+    fi
+
+    echo "[MCProd]: $WORK_DIR/mcProduction/tcl/$MC_PROCESS_TCL" >> $LOGFILE
+
+    cat $WORK_DIR/mcProduction/tcl/$MC_PROCESS_TCL              >> $LOGFILE
+
+    echo [MCProd]: . $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE >> $LOGFILE
+
+    if   [ $DEBUG_SCRIPT != "debug_only" ] ; then
+      . $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug1
+    fi
+
+    echo [MCProd]: RUNMC_FLAG=$RUNMC_FLAG EXEFILE=$EXEFILE TCLFILE=$TCLFILE rc=$rc >> $LOGFILE
+
+	  
+  fi  #end of mode==0
+
+
+  
+fi
+#-----------------------------------------------------------------------
+# finally print TRGSim++ TCL files and run it
+#-----------------------------------------------------------------------
+  echo [MCProd]: finally print TRGSim++  >> $LOGFILE
+if [[ $rc == "0" && .$run_trigsim != ".0" ]] ; then 
+
+  if [ .$TRIGSIM_INPUT_FILE == "." ] ; then
+    export TRIGSIM_INPUT_FILE=$CDFSIM_OUTPUT_SIM
+  fi
+  if [ $DEBUG_SCRIPT != "none" ] ; then
+    echo TRIGSIM_INPUT_FILE=$TRIGSIM_INPUT_FILE
+  fi
+
+  export            TCLFILE=$WORK_DIR/TriggerMods/test/run_TRGSim++_MC.tcl
+  export            EXEFILE=$WORK_DIR/bin/$BFARCH/TRGSim++
+
+  echo "[MCProd]: ##########################################################" >> $LOGFILE
+  echo "[MCProd]: # TRGSim++ input TCL file:                                " >> $LOGFILE
+  echo "[MCProd]: ##########################################################" >> $LOGFILE
+  cat   $TCLFILE                                                              >> $LOGFILE
+
+  if [ $DEBUG_SCRIPT != "none" ] ; then
+    echo [MCProd]: source $WORK_DIR/mcProduction/scripts/run_executable \
+                               $EXEFILE $TCLFILE $debug3            >> $LOGFILE
+  fi
+
+  if [ $DEBUG_SCRIPT != "debug_only" ] ; then
+    source $WORK_DIR/mcProduction/scripts/run_executable $EXEFILE $TCLFILE $debug3
+  fi
+#------------------------------------------------------------------------------
+#  cleanup on exit: delete unused and empty files created by TRGSim++
+#------------------------------------------------------------------------------
+  if [ $rc == 0 ] ; then
+    mv ${RANDOM_SEED_INPUT}  ${RANDOM_SEED_INPUT}.save 
+    mv ${RANDOM_SEED_OUTPUT} ${RANDOM_SEED_OUTPUT}.save
+    rm *_Summary.txt *.dat  *.ascii
+#    rm TrgSimError.log etdata file.log $TRIGSIM_INPUT_FILE
+    rm $CDFSIM_OUTPUT_SIM
+    mv ${RANDOM_SEED_INPUT}.save  ${RANDOM_SEED_INPUT}
+    mv ${RANDOM_SEED_OUTPUT}.save ${RANDOM_SEED_OUTPUT} 
+  fi
+fi
+
+#-----------------------------------------------------------------------
+# run ProductionExe 
+# Reda: it is more robust [long term] to ask the output module to name 
+#       the files according to standard conventions rather then do it 
+#       by hands
+#-----------------------------------------------------------------------
+if [[ $rc == "0" && .$run_prod != ".0" ]] ; then 
+    export            TCLFILE=$WORK_DIR/Production/ProductionExe.tcl
+    export            EXEFILE=$WORK_DIR/bin/$BFARCH/ProductionExe
+    if [[ .$run_trigsim != ".0" ]] ; then 
+
+      if [ $DEBUG_SCRIPT != "none" ] ; then
+        echo [MCProd]: $EXEFILE $TCLFILE -i $TRIGSIM_OUTPUT_FILE -o $PROD_OUTPUT_FILE >> $LOGFILE 2>&1
+      fi
+
+      if [ $DEBUG_SCRIPT != "debug_only" ] ; then
+        $EXEFILE $TCLFILE -i $TRIGSIM_OUTPUT_FILE -o $PROD_OUTPUT_FILE >> $LOGFILE 2>&1
+        rc=$?
+      fi
+
+
+      if [[ $rc == "0" ]] ; then
+        rm $TRIGSIM_OUTPUT_FILE
+        # rename output file for DFC (make soft link)
+        # this will not work if input file is from HEPG with wrong correspondance
+        string1=`echo $DATASET_ID | cut -c1,6`
+        string2=`printf %06x $RUN_NUMBER`
+        string3=`printf %04x $RUN_SECTION`
+        string4=`echo $DATASET_ID | cut -c2-5`
+        dfcname=${string1}${string2}.${string3}${string4}
+        mv $PROD_OUTPUT_FILE ${dfcname}
+#-----------------------------------------------------------------------
+#  dont delete this line! output is parsed by the calling script!
+#-----------------------------------------------------------------------
+        echo DFC_COMPATIBLE_NAME $dfcname >> $LOGFILE
+      fi
+    fi
+
+    if [[ .$run_sim != ".0" && .$run_trigsim == ".0" ]] ; then 
+
+      if [ $DEBUG_SCRIPT != "none" ] ; then
+        echo [MCProd]: $EXEFILE $TCLFILE -i $CDFSIM_OUTPUT_SIM -o $PROD_OUTPUT_FILE >> $LOGFILE 2>&1
+      fi
+
+      if [ $DEBUG_SCRIPT != "debug_only" ] ; then
+        $EXEFILE $TCLFILE -i $CDFSIM_OUTPUT_SIM -o $PROD_OUTPUT_FILE >> $LOGFILE 2>&1
+        rc=$?
+      fi
+
+      if [[ $rc == "0" ]] ; then 
+        rm $CDFSIM_OUTPUT_SIM
+        # rename output file for DFC (make soft link)
+        # this will not work if input file is from HEPG with wrong correspondence
+        string1=`echo $DATASET_ID | cut -c1,6`
+        string2=`printf %06x $RUN_NUMBER`
+        string3=`printf %04x $RUN_SECTION`
+        string4=`echo $DATASET_ID | cut -c2-5`
+        dfcname=${string1}${string2}.${string3}${string4}
+        mv $PROD_OUTPUT_FILE ${dfcname}
+#-----------------------------------------------------------------------
+#  dont delete this line! output is parsed by the calling script!
+#-----------------------------------------------------------------------
+        echo DFC_COMPATIBLE_NAME $dfcname  >> $LOGFILE
+      fi
+    fi 
+
+fi
+
+cat /proc/cpuinfo   >> $LOGFILE
+hostname -f         >> $LOGFILE
+
+#-----------------------------------------------------------------------
+#  end of job, return rc
+#-----------------------------------------------------------------------
+echo [MCProd]: END OF THE JOB  rc=$rc                                          >> $LOGFILE
+exit $rc

@@ -1,0 +1,8 @@
+#this must be sourced in bash only
+echo "Setting up cdfsoft2 6.1.4mc"
+source ~cdfsoft/cdf2.shrc
+setup cdfsoft2 6.1.4mc
+echo "sourcing mcProduction/scripts/source_me"
+source mcProduction/scripts/source_me 
+echo "exporting TESTRUN=1"
+export TESTRUN=1

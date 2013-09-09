@@ -1,0 +1,423 @@
+//////////////////////////////////////////////////////
+//This to make PDF systematic plots after generating//
+//hists from pdf_syst.C (run_pdf_syst.csh)          //
+// 10-10-2009- sam
+//////////////////////////////////////////////////////
+
+/* $Id: MakePDFhists.C,v 1.3 2009/11/19 22:45:05 samantha Exp $
+ * $Log: MakePDFhists.C,v $
+ * Revision 1.3  2009/11/19 22:45:05  samantha
+ * Modified to run on MRST98 PDF set which has only 5 variants (base+4). Can run on
+ * CTEQ6M or MRST with minimal changes as the code will now how many variants to
+ * expect. There will be a final hist that will show the maximum variations for
+ * each bin among the variations.
+ *
+ * Revision 1.2  2009/11/08 04:52:59  samantha
+ * Uses the new set of root files from the whole pho mc data with split between 6
+ * files. Makes a hist with max/min variations of the 40 variations.
+ *
+ * Revision 1.1  2009/10/23 16:25:39  samantha
+ * First simple version to make PDF syst hist by plotting ration of 40 variations
+ * of a distibution (photon Et) w.r.t. reference. asssumes there are 41 variations
+ * of a hist is in one folder of a input file. does varibale binning.
+ *
+ * 
+ */
+
+
+#include <iostream>
+#include <sstream>
+#include "TStyle.h"
+#include "TCanvas.h" 
+#include "TH1.h" 
+#include "TFile.h" 
+#include "TAxis.h" 
+#include "TLegend.h" 
+#include <cmath>
+#include <vector>
+
+
+//-----------------------------------------------------------------------------
+// effects: make a new binning with variable bin sizes, and the given
+//   cutoff points between bin sizes
+// returns: the binning (by bin edges)
+// guarantee: strong
+//// throws: std::bad_alloc
+//-----------------------------------------------------------------------------
+std::vector<float> 
+GetVarBinVector (float down, float up5, float up10, float up20, float up50, 
+					float width1, float width2, float width3, float width4 ,bool debug)
+{
+	std::vector<float> result;
+	float point = down;
+	const unsigned nregion = 4;
+	const float up [] = {up5, up10, up20, up50};
+	const float step [] = {width1, width2, width3, width4};		//1j pet
+
+	result.push_back (point);
+	for (unsigned region = 0; region != nregion; ++ region)
+	{
+		while (point + step[region] < up[region] + 1)
+		{
+			point += step[region];
+			result.push_back (point);
+	 	};
+	};
+	
+	if (point + 1 < up[nregion-1])
+		result.push_back (up[nregion-1]);
+	
+	return result;
+};
+//-----------------------------------------------------------------------------
+// effects: turn this histogram into a histogram with variable bin
+//   size
+// returns: the new histogram
+// guarantee: strong
+// throws: std::bad_alloc
+// requires: input != NULL
+// requires: input->GetDimension() == 1
+// requires: histogram bin edges must match
+// postcondition: result != NULL
+//-----------------------------------------------------------------------------
+std::auto_ptr<TH1>
+make_var_bin (const std::vector<float>& bins,
+	      TH1 *input, bool debug)
+{
+	assert (input != NULL && "requirement failed"); //spec
+	assert (input->GetDimension() == 1 && "requirement failed"); //spec
+	const unsigned nbin = unsigned (input->GetNbinsX ());
+
+	std::auto_ptr<TH1> result (new TH1F (input->GetName(), input->GetTitle(),
+						 bins.size() - 1, &bins[0]));
+
+	result->SetBinContent (0, input->GetBinContent (0));
+	result->SetBinError (0, input->GetBinError (0));
+	result->SetBinContent (bins.size(), input->GetBinContent (nbin));
+	result->SetBinError (bins.size(), input->GetBinError (nbin));
+	for (unsigned bin = 1; bin != nbin; ++ bin)
+	{
+		const float low = input->GetXaxis()->GetBinLowEdge (bin);
+		const float high = input->GetXaxis()->GetBinUpEdge (bin);
+		const unsigned bin1 = result->FindBin (0.99 * low + 0.01 * high);
+		const unsigned bin2 = result->FindBin (0.01 * low + 0.99 * high);
+		assert (bin1 == bin2 && "requirement failed: histogram bin edges don't match"); //spec
+
+		const float va = input->GetBinContent (bin);
+		const float ea = input->GetBinError (bin);
+		const float vb = result->GetBinContent (bin2);
+		const float eb = result->GetBinError (bin2);
+		const float vc = va + vb;
+		const float ec = sqrt (ea * ea + eb * eb);
+		result->SetBinContent (bin2, vc);
+		result->SetBinError (bin2, ec);
+	};
+
+
+	if (debug)
+	{
+		for (unsigned i=1;  i<=(unsigned)input->GetNbinsX (); i++)
+		{
+			std::cout << "input bin, lowedge = " << i << ", " << input->GetXaxis()->GetBinLowEdge(i) << "\t" << input->GetBinContent(i) << std::endl;
+		}
+		std::cout << "\n\n"<< std::endl;
+		for (unsigned i=1; i<=(unsigned)result->GetNbinsX (); i++)
+		{
+			std::cout << "otput bin, lowedge = " << i << ", " << result->GetXaxis()->GetBinLowEdge(i) << "\t" << result->GetBinContent(i) << std::endl;
+		}
+	}
+
+	assert (result.get() != NULL && "postcondition failed"); //spec
+	return result;
+};
+
+//-----------------------------------------------------------------------------
+// effects: normalize each bin by the bin width
+// side effect: normalizes histogram bins in hist
+// guarantee: no-throw
+// requires: hist != NULL
+// requires: hist->GetDimension() == 1
+//-----------------------------------------------------------------------------
+void norm_bins (TH1 *hist)
+{
+	assert (hist != NULL && "requirement failed"); //spec
+	assert (hist->GetDimension() == 1 && "requirement failed"); //spec
+
+	for (unsigned bin = 1; bin != unsigned (hist->GetNbinsX()); ++ bin)
+	{
+		const float width = hist->GetXaxis()->GetBinWidth (bin);
+		hist->SetBinContent (bin, hist->GetBinContent (bin) / width);
+		hist->SetBinError (bin, hist->GetBinError (bin) / width);
+	};
+};
+
+//-----------------------------------------------------------------------------
+// make a variable binned hist with given specification
+// TESTED THIS METHOD AND ITS SUB-METHODS - sam
+//-----------------------------------------------------------------------------
+TH1* MakeVariableBins (TH1 *hist, const float xmin, const float xpoint1,
+							const float xpoint2, const float xpoint3, const float xpoint4,
+				 			const float width1, const float width2, const float width3, 
+							const float width4 , bool debug=false)
+{
+	if (debug)
+	{
+		std::cout << hist->GetName() << " hist bin size=" << hist->GetBinWidth(1) 
+					<< std::endl;
+	}
+
+  	std::auto_ptr<TH1> result = make_var_bin ( 
+											GetVarBinVector(xmin, xpoint1, xpoint2, 
+															xpoint3, xpoint4, width1, 
+															width2, width3, width4, debug) , 
+											hist, debug);
+  	norm_bins (result.get());
+  	return result.release ();
+};
+
+void MakePDFhists(const std::string name, const int pdf_set)
+{
+	const int nfiles = 6;
+	int iNHISTS = 0;
+	std::string path;
+	
+	if (pdf_set == 0)
+	{
+		path = "~/RESULTS/10222009_PDFsystFullMCDataset/Results2/";//pythia
+		iNHISTS = 41;
+		std::cout << "using pythis files" << std::endl;
+	} else if (pdf_set == 1) 
+	{
+		path = "/data/nbay02/b/samantha/RESULTS/10222009_PDFsystFullMCDataset/11042009_MRST98/";//mrst98
+		iNHISTS = 5;
+	}
+	
+	TFile* f[nfiles];
+	
+	for (int i=0; i < nfiles; ++i)
+	{
+		int j = i + 1;
+		std::stringstream file;
+		file << path << "PDFsyst" << j << ".root";
+		f[i] = new TFile(file.str().c_str());
+		std::stringstream msg;
+		msg << "File " << i << " not found!";
+		assert (f[i] !=NULL && msg.str().c_str());
+	}
+	
+
+	TH1* h[iNHISTS];
+	
+	float xmin = 0;
+	float xpoint1 = 200;
+	float xpoint2 = 250;
+	float xpoint3 = 300;
+	float xpoint4 = 650;
+	float width1 = 10;
+	float width2 = 10;
+	float width3 = 50;
+	float width4 = 250;
+	
+	//0th hist is the reference. other 40 are the variants.
+	for (int i=0; i < iNHISTS; ++i)
+	{
+		std::stringstream hist;
+		hist << "Ana/PhoJetsTemp/Hist/1Jet/PDFSyst/PDFSystPara"<< i << "_" << name;
+		std::cout << "looking for hist " << hist.str() << std::endl;
+		h[i] = dynamic_cast<TH1*> (f[0]->Get(hist.str().c_str()));
+		assert (h[i] != NULL && "hist is null");
+		//Sumw2() for these hists are called at creation
+		
+		//add the other 2 jobs resutls
+		for (int nf=1;nf< nfiles;++nf)
+		{
+			TH1* temp = dynamic_cast<TH1*> (f[nf]->Get(hist.str().c_str()));
+			assert (temp != NULL && "hist is null");
+			h[i]->Add(temp);
+		}
+		
+
+		h[i] = (TH1F*) MakeVariableBins (h[i], xmin, xpoint1, xpoint2, xpoint3, xpoint4, width1, width2, width3, width4, false);
+		if (i>0)
+		{
+			h[i]->Scale(h[0]->Integral()/(1. * h[i]->Integral()));
+			h[i]->Divide(h[0]);
+			h[i]->SetMarkerColor(i);
+			h[i]->SetLineColor(i);
+			h[i]->SetMarkerStyle(21);
+			h[i]->SetMarkerSize(1);
+			//h[i]->SetLineColor(10);
+		}
+	}
+
+
+	gStyle->SetOptStat(0);
+	new TCanvas();
+	gPad->SetGridx();
+	gPad->SetGridy();
+	gPad->SetTickx();
+	gPad->SetTicky();
+	
+	std::string title;
+	
+	for (int i=1; i < iNHISTS; ++i)
+	{
+		if (i==1)
+		{
+			if (pdf_set == 0)
+			{
+				title = "PDF: 40 variants wrt to CTEQ6M (NLO);E_{T}^{#gamma};Ratio";
+			} else if (pdf_set == 1)
+			{
+				title = "PDF: 4 variants wrt to MRST98;E_{T}^{#gamma};Ratio";
+			}
+
+			h[i]->SetTitle(title.c_str());
+			h[i]->Draw("P");
+		}
+		else h[i]->Draw("P same");
+	}
+
+	//now make a plot with max/min values
+	//exclude the 0th hist which is the reference
+	
+	//first make two clones for max/min hists
+	TH1F *hmax = dynamic_cast<TH1F*> (h[0]->Clone("copy_max"));
+	for (int bin=0; bin <=hmax->GetNbinsX(); ++bin)
+	{
+		hmax->SetBinContent(bin, 0);
+		hmax->SetBinError(bin, 0);
+	}
+
+	TH1F *hmin = dynamic_cast<TH1F*> (hmax->Clone("copy_min"));
+	
+	for (int bin=0; bin<= h[1]->GetNbinsX(); ++bin)
+	{
+		if (h[1]->GetBinContent(bin))
+		{
+			float max=1,min=1;
+			float maxer=0,miner=0;
+			for (int nh=2; nh<iNHISTS; ++nh)
+			{
+				if (h[nh]->GetBinContent(bin) > max )
+				{
+					max = h[nh]->GetBinContent(bin);
+					maxer = h[nh]->GetBinError(bin);
+				}
+				if (h[nh]->GetBinContent(bin) < min )
+				{
+					min = h[nh]->GetBinContent(bin);
+					miner = h[nh]->GetBinError(bin);
+				}
+			}
+			
+			hmax->SetBinContent(bin,max);
+			hmax->SetBinError(bin,maxer);
+			hmin->SetBinContent(bin,min);
+			hmin->SetBinError(bin,miner);
+		}
+
+	}
+
+	new TCanvas();
+	gPad->SetGridx();
+	gPad->SetGridy();
+	//gPad->SetTickx(2);
+	//gPad->SetTicky(2);
+	gPad->SetTickx();
+	gPad->SetTicky();
+	
+	hmax->SetLineColor(10);
+	hmin->SetLineColor(10);
+	hmin->SetMarkerColor(kBlue);
+	hmax->SetMarkerColor(kRed);
+	hmin->SetMarkerColor(kBlue);
+	hmax->SetMarkerStyle(21);
+	hmin->SetMarkerStyle(21);
+	hmax->SetMarkerSize(1);
+	hmin->SetMarkerSize(1);
+	hmax->SetTitle(title.c_str());
+	hmin->SetTitle(title.c_str());
+
+	if (pdf_set == 0)	hmax->SetTitle("PDF: 40 variants Max/Min wrt CTEQ6M (NLO)");
+	else if (pdf_set == 1) hmax->SetTitle("PDF: 4 variants Max/Min wrt MRST98 (LO)");
+	hmax->Draw("P");
+	hmin->Draw("SAME P");
+	
+return;
+
+	TH1* ph = dynamic_cast<TH1*> (f[0]->Get("Ana/PhoJetsTemp/Hist/1Jet/Photon/EtCorr"));
+	assert (ph != NULL && " photon hist is null");
+	for (int nf=1;nf< nfiles;++nf)
+	{
+		TH1* temp = dynamic_cast<TH1*> (f[nf]->Get("Ana/PhoJetsTemp/Hist/1Jet/Photon/EtCorr"));
+		assert (temp != NULL && "photon jobs hist is null");
+		temp->Sumw2();
+		ph->Add(temp);
+	}
+
+	ph = (TH1F*) MakeVariableBins (ph, xmin, xpoint1, xpoint2, xpoint3, xpoint4, width1, width2, width3, width4, false);
+
+	new TCanvas();
+	ph->Draw();
+	return;
+	
+	TH1* final = dynamic_cast<TH1*> (ph->Clone("copy"));
+	assert (final != NULL && " photon hist is null");
+	for (int bin =0; bin <= ph->GetNbinsX()+1; ++bin)
+	{
+		final->SetBinError(bin,0);
+		final->SetBinContent(bin,0);
+	}
+		
+	final->Print();
+		
+	final->SetDirectory(0);
+	//ph->Sumw2();
+	//final->Sumw2();
+	
+	//ph->Rebin(rebin);
+	//final->Rebin(rebin);
+
+	int count =0;
+	for (int bin =1; bin < ph->GetNbinsX(); ++bin)
+	{
+		float err2=0;
+		for (int i=0; i<40; ++i)
+		{
+			err2 += pow( (h[i]->GetBinContent(bin) - 1),2);
+
+			if (ph->GetBinContent(bin) && count<10)
+			{
+				std::cout << err2 << "\t" << h[i]->GetBinContent(bin)  << "\t" 
+						<< h[i]->GetBinContent(bin) - 1 << "\t" 
+						<< pow( (h[i]->GetBinContent(bin) - 1),2) << std::endl;
+				count++;
+			}
+
+		}
+		std::cout << "err = " << sqrt(err2) << "\t" << sqrt(err2) * ph->GetBinContent(bin) << std::endl;
+		//final->SetBinError(bin, sqrt(err2) * ph->GetBinContent(bin));
+		final->SetBinContent(bin, sqrt(err2) * ph->GetBinContent(bin));
+		//final->SetBinContent(bin,0);
+
+	}
+
+	final->SetLineColor(kBlue);
+	final->SetMarkerColor(kBlue);
+	//final->SetFillColor(kBlue);
+	final->Draw();
+
+	new TCanvas();
+	ph->Draw();
+
+
+}
+
+void MakePDFhists(const int pdf_set=0)
+{
+
+	MakePDFhists("PhoEt",pdf_set);
+	//MakePDFhists("LeadJetEt");
+
+}

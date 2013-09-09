@@ -1,0 +1,150 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   5.26/00  14 December 2009   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+ROOT 5.26/00 (trunk@31882, Dec 14 2009, 20:18:36 on linux)
+
+CINT/ROOT C/C++ Interpreter version 5.17.00, Dec 21, 2008
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+Note: File "iostream" already loaded
+Loading /cdf/home/samantha/samantha/PhoFlat/rootlogon.C
+
+Processing RunMyJob.C(0,8)...
+events, dataset = 0,8
+OUT_FILE = PhoJets_wtnmc_MetCleaned.root
+[34m
+Using V7 WTN MC
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wtn_we0s9t_NoJetVtxCuts.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wtn_we0sat_NoJetVtxCuts.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wtn_we0sbt_NoJetVtxCuts.root, title=chain files, option=READ
+/cdf/home/samantha/samantha/PhoFlat/DoRunMyJob.cc: Total Entries in chain = 948117[0m
+ADD_ISO_2_SIDEBAND = 0
+REWGT_SIDEBAND = 0
+iUseNvtxWgts = 1
+Setting from hh = 1
+Enabling Central Photons Read-in.
+Enabling EM UP Photons Read-in.
+Enabling EM DOWN Photons Read-in.
+Enabling Central Electrons Read-in.
+Enabling EM UP Electrons Read-in.
+Enabling EM Down Electrons Read-in.
+Enabling Central Jets to Read-in.
+Enabling JES Up Jets to Read-in.
+Enabling JES Down Jets to Read-in.
+Enabling MET to Read-in.
+pho_num status=1
+pho_up_num status=1
+pho_down_num status=1
+[32m======= Nvtx weights ===========
+Nvtx 1 = 0.541767
+Nvtx 2 = 1.09912
+Nvtx 3 = 2.26181
+Nvtx 4 = 2.75954
+Nvtx 5 = 1.20096
+================================[0m
+PhoJets_wtnmc_MetCleaned.root:/Hist
+[33m******* Job Settings ***********
+Data Written to        = PhoJets_wtnmc_MetCleaned.root
+Add Iso4(2) to QCD Pho = 0 (NO)
+Reweight Sideband Pho  = 0 (NO)
+MC Flag setting        = MC
+min,max Vtx for Signal =    1,  100
+Min,max njet15         =    1,  100
+Photon Et(min,max)     =   30,  1200
+Photon Eta(max)        =  1.1
+Jet Et(min,max)        =   15, 1200
+Jet Eta (min,max)      =   -3,    3
+Signal Time Window     = -4.8,  4.8
+Cosmic Time Window     =   30,   90
+Halo Type              =    5
+Min/max MEt            =    0, 1500
+MEt cleanup cuts?      =    1 (1=YES)
+Nvtx setting           = 1
+Nvtx Weighting?        = CENTRAL WEIGHTS
+PrintLevel             =    6
+********************************[0m
+ ==> Entries found :: 948117
+Init done. Ready, Set , GO... 
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wtn_we0s9t_NoJetVtxCuts.root[0m
+50000	 events processed [5%] looptimer : Real Time =  14.51 seconds Cpu Time =  13.28 seconds
+100000	 events processed [10%] looptimer : Real Time =  27.87 seconds Cpu Time =  26.03 seconds
+150000	 events processed [15%] looptimer : Real Time =  40.86 seconds Cpu Time =  38.30 seconds
+200000	 events processed [21%] looptimer : Real Time =  51.58 seconds Cpu Time =  48.70 seconds
+250000	 events processed [26%] looptimer : Real Time =  62.13 seconds Cpu Time =  58.80 seconds
+300000	 events processed [31%] looptimer : Real Time =  72.21 seconds Cpu Time =  68.59 seconds
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wtn_we0sat_NoJetVtxCuts.root[0m
+350000	 events processed [36%] looptimer : Real Time =  83.69 seconds Cpu Time =  79.43 seconds
+400000	 events processed [42%] looptimer : Real Time =  93.89 seconds Cpu Time =  89.37 seconds
+450000	 events processed [47%] looptimer : Real Time = 105.03 seconds Cpu Time = 100.16 seconds
+500000	 events processed [52%] looptimer : Real Time = 117.70 seconds Cpu Time = 112.30 seconds
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wtn_we0sbt_NoJetVtxCuts.root[0m
+550000	 events processed [58%] looptimer : Real Time = 130.30 seconds Cpu Time = 124.11 seconds
+600000	 events processed [63%] looptimer : Real Time = 142.42 seconds Cpu Time = 135.71 seconds
+650000	 events processed [68%] looptimer : Real Time = 153.62 seconds Cpu Time = 146.37 seconds
+700000	 events processed [73%] looptimer : Real Time = 168.72 seconds Cpu Time = 160.90 seconds
+750000	 events processed [79%] looptimer : Real Time = 184.69 seconds Cpu Time = 175.90 seconds
+800000	 events processed [84%] looptimer : Real Time = 200.91 seconds Cpu Time = 190.91 seconds
+850000	 events processed [89%] looptimer : Real Time = 213.47 seconds Cpu Time = 202.87 seconds
+900000	 events processed [94%] looptimer : Real Time = 228.96 seconds Cpu Time = 216.40 seconds
+[32m
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@[0m
+[32m>>>>>>>>>>> Requested events processed. Doing final calculations..[0m
+[32m@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[0m
+[35m======== PhotonJets =======================
+Entries found    = 948117
+Entries request  = 0 (0%)
+Events Processed = 948117 (100%)
+Ele./Pho Events  = 2239
+Ele Events       = 740603
+Pho Events       = 205275
+Other Events     = 0
+First400 Events  = 0
+sum Events       = 948117
+[31m__________________________________________
+Data Written to        = PhoJets_wtnmc_MetCleaned.root
+Add Iso4(2) to QCD Pho = 0 (NO)
+Reweight Sideband Pho  = 0 (NO)
+MC Flag setting        = MC
+min,max Vtx for Signal =    1,  100
+Min,max njet15         =    1,  100
+Photon Et(min,max)     =   30,  1200
+Photon Eta(max)        =  1.1
+Jet Et(min,max)        =   15, 1200
+Jet Eta (min,max)      =   -3,    3
+Signal Time Window     = -4.8,  4.8
+Cosmic Time Window     =   30,   90
+Halo Type              =    5
+Min/max MEt            =    0, 1500
+MEt cleanup cuts?      =    1 (1=YES)
+Nvtx setting           = 1
+Nvtx Weighting?        = CENTRAL WEIGHTS
+PrintLevel             =    6
+Rejected Events        =      0 (0%)
+-------------- CENTRAL --------------------- 
+Pho Evts               = 11955
+Pho+>=1Jet Evts        = 3481
+Pho+>=2Jet Evts        = 477
+-------------- EM/JES UP ------------------- 
+Pho Evts               = 11963
+Pho+>=1Jet Evts        = 3645
+Pho+>=2Jet Evts        = 567
+-------------- EM/JES DOWN ----------------- 
+Pho Evts               = 11963
+Pho+>=1Jet Evts        = 3213
+Pho+>=2Jet Evts        = 389
+-------------- SIDEBAND -------------------- 
+Pho Evts               = 10966
+Pho+>=1Jet Evts        = 2519
+Pho+>=2Jet Evts        = 371
+[36mData Written to        = PhoJets_wtnmc_MetCleaned.root[0m
+======= END PhotonJets ====================
+phoana_time: Real Time = 299.90 seconds Cpu Time = 283.27 seconds

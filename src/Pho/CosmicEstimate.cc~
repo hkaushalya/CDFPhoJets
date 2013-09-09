@@ -1,0 +1,203 @@
+///////////////////////////////////////////////////////////
+// this module is used to count and estimate the cosmic  //
+// photons. counts how many cosmic photons identified    //        
+// using em timing has a trackless muon stub around 30   //
+// degree cone of the photon and how many cosmics can be //
+// identifed just by asking for a muon stub. --01-30-2008//
+///////////////////////////////////////////////////////////
+// Author: Samantha K. Hewamanage <samantha@fnal.gov>
+
+#include <iostream>
+#include <fstream>
+#include <TLorentzVector.h>
+#include <numeric>
+#include <vector>
+#include <algorithm>
+#include "Stntuple/loop/TStnAna.hh"
+#include "samantha/Pho/CosmicEstimate.hh"
+#include "samantha/Pho/TMyJetFilterModule.hh"
+#include "samantha/utils/FreeFunctions.hh"
+
+ClassImp(CosmicEstimate)
+
+//_____________________________________________________________________________
+CosmicEstimate::CosmicEstimate(const char* name, const char* title):
+	TStnModule(name,title),
+	fCosmicTimeMin(30),
+	fCosmicTimeMax(90),
+	bRunPermit(true)
+{
+	std::cout << "Hello I am CosmicEstimate module" << std::endl;
+}
+
+//_____________________________________________________________________________
+CosmicEstimate::~CosmicEstimate() {
+}
+
+//_____________________________________________________________________________
+void CosmicEstimate::SaveHistograms() {
+}
+
+//_____________________________________________________________________________
+void CosmicEstimate::BookHistograms()
+{
+	DeleteHistograms();
+	
+  	char name [200];
+  	char title[200];
+	TFolder* new_folder = GetHistFolder(this, "CountingRoom","Couting Histograms");
+	
+	if (!new_folder) {
+		StdErr(__FILE__,__LINE__,3,"Request for a new Histogram Folder returned NULL. No histograms are added.");
+		bRunPermit = false;
+		return;
+	} else {
+		//list of counters
+		Histograms HistoMan;
+		vCounterHistLabels.push_back("Events Processed");							//=0
+		vCounterHistLabels.push_back("Events Passed");								//=1
+		vCounterHistLabels.push_back("Cosmics +>=1Jets w.stubs(1^{st}400pb^{-1}");		//=2
+		vCounterHistLabels.push_back("Cosmics +>=2Jets w.stubs(1^{st}400pb^{-1}");		//=2
+		vCounterHistLabels.push_back("Cosmics +>=1Jets");				//=3
+		vCounterHistLabels.push_back("Cosmics +>=1Jets w. stubs");	//=4
+		vCounterHistLabels.push_back("Cosmics +>=2Jets");				//=3
+		vCounterHistLabels.push_back("Cosmics +>=2Jets w. stubs");	//=4
+		HistoMan.GetCounterHistograms(new_folder,hCount,this->GetName(),vCounterHistLabels);
+	}
+
+}
+
+
+//_____________________________________________________________________________
+int CosmicEstimate::BeginJob()
+{
+	initSpMod = (InitSuperPhotons*) ((TStnAna*) GetAna()->GetModule("InitSuperPhotons"));
+	if (initSpMod == NULL) {
+		StdOut("Err ! Could not find module InitSuperPhotons!",0);
+		bRunPermit = false;
+		return 0;
+	}
+	
+	setEmTimeMod = (SetEmTimes*) ((TStnAna*) GetAna()->GetModule("SetEmTimes"));
+	if (setEmTimeMod == NULL) {
+		StdOut(__FILE__,__LINE__,3,"Cannot find required SetEmTime module. pl. check.");
+		bRunPermit = false;
+		return 0;
+	}
+
+  	jetMod = (TMyJetFilterModule*) ((TStnAna*) GetAna()->GetModule("MyJetFilter"));
+	if (!jetMod) {
+		StdOut(__FILE__,__LINE__,3,"JetFilter module required!.");
+		bRunPermit = false;
+	}
+
+				// register the data blocks
+				
+	BookHistograms();
+
+	// initialize vars
+	
+	
+	return 0;
+}
+
+//_____________________________________________________________________________
+int CosmicEstimate::BeginRun()
+{
+
+} //BeginRun
+
+/*-------------------------------------------------------------------*/
+// EVENT LOOP
+/*-------------------------------------------------------------------*/
+int CosmicEstimate::Event(int ientry)
+{
+	SetPassed(1);
+
+	if (!bRunPermit) {
+		StdOut(__FILE__,__LINE__,3,"RunPermit failed!. pl. make sure all depndencies are met");
+		SetPassed(0);
+		exit (1);
+		return 0;
+	}
+	hCount.iCounter->Fill(0);
+	
+	int Nsp = initSpMod->GetSuperPhoSize();
+	int Run = GetHeaderBlock()->RunNumber();	
+	
+	// how i reject possible cosmic events:
+	// in 1st 400pb-1 with no em timing (RunNumber < 190851)
+	// use if there is a trackless muon stub within the cone of 30 degrees of the photon, remove it.
+	// in rest of the data use EM timing info
+	// -6 ns to 6ns for prompt photon selection, may be i should make this narrower, from -4 to 4, to reduce BH.
+
+
+	if (Run<190851) { // first 400pb-1 with out em timing
+		for (int i = 0; i < Nsp; i++) {
+			int iNCosStubs = initSpMod->GetSuperPhoton(i)->GetPhoton()->NCosStubPho();  // look for any muon stubs with the 30 degree cone of the photon
+			if (iNCosStubs>0) {
+				if (jetMod->GetMyNjet(0,3) >= 1) {	// mono-jet case
+					hCount.iCounter->Fill(2);
+				}
+				
+				if (jetMod->GetMyNjet(0,3) >= 1) {	// mono-jet case
+					hCount.iCounter->Fill(3);
+				}
+			} else {
+			}
+		}
+	} else {
+
+		for (int i = 0; i < Nsp; i++) {
+			float fCTime = initSpMod->GetSuperPhoton(i)->GetEmTime();
+			int iNCosStubs = initSpMod->GetSuperPhoton(i)->GetPhoton()->NCosStubPho();  // look for any muon stubs with the 30 degree cone of the photon
+			//use en time and cosmic stub here too.
+			if (fCTime > GetCosmicTimeMin() && fCTime < GetCosmicTimeMax()) {
+				if (jetMod->GetMyNjet(0,3) >= 1) {	// mono-jet case
+					hCount.iCounter->Fill(4);
+					if (iNCosStubs>0) {
+						hCount.iCounter->Fill(5);
+					}
+				}
+				if (jetMod->GetMyNjet(0,3) >= 2) {	// mono-jet case
+					hCount.iCounter->Fill(6);
+					if (iNCosStubs>0) {
+						hCount.iCounter->Fill(7);
+					}
+				}
+				break;
+			}
+		}
+	}
+
+
+	if (GetPassed()) {
+		hCount.iCounter->Fill(1);
+	}
+
+	return 0;
+
+} // Event
+
+/*-------------------------------------------------------------------*/
+void CosmicEstimate::FillDataBlocks(int ientry)
+{
+}
+
+//_____________________________________________________________________________
+//  END JOB SUMMARY
+//_____________________________________________________________________________
+int CosmicEstimate::EndJob() {
+
+	std::string sMsg;
+	std::string sModName(GetName());
+
+	sMsg += "[TCP:00:]----- end job: ---- " + sModName + "\n";
+	sMsg += "[TCP:01:] Events Processed ----------- = " + ToStr(hCount.iCounter->GetBinContent(1)) + "\n"; 
+	sMsg += "[TCP:02:] Events Passed -------------- = " + ToStr(hCount.iCounter->GetBinContent(2)) + "\n"; 
+	sMsg += "[TCP:03:] 1st 400pb: w. stubs -------- = " + ToStr(hCount.iCounter->GetBinContent(3)) + "\n"; 
+	sMsg += "[TCP:04:] in EM Time Window ---------- = " + ToStr(hCount.iCounter->GetBinContent(4)) + "\n"; 
+	sMsg += "[TCP:05:] out of EM Time Win(w. stubs) = " + ToStr(hCount.iCounter->GetBinContent(5)) + "\n"; 
+	printf("---------------------------------------------------\n");
+	return 0;
+}

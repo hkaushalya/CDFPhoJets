@@ -1,0 +1,115 @@
+#include "samantha/Pho/WCrossSection.hh"
+#include "samantha/Pho/InitSuperPhotons.hh"
+#include "Stntuple/loop/TStnAna.hh"
+#include "Stntuple/photon/TPhotonUtil.hh"
+#include <iostream>
+
+ClassImp(WCrossSection)
+
+//_____________________________________________________________________________
+WCrossSection::TestModule(const char* name, const char* title):
+  TStnModule(name,title), qMc(false)
+{
+	std::cout << "Hello I am WCrossSection module" << std::endl;
+}
+
+//_____________________________________________________________________________
+WCrossSection::~TestModule() {
+}
+
+//_____________________________________________________________________________
+void WCrossSection::SaveHistograms() {
+}
+
+//_____________________________________________________________________________
+void WCrossSection::BookHistograms()
+{
+	DeleteHistograms();
+}
+
+
+//_____________________________________________________________________________
+int WCrossSection::BeginJob()
+{
+				// register the data blocks
+	fHeaderBlock 	= (TStnHeaderBlock*)   RegisterDataBlock("HeaderBlock","TStnHeaderBlock");
+
+	BookHistograms();
+
+	// initialize vars
+	counter.evtsRunOver 			= 0;
+	counter.evtsPassModule 		= 0;
+
+	return 0;
+}
+
+//_____________________________________________________________________________
+int WCrossSection::BeginRun()
+{
+	if (fHeaderBlock->McFlag()) 
+   	qMc = true;
+	else
+   	qMc = false;
+  
+	return 0;
+
+} //BeginRun
+
+/*-------------------------------------------------------------------*/
+// EVENT LOOP
+/*-------------------------------------------------------------------*/
+int WCrossSection::Event(int ientry)
+{
+	SetPassed(1);
+	counter.evtsRunOver++;
+  
+
+  InitSuperPhotons* initphomod =
+    (InitSuperPhotons*) ((TStnAna*) GetAna()->GetModule("InitSuperPhotons"));
+	if (initphomod == NULL) {
+		std::cout << "InitPhotons is NULL" <<std::endl;
+		return 0;
+	}
+	SetPassed(1); // by pass this module
+	counter.evtsPassModule++;
+  	int NsuperPho = initphomod->GetSuperPhoSize();
+	std::cout << "super size=" << NsuperPho << std::endl;
+  	FillDataBlocks(ientry);
+	
+	if (GetPassed()) counter.evtsPassModule++;
+	return 0;
+
+} // Event
+
+
+/*-------------------------------------------------------------------*/
+// clean and clear things for the run
+/*-------------------------------------------------------------------*/
+void WCrossSection::Cleanup()
+{
+
+} //Cleanup
+
+
+/*-------------------------------------------------------------------*/
+void WCrossSection::FillDataBlocks(int ientry)
+{
+	fMetBlock->GetEntry(ientry);
+	fElectronBlock->GetEntry(ientry);
+}
+
+
+//_____________________________________________________________________________
+//  END JOB SUMMARY
+//_____________________________________________________________________________
+int WCrossSection::EndJob() {
+
+	printf("WCS::----- end job: ---- %s\n",GetName());
+	if (qMc)	StdOut(__FILE__,__LINE__,3,"This module is designed for data only. But the eun was on MC.");
+	std::cout << "WCS::Events Run Over ------------ = " << counter.evtsRunOver << std::endl;
+	std::cout << "WCS::Events Pass this module ---- = " << counter.evtsPassModule << std::endl;
+	std::cout << "WCS:: W candidates found -------- = " << counter.Wevents << std::endl;
+
+	printf("---------------------------------------------------\n");
+	return 0;
+}

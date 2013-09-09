@@ -1,0 +1,23 @@
+#source this file to create a sam dataset and take a snapshot
+#change run range and data set name and project name
+ setenv STREAM aphysr
+ source ~cdfsoft/cdf2.cshrc 
+ setup sam
+ sam describe dataset definition --defname=$STREAM
+
+setenv DEF_NAME "P30cp2calib_aphysr"
+setenv DEF_DESC "dataset for p30 cp2 calibration Jul, 2010 stream a"
+echo "============================================"
+echo " STREAM   : $STREAM "
+echo " DEF_NAME : $DEF_NAME"
+echo " DEF_DESC : $DEF_DESC"
+echo "============================================"
+
+ sam create dataset definition \
+ --defname="$DEF_NAME" \
+ --group=test \
+ --defdesc="$DEF_DESC" \
+ --dim="CDF.DATASET aphysr and run_number>=291294 and run_number<=293800"
+
+ sam take snapshot --defname=$DEF_NAME --group=test
+ sam describe dataset definition --defname=$DEF_NAME

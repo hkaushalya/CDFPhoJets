@@ -1,0 +1,40 @@
+#setup environment
+source ~cdfsoft/cdf2.cshrc
+setup cdfsoft2 6.1.4
+
+#tell which version you want to checkout from CVS and to where
+# stn_rel is the name of the directory all you stuff will go in
+# change it as you wish. but remember to make the same change 
+# in the line below it  
+newrel -t 6.1.4 stn_rel
+cd stn_rel
+unsetenv USESHLIBS
+addpkg Stntuple dev_243
+make Stntuple.dev_243 MODE=clean
+
+#now add different packages you want and compile
+addpkg JetUser  jetCorr04b
+gmake JetUser.lib LINK_SHARED_ROOT=yes USESHLIBS=1
+cvsroot zoom
+addpkg ZMutility
+addpkg Exceptions
+gmake ZMutility.all USESHLIBS=1
+gmake Exceptions.all USESHLIBS=1
+
+#my stuff
+addpkg HighLevelObjects PhoBC
+gmake HighLevelObjects.PhoBC
+addpkg -h rlc
+gmake rlc.Pho USESHLIBS=1
+
+#- compile stntuple directory
+setenv USESHLIBS 1
+gmake Stntuple._base
+gmake Stntuple._data
+gmake Stntuple._loop
+gmake Stntuple._alg
+gmake Stntuple._obj
+gmake Stntuple._val
+gmake Stntuple._ana
+gmake Stntuple._photon
+unsetenv USESHLIBS

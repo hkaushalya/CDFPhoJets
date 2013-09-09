@@ -1,0 +1,454 @@
+//_____________________________________________________________________________
+// cp2 object  
+// 
+//_____________________________________________________________________________
+
+#include <iostream>
+#include "TF1.h"
+#include "TF2.h"
+#include "TCanvas.h"
+#include "Stntuple/loop/TStnAna.hh"
+#include "Stntuple/obj/TStnTrackBlock.hh"
+#include "Stntuple/obj/TStnJetBlock.hh"
+#include "Stntuple/obj/TStnLinkBlock.hh"
+#include "Stntuple/obj/TCesDataBlock.hh"
+#include "Stntuple/obj/TCcrDataBlock.hh"
+#include "Stntuple/obj/TStnMetBlock.hh"
+#include "Stntuple/obj/TL3SummaryBlock.hh"
+#include "Stntuple/obj/TL3Track.hh"
+#include "Stntuple/alg/TStntuple.hh"
+
+#include <math.h>
+#include <assert.h>
+#include <regex.h>
+#include <algorithm>
+#include <cstdio>
+#include <map.h>
+#include <vector>
+#include <iomanip.h>
+#include <fstream>
+#include "Riostream.h"
+
+#include "cp2.hh"
+
+using namespace std;
+
+ClassImp(cp2)
+//_____________________________________________________________________________
+cp2::cp2(const char* name, const char* title):
+  TStnModule(name,title)
+{
+}
+
+//_____________________________________________________________________________
+cp2::~cp2() {
+}
+
+//_____________________________________________________________________________
+void cp2::BookHistograms() {
+  fHist.cp2hit = new TH2F("cp2hit","",48,-0.5,47.5,54,-0.5,53.5);
+  fHist.cp2hit->SetTitle("CPR2 Pad Hits from Tracks");
+  fHist.cp2hit->SetXTitle("Wedge Number");
+  fHist.cp2hit->SetYTitle("CPR2 Pad Number");
+  fHist.cp2Weight = new TH2F("cp2Weight","",48,-0.5,47.5,54,-0.5,53.5);
+  fHist.cp2Weight->SetTitle("CPR2 Pad Hits Weighted by Pulse Height");
+  fHist.cp2Weight->SetXTitle("Wedge Number");
+  fHist.cp2Weight->SetYTitle("CPR2 Pad Number");
+  fHist.cp2ave = new TH2F("cp2ave","",48,-0.5,47.5,54,-0.5,53.5);
+  fHist.cp2ave->SetTitle("Average pulse height");
+  fHist.cp2ave->SetXTitle("Wedge Number");
+  fHist.cp2ave->SetYTitle("CPR2 Pad Number");
+  fHist.ymoncp2 = new TH2F("ymoncp2","",48,-0.5,47.5,54,-0.5,53.5);
+  fHist.ymoncp2->SetTitle("CPR2 Hits YMon Threshold of 60 ADC Counts");
+  fHist.ymoncp2->SetXTitle("Wedge Number");
+  fHist.ymoncp2->SetYTitle("CPR2 Pad Number");
+  fHist.west = new TH1F("west","",100,0,1000);
+  fHist.west->SetXTitle("ADC Counts");
+  fHist.west->SetTitle("Pulse Height From Tracks on West Side");
+  fHist.east = new TH1F("east","",100,0,1000);
+  fHist.east->SetXTitle("ADC Counts");
+  fHist.east->SetTitle("Pulse Height From Tracks on East Side");
+  fHist.cp2tra = new TH1F("cp2tra","",100,0,1000);
+  fHist.cp2tra->SetXTitle("ADC Counts");
+  fHist.cp2tra->SetTitle("Pulse Height From Tracks");
+  fHist.rancp2 = new TH1F("rancp2","",100,0,1000);
+  fHist.rancp2->SetXTitle("ADC Counts");
+  fHist.rancp2->SetTitle("Random CPR2 Hits");
+  fHist.zerocp2 = new TH1F("zerocp2","",48,-0.5,47.5);
+  fHist.zerocp2->SetXTitle("Wedge Number");
+  fHist.zerocp2->SetTitle("Wedges with Zero Pulse Height from a Track");
+  fHist.zero3d = new TH2F("zero3d","",48,-0.5,47.5,54,-0.5,53.5);
+  fHist.zero3d->SetTitle("Channels with Zero Pulse Height from a Track");
+  fHist.zero3d->SetXTitle("Wedge Number");
+  fHist.zero3d->SetYTitle("CP2 Pad Number");
+
+  char name[100], title[100];
+  for(int i=0; i<48; i++) {		// loop over wedges
+    for(int p=0; p<54; p++) {		// loop over pads
+	sprintf(name,"cp2pad_%i_%i",i,p);
+	sprintf(title,"cp2pad[%i][%i]",i,p);
+	fHist.cp2pad[i][p]= new TH1F(name,title,100,0,1000);
+	fHist.cp2pad[i][p]->SetXTitle("CP2 ADC counts"); 
+	fHist.cp2pad[i][p]->SetYTitle("Number of Events"); 
+    }
+  }
+}
+//_____________________________________________________________________________
+int cp2::BeginJob() {
+  fHeaderBlock = (TStnHeaderBlock*) 
+    RegisterDataBlock("HeaderBlock","TStnHeaderBlock");
+  fCalDataBlock = (TCalDataBlock*) 
+    RegisterDataBlock("CalDataBlock","TCalDataBlock");
+  fCp2DataBlock = (TCp2DataBlock*) 
+    RegisterDataBlock("Cp2DataBlock","TCp2DataBlock");
+  fCcrDataBlock = (TCcrDataBlock*) 
+    RegisterDataBlock("CcrDataBlock","TCcrDataBlock");
+  fTrackBlock =   (TStnTrackBlock*)
+    RegisterDataBlock("TrackBlock","TStnTrackBlock");
+  fL3SummaryBlock =   (TL3SummaryBlock*) RegisterDataBlock("L3SummaryBlock","TL3SummaryBlock");
+  BookHistograms();
+  return 0;
+}
+
+int cp2::BeginRun() {
+  return 0;
+}
+
+
+int cp2::Event(int ientry) {
+  if(fHeaderBlock)  fHeaderBlock->GetEntry(ientry);
+  if(fCalDataBlock) fCalDataBlock->GetEntry(ientry);
+  if(fCp2DataBlock) fCp2DataBlock->GetEntry(ientry);
+  if(fCcrDataBlock) fCcrDataBlock->GetEntry(ientry);
+  if(fTrackBlock)   fTrackBlock->GetEntry(ientry);
+  if(fL3SummaryBlock) fL3SummaryBlock->GetEntry(ientry);
+
+// These are in cm
+const float z_middle[54] ={8.5,8.5,8.5,21.,21.,21.,33.5,33.5,33.5,
+			   46.,46.,46.,58.5,58.5,58.5,71.,71.,71.,
+			   83.5,83.5,83.5,96.,96.,96.,108.5,108.5,108.5,
+			   121.,121.,121.,133.5,133.5,133.5,
+			   146.,146.,146.,158.5,158.5,158.5,
+			   171.,171.,171.,183.5,183.5,183.5,
+			   196.,196.,196.,208.5,208.5,208.5,
+			   221.,221.,221.};
+
+// These are in degrees since a wedge is 15 degrees
+const float phi_middle[54] ={3.31,7.50,11.69,3.31,7.50,11.69,
+			     3.31,7.50,11.69,3.31,7.50,11.69,
+			     3.31,7.50,11.69,3.31,7.50,11.69,
+			     3.31,7.50,11.69,3.31,7.50,11.69,
+			     3.31,7.50,11.69,3.31,7.50,11.69,
+			     3.31,7.50,11.69,3.31,7.50,11.69,
+			     3.31,7.50,11.69,3.31,7.50,11.69,
+			     3.31,7.50,11.69,3.31,7.50,11.69,
+			     3.31,7.50,11.69,3.31,7.50,11.69};
+
+//  float emz[10] = {12.08,36.24,60.4,84.56,108.72,132.885,157.045,
+//		   181.2,205.365,231.705};
+
+  Bool_t debug=0;
+  Float_t cp2rad = 170.47;   Float_t xyzcp2[3];
+  int isidecpr = 99;  int iwedgecpr = 99; int ipadcpr = 99;
+  float delz; float delx; float delr; float bestdelr;  
+  int l3ntrk = fL3SummaryBlock->NCotTrack(); //cout<<l3ntrk<<endl;
+  for (int j=0; j<l3ntrk; j++) {
+    TL3Track *l3trk = fL3SummaryBlock->CotTrack(j);
+    double pt = fabs(l3trk->Pt());
+    double charge = l3trk->Charge();
+    double z0 = l3trk->Z0();
+    double d0 = l3trk->D0();
+    double phi0 = l3trk->Phi0();
+    double lambda = l3trk->Lambda();
+    double curv = (0.0029979*1.4116*charge)/(2.0*pt);
+    Int_t old_ieta=0;   Int_t old_iphi=0;   
+    TrackExtr(cp2rad,curv,l3trk->Phi0(),l3trk->Lambda(),l3trk->D0(),l3trk->Z0(),
+		xyzcp2,old_ieta,old_iphi,debug);
+    if(pt>1.0) {
+      float zGlobal = xyzcp2[2];
+      isidecpr = 0;  if(zGlobal>0) isidecpr=1;
+      double phicpr = atan2(xyzcp2[1],xyzcp2[0]);
+      if(phicpr<0) phicpr = phicpr+(2.0*M_PI);
+      // Now convert phiGlobal from radians to degrees
+      float phiGlobal = 180.0 * phicpr / M_PI; 
+      int tmpphi = (int) phiGlobal;
+      iwedgecpr = phiGlobal/15;
+      float local_phi = (tmpphi % 15) + (phiGlobal-tmpphi);
+      bestdelr = 999.;
+      for(int ipad=0; ipad<54; ipad++) {
+	// delta-Z is in cm
+	delz = fabs(zGlobal)-z_middle[ipad];
+	// Find delta-local-phi and convert to cm
+	delx = (local_phi-phi_middle[ipad])*(12.5/4.13);
+	// delta-R is in cm
+	delr = sqrt(delz*delz + delx*delx);
+	if(delr<bestdelr) {
+	  bestdelr = delr;
+	  ipadcpr = ipad;
+	}
+      }
+
+      Short_t datp = fCp2DataBlock->GetPadData(isidecpr, iwedgecpr, ipadcpr) - 24; 
+
+      // Begin "zeros" plots with raw data to find bugs or bad hardware
+      if(bestdelr<4 && datp<40) fHist.zerocp2->Fill(iwedgecpr+isidecpr*24,1);
+      if(bestdelr<4 && datp<40) fHist.zero3d->Fill(iwedgecpr+isidecpr*24,ipadcpr,1);
+
+      // Correct datp with teststand gains and sin(theta) and make some plots
+      float zdif = fabs(zGlobal-z0); float hyp = sqrt((zdif*zdif)+(cp2rad*cp2rad));
+      float sth = cp2rad/hyp;
+      //      datp = (datp*sth)/(double)cf[iwedgecpr+isidecpr*24][ipadcpr];
+            datp = (datp*sth);		//uncommented on 12-29-2007 with instructions from Steve.
+      if(bestdelr<4) fHist.cp2tra->Fill(datp,1);
+      if(bestdelr<4) fHist.cp2pad[iwedgecpr+isidecpr*24][ipadcpr]->Fill(datp,1);
+      if(bestdelr<4 && isidecpr==0) fHist.west->Fill(datp,1);
+      bool chimney = (isidecpr==1 && iwedgecpr==5 && ipadcpr>47);
+      if(bestdelr<4 && isidecpr==1 && !chimney) fHist.east->Fill(datp,1);
+
+      // Begin LER calibration plots
+      if(bestdelr<4 && datp>50 && datp<1000) fHist.cp2hit->Fill(iwedgecpr+isidecpr*24,ipadcpr,1);
+      if(bestdelr<4 && datp>50 && datp<1000) fHist.cp2Weight->Fill(iwedgecpr+isidecpr*24,ipadcpr,datp);
+    }
+  }
+    for(int iside=0; iside<2; iside++) {
+      for(int iwed=0; iwed<24; iwed++) {
+	for(int ipad=0; ipad<54; ipad++) {
+	  Short_t datp = fCp2DataBlock->GetPadData(iside, iwed, ipad) - 24; 
+	  fHist.rancp2->Fill(datp,1);
+	  if(datp>36) fHist.ymoncp2->Fill(iwed+iside*24,ipad,1);
+	}
+      }
+    }
+
+  return 0;
+}
+
+
+
+//_____________________________________________________________________________
+int cp2::EndJob() {
+  printf("----- end of job: ---- %s\n",GetName());
+
+  float totchan=0.,globalave=0.,ave,cfnew[48][54];
+  for(int i=0; i<48; i++) {
+    for(int p=0; p<54; p++) {
+      cfnew[i][p]=1.0;
+      if(fHist.cp2hit->GetBinContent(i+1,p+1)!=0) {
+	ave = fHist.cp2Weight->GetBinContent(i+1,p+1)/(double)fHist.cp2hit->GetBinContent(i+1,p+1);
+	fHist.cp2ave->Fill(i,p,ave);
+	cfnew[i][p] = ave;
+	totchan++;
+	globalave = globalave+ave;
+      }
+    }
+  }
+  globalave = globalave/totchan;
+
+  cout<<"global average = "<<globalave<<" totchan "<<totchan<<endl;
+
+  float bgg;
+  FILE *fpp=fopen("cp2traler-new.txt","w");
+  for(int i=0;i<2592;i++){
+    int id0 = i%54 +256*((i/54)%24);
+    if(i/54>23) id0+=64;
+    int ipad = (id0 & 0x0000003f); 
+    int iwed = ((id0 >> 8) & 0x0000001f);
+    int iside = ((id0 >> 6) & 0x00000001);
+    if(cfnew[iwed+iside*24][ipad]==1.0) cfnew[iwed+iside*24][ipad]=globalave;
+    bgg = globalave/cfnew[iwed + iside*24][ipad];
+    fprintf(fpp," %d  %.4f .0001 \n",id0,bgg);
+  }
+  fclose(fpp);
+  
+  TFile *File = new TFile("tracks.root","RECREATE","tracks");
+  for(int i=0; i<48; i++) {
+    for(int p=0; p<54; p++) {
+      fHist.cp2pad[i][p]->Write();
+    }
+  }
+  fHist.cp2Weight->Write(); 
+  fHist.west->Write(); fHist.east->Write();
+  fHist.cp2hit->Write();  fHist.cp2ave->Write();
+  fHist.ymoncp2->Write(); fHist.rancp2->Write();
+  fHist.cp2tra->Write(); fHist.zero3d->Write();
+  fHist.zerocp2->Write();
+  File->Close(); delete File;
+  
+  return 0;
+}
+
+void cp2::TrackExtrTowers(float curv, float phi0, float cotan,
+			    float d0, float z0, int &ntow,
+			    int* ietatowex,int* iphitowex, bool debug) {
+  float xyzem[3];
+  float xyzend[3];
+  memset(ietatowex,0,5*sizeof(int));
+  memset(iphitowex,0,5*sizeof(int));
+  int ietaem=0;
+  int iphiem=0;
+  int ietaend=0;
+  int iphiend=0;
+  float calradem=175.26;
+    //  float cesrad=184.15;
+  float calradhad=214.63;
+  float calradend=345.09;
+
+  // we extrapolate to the em surface, had surface and endpoint of calorimeter
+  TrackExtr(calradem, curv, phi0,cotan, d0, z0, xyzem,ietaem,iphiem,debug);
+
+  // if it went into the crack we will extrapolate to the first 
+  // layer of the hadronic
+  //  if (abs(xyzem[2])<4.22) {
+  //    if (debug) cout << " em in calo crack "<< endl;
+  // TrackExtr(calradhad, curv, phi0,cotan, d0, z0, xyzem,ietaem,iphiem,debug);
+  //  }
+
+  TrackExtr(calradend,curv, phi0,cotan, d0, z0, xyzend,ietaend,iphiend,debug);
+
+  // if it went into the crack we will extrapolate to the first 
+  // layer of the hadronic
+  if (abs(xyzend[2])<4.22) { 
+    //    if (debug) cout << " had in calo crack "<< endl;
+    TrackExtr(calradhad,curv, phi0,cotan, d0, z0,xyzend,ietaend,iphiend,debug);
+  }
+  if (debug) {
+  //    cout << " z="<< xyzem[2] << "   " << xyzend[2] << endl;
+    //    cout << " i="<< ietaem << "   " << ietaend << endl;
+    //    cout << "phi " << iphiem << "  " << iphiend << endl;
+  }
+  if (ietaem>0&&ietaend==0) {
+  //    cout << "bizarre " << atan(1/cotan)*180/M_PI << "   " << curv << endl;
+  }
+
+  //  cout << "start and end point " << ietaem << "  " << ietaend << endl;
+  if (ietaem>0) {
+    if (ietaend==ietaem||ietaend==0){
+      ntow=1;
+    } else if(abs(ietaem-ietaend)>0) {
+      ntow=1+abs(ietaem-ietaend);
+    }
+    //    cout << "Ntower: " << ntow << endl;
+  } else {
+    //    cout << "No tower hit" << endl;
+  }
+  if (ntow>0) {
+    for (int it=0;it<ntow;it++) {
+      if (it<6) {
+	if (ietaem<ietaend) {
+	  ietatowex[it]=ietaem+it;
+	} else {
+	  ietatowex[it]=ietaem-it;
+	}
+	iphitowex[it]=iphiem;
+      }
+      //      cout << " index " << it << "    " << iphitowex[it] << endl;
+    }
+  }
+}
+
+void cp2::TrackExtr(float  radius, float  curvature, float  Phi0, 
+		      float  cotan, float  D_O, float  Z_0, float* xyz,
+		      int &ieta, int &iphi, bool debug) {
+  /*
+    Calculates the x,y,z position of a charged track passing through the
+    COT, at a given radius from the origin.
+     radius    is the radius from x=0,y=0 to determine the x,y,z
+     curvature is the half curvature for the charged track
+     Phi0      is the phi at the origin for the charged track
+     cotan     is the  cot(theta) for the charged track
+     D_O       is the impact parameter for the charged track
+     Z_O       is the z position at the distance of closest approach
+  */
+  // radii of calorimeters
+  //  float const COIL_BFIELD_ENDS = 149.1;
+  //  float const CEM_RMAX = 207.26;
+  //  float const CHA_RMAX = 345.09;
+  //  float const PEM_RMIN = 172.72;
+
+  // boundaries of towers
+  //  const float BOUND[11]={4.22, 24.16, 48.32, 72.48, 96.64,120.8,144.97,
+  //			 169.12,193.28,217.45,245.96};
+  const float BOUND[11]={0.0, 24.16, 48.32, 72.48, 96.64,120.8,144.97,
+			 169.12,193.28,217.45,245.96};
+  //  float const TOWER_THETA[27] = {
+    //   Mini plug  region
+  //    0.46831, 0.94304, 1.40681, 2.09858, 
+    //   Plug region
+  //    3.000,  5.700,  8.400, 11.100, 13.800, 16.500,
+  //    19.200, 21.900, 24.600, 27.300, 30.000, 33.524,
+    //   Central region
+  //    36.822, 40.261, 43.614, 47.436, 51.790, 56.735, 62.310,
+  //    68.516, 75.297, 82.526, 90.000 
+  //  };
+
+
+  float epsilon = 1.0;    
+  float B = curvature* sqrt((radius*radius-D_O*D_O)/(1.0+2.0*curvature*D_O));
+  float U_O = cos(Phi0);
+  float V_O = sin(Phi0);
+  float rho = 2.0*curvature;
+  float XO = -D_O*V_O;
+  float YO = D_O*U_O;                     
+  
+  //  float cosPhiZero = cos(Phi0);
+  //  float sinPhiZero = sin(Phi0);
+  
+  float Radius_of_Arc = abs(1.0/(2*curvature));  
+  // float X_C = -(1/(2*curvature)+D_O)*sinPhiZero;  // X_C calculated here
+  // float Y_C =  (1/(2*curvature)+D_O)*cosPhiZero;  // Y_C calculated here
+  //                      
+  ieta=0;
+  iphi=0;
+  if(B*B<1.0){
+    xyz[0] = XO + (U_O*2.0*epsilon*B*sqrt(1.0-B*B)-V_O*2.0*B*B)/rho;
+    xyz[1] = YO + (V_O*2.0*epsilon*B*sqrt(1.0-B*B)+U_O*2.0*B*B)/rho;
+    // in principle I have to take the B-field into account only up to coil and
+    // do a straight line extrapolation afterwards
+    xyz[2] = Z_0 + ((cotan)*asin(B))/curvature;
+    float exphi=atan2(xyz[1],xyz[0]);
+    if (exphi<0) {exphi=exphi+2*M_PI;}
+    float extheta=atan2(radius,xyz[2]);
+    float exeta=-log(tan(extheta/2));
+    float absz=float(abs(xyz[2]));
+    //    float thedegr=extheta/M_PI*180;
+    //    if (debug) cout << "z-value "<< xyz[2] << endl;
+    // do central and wall for now
+    if (absz<BOUND[10]) {
+      //      iphi=int((exphi*360/2/M_PI+7.5)/15);
+      //      int iPhi=int(exphi/(2*M_PI) * 24);
+      iphi=int(exphi/(2*M_PI) * 24);
+      //      cout << "2 phi " << iphi << "   " << iPhi << endl;  
+      for (int i=0;i<10;i++) {
+	if( absz > BOUND[i] && absz <= BOUND[i+1] ) {
+	  if (xyz[2]>0) {
+	    ieta=26+i;
+	  } else {
+	    ieta=25-i;
+	  }
+	  //	  if (debug) {cout << "old method "<< ieta << "  z: " 
+	  //			   << absz << "  i: " << i << endl;}
+	  break;
+	}
+      }
+    } else {
+      //      if (debug) {cout << "out of array " << absz 
+      //		       << "   " << BOUND[10] << endl;}
+      // set them to fixed values of the next tower
+      iphi=int(exphi/(2*M_PI) * 24);
+      if (xyz[2]>0) {
+	ieta=37;
+      } else {
+	ieta=14;
+      }
+    }
+
+  } else {
+    xyz[0] = 0.0;
+    xyz[1] = 0.0;
+    xyz[2] = 0.0;
+  }
+  //tan(theta)=r/z==> cotan(theta)=z/r
+  //  cout << " my z " << radius*cotan << endl;
+  
+}
+

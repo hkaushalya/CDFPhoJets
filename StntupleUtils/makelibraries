@@ -1,0 +1,36 @@
+#make Stntuple.dev_243 MODE=clean
+#gmake JetUser.lib LINK_SHARED_ROOT=yes USESHLIBS=1
+#gmake ZMutility.all USESHLIBS=1
+#gmake Exceptions.all USESHLIBS=1
+#gmake HighLevelObjects.PhoBC USESHLIBS=1
+#gmake rlc.Pho USESHLIBS=1
+
+#gmake Stntuple._loop USESHLIBS=1
+#gmake Stntuple._ana USESHLIBS=1
+#gmake Stntuple._alg USESHLIBS=1
+#gmake Stntuple._photon USESHLIBS=1
+#gmake Stntuple._obj USESHLIBS=1
+#gmake Stntuple._geom USESHLIBS=1
+#gmake Stntuple._val USESHLIBS=1
+
+
+gmake samantha.obj USESHLIBS=1
+gmake samantha.utils USESHLIBS=1
+gmake samantha.pho USESHLIBS=1
+
+
+
+
+#libStntuple_ana.so*
+#libStntuple_photon.so*
+#libPho.so*
+#libPhoBC.so*
+#libExceptions.so*
+#libZMutility.so*
+#libJetUser_forRoot.so*
+#libStntuple_val.so*
+#libStntuple_geom.so*
+#libStntuple_alg.so*
+#libStntuple_loop.so*
+#libStntuple_obj.so*
+#libStntuple_base.so*

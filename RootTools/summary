@@ -1,0 +1,19 @@
+#!/bin/sh
+# This is to extract job summary from log files.
+
+if [ $# -lt 1 ]
+then 
+	echo "require file name/s. exiting!"
+	exit -1
+else
+	for file in $*
+	do
+		echo ">>>>>>>>>>>> Job Summary for file : " $file 
+		grep -m1 "I got ind, dataset, subset =0" $file
+		grep -m1 "Total Files" $file
+		grep -m1 "Splitting job to" $file
+		grep -m3 "TStnRun2InputModule" $file
+		grep "\[...:..:\]" $file 
+		echo ">>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" 
+	done
+fi

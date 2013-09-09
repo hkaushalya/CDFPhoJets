@@ -1,0 +1,69 @@
+#ifndef PhoEleFilter_HH
+#define PhoEleFilter_HH
+
+///////////////////////////////////////////////////////////
+// See sourcce file for class description                //
+///////////////////////////////////////////////////////////
+// Author: Samantha K. Hewamanage <samantha@fnal.gov>
+
+
+#if !defined (__CINT__) || defined (__MAKECINT__)
+
+#include "Stntuple/obj/TStnHeaderBlock.hh"
+#include "Stntuple/loop/TStnModule.hh"
+#include "TTree.h"
+#include <string>
+#include <iostream>
+#include <vector>
+#include "samantha/obj/SuperPhoton.hh"
+#include "samantha/Pho/InitSuperPhotons.hh"
+#include "samantha/Pho/TagTightPhotons.hh"
+#include "samantha/Pho/TagLoosePhotons.hh"
+//#include "samantha/Pho/TagElectrons.hh"
+#include "samantha/Pho/TagLooseElectrons.hh"
+#include "samantha/Pho/TagBeamHalo.hh"
+#endif
+
+class PhoEleFilter: public TStnModule {
+
+	protected:
+
+	public:
+		PhoEleFilter(const char* name="PhoEleFilter", const char* title="PhoEleFilter");
+		~PhoEleFilter();
+
+				/************** abstract objects *************************/
+		struct Global_Counters_t {
+			unsigned int evtsProcessed;		//___number of evts we ran over
+			unsigned int evtsPassModule;	//___number of evts pass this module
+		};
+
+
+
+
+		// ****** over ridden methods of TStnModule
+		int BeginJob();
+		int BeginRun();
+		int Event   (int ientry);
+		int EndJob  ();
+
+		// ****** other methods
+		void BookHistograms();
+		void SaveHistograms();
+		void Cleanup();
+		void FillDataBlocks(int ientry);
+
+	private:
+		Global_Counters_t counter;
+		bool bRunPermit;
+
+		InitSuperPhotons* initSpMod;
+		TagTightPhotons *tightMod;
+		TagLoosePhotons *looseMod;
+		//TagElectrons *tightEleMod;
+		TagLooseElectrons *looseEleMod;
+
+	ClassDef(PhoEleFilter,1)
+};
+
+#endif

@@ -1,0 +1,34 @@
+#!/bin/sh
+i=0
+sec=50
+wait=1;
+partype=2 #0,1,2
+momPdg=23  #23, 24
+syscode=6
+
+while [ $i -lt $sec ]
+do
+	echo I is $i
+	logfile="EWKMC_JESUP.log_$i"
+	echo $logfile
+
+	if [ $wait -eq 0 ]
+	then
+		#echo 'wait ==0'
+		#sleep 2
+		`root -q -b 'cafMCZFlatNtupleMaker.C+ ('$i','$momPdg','$partype','$syscode')' > $logfile `
+		echo "exit status" $?
+		sleep 20
+	else 
+		`root -q -b 'cafMCZFlatNtupleMaker.C+ ('$i','$momPdg','$partype','$syscode')' > $logfile &`
+		echo "exit status" $?
+		#sleep 20
+		#`root -q -b 'cafMCFlatNtupleMaker.C+ ('$i')' > '& !' $logfile &`
+		sleep 20
+		#echo "nowait"
+	fi
+	i=`expr $i + 1`
+	wait=`expr $i % 2`
+	echo $wait
+done
+

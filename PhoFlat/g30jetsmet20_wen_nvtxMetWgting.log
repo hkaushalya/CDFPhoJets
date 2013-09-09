@@ -1,0 +1,375 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   5.26/00  14 December 2009   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+ROOT 5.26/00 (trunk@31882, Dec 14 2009, 20:18:36 on linux)
+
+CINT/ROOT C/C++ Interpreter version 5.17.00, Dec 21, 2008
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+Note: File "iostream" already loaded
+Loading /cdf/home/samantha/samantha/PhoFlat/rootlogon.C
+
+Processing RunMyJob.C(0,6)...
+events, dataset = 0,6
+Info in <TUnixSystem::ACLiC>: creating shared library /cdf/home/samantha/samantha/PhoFlat/DoRunMyJob_cc.so
+OUT_FILE = PhoJets_wenmc_Met20Cleaned.root
+[34m
+Using V7 WEN MC
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0seh_NoJetVtxCuts.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0sej_NoJetVtxCuts.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0sfe_NoJetVtxCuts.root, title=, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0sge_NoJetVtxCuts.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0sge_NoJetVtxCuts_1.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0she_NoJetVtxCuts.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0sie_NoJetVtxCuts.root, title=chain files, option=READ
+/cdf/home/samantha/samantha/PhoFlat/DoRunMyJob.cc: Total Entries in chain = 11625289[0m
+ADD_ISO_2_SIDEBAND = 0
+REWGT_SIDEBAND = 0
+iUseNvtxWgts = 1
+Setting from hh = 1
+Enabling Central Photons Read-in.
+Enabling EM UP Photons Read-in.
+Enabling EM DOWN Photons Read-in.
+Enabling Central Electrons Read-in.
+Enabling EM UP Electrons Read-in.
+Enabling EM Down Electrons Read-in.
+Enabling Central Jets to Read-in.
+Enabling JES Up Jets to Read-in.
+Enabling JES Down Jets to Read-in.
+Enabling MET to Read-in.
+pho_num status=1
+pho_up_num status=1
+pho_down_num status=1
+[32m======= Nvtx weights ===========
+Nvtx 1 = 0.531763
+Nvtx 2 = 1.09089
+Nvtx 3 = 2.01056
+Nvtx 4 = 3.42637
+Nvtx 5 = 4.65062
+Nvtx 6 = 8.09207
+Nvtx 7 = 32.3683
+================================[0m
+PhoJets_wenmc_Met20Cleaned.root:/Hist
+[33m******* Job Settings ***********
+Data Written to        = PhoJets_wenmc_Met20Cleaned.root
+Add Iso4(2) to QCD Pho = 0 (NO)
+Reweight Sideband Pho  = 0 (NO)
+MC Flag setting        = MC
+min,max Vtx for Signal =    1,  100
+Min,max njet15         =    1,  100
+Photon Et(min,max)     =   30,  1200
+Photon Eta(max)        =  1.1
+Jet Et(min,max)        =   15, 1200
+Jet Eta (min,max)      =   -3,    3
+Signal Time Window     = -4.8,  4.8
+Cosmic Time Window     =   30,   90
+Halo Type              =    5
+Min/max MEt            =   20, 1500
+MEt cleanup cuts?      =    1 (1=YES)
+Nvtx setting           = 1
+Nvtx Weighting?        = CENTRAL WEIGHTS
+PrintLevel             =    6
+********************************[0m
+ ==> Entries found :: 11625289
+Init done. Ready, Set , GO... 
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0seh_NoJetVtxCuts.root[0m
+50000	 events processed [0%] looptimer : Real Time =  11.65 seconds Cpu Time =  11.21 seconds
+100000	 events processed [0%] looptimer : Real Time =  23.16 seconds Cpu Time =  22.43 seconds
+150000	 events processed [1%] looptimer : Real Time =  37.56 seconds Cpu Time =  35.33 seconds
+200000	 events processed [1%] looptimer : Real Time =  51.81 seconds Cpu Time =  47.71 seconds
+250000	 events processed [2%] looptimer : Real Time =  68.75 seconds Cpu Time =  62.10 seconds
+300000	 events processed [2%] looptimer : Real Time =  85.72 seconds Cpu Time =  76.82 seconds
+350000	 events processed [3%] looptimer : Real Time =  99.05 seconds Cpu Time =  89.92 seconds
+400000	 events processed [3%] looptimer : Real Time = 110.81 seconds Cpu Time = 101.43 seconds
+450000	 events processed [3%] looptimer : Real Time = 121.27 seconds Cpu Time = 111.61 seconds
+500000	 events processed [4%] looptimer : Real Time = 131.31 seconds Cpu Time = 121.43 seconds
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0sej_NoJetVtxCuts.root[0m
+550000	 events processed [4%] looptimer : Real Time = 142.10 seconds Cpu Time = 131.95 seconds
+600000	 events processed [5%] looptimer : Real Time = 153.85 seconds Cpu Time = 143.49 seconds
+650000	 events processed [5%] looptimer : Real Time = 164.83 seconds Cpu Time = 154.12 seconds
+700000	 events processed [6%] looptimer : Real Time = 175.58 seconds Cpu Time = 164.08 seconds
+750000	 events processed [6%] looptimer : Real Time = 185.76 seconds Cpu Time = 174.05 seconds
+800000	 events processed [6%] looptimer : Real Time = 196.24 seconds Cpu Time = 184.12 seconds
+850000	 events processed [7%] looptimer : Real Time = 206.32 seconds Cpu Time = 194.01 seconds
+900000	 events processed [7%] looptimer : Real Time = 217.19 seconds Cpu Time = 204.46 seconds
+950000	 events processed [8%] looptimer : Real Time = 227.31 seconds Cpu Time = 214.29 seconds
+1000000	 events processed [8%] looptimer : Real Time = 237.52 seconds Cpu Time = 224.25 seconds
+1050000	 events processed [9%] looptimer : Real Time = 248.77 seconds Cpu Time = 234.60 seconds
+1100000	 events processed [9%] looptimer : Real Time = 258.91 seconds Cpu Time = 244.52 seconds
+1150000	 events processed [9%] looptimer : Real Time = 270.23 seconds Cpu Time = 255.07 seconds
+1200000	 events processed [10%] looptimer : Real Time = 279.84 seconds Cpu Time = 264.45 seconds
+1250000	 events processed [10%] looptimer : Real Time = 292.52 seconds Cpu Time = 276.86 seconds
+1300000	 events processed [11%] looptimer : Real Time = 307.04 seconds Cpu Time = 290.37 seconds
+1350000	 events processed [11%] looptimer : Real Time = 319.15 seconds Cpu Time = 302.18 seconds
+1400000	 events processed [12%] looptimer : Real Time = 329.47 seconds Cpu Time = 311.72 seconds
+1450000	 events processed [12%] looptimer : Real Time = 339.18 seconds Cpu Time = 321.23 seconds
+1500000	 events processed [12%] looptimer : Real Time = 349.36 seconds Cpu Time = 330.95 seconds
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0sfe_NoJetVtxCuts.root[0m
+1550000	 events processed [13%] looptimer : Real Time = 359.34 seconds Cpu Time = 340.72 seconds
+1600000	 events processed [13%] looptimer : Real Time = 370.14 seconds Cpu Time = 351.50 seconds
+1650000	 events processed [14%] looptimer : Real Time = 379.40 seconds Cpu Time = 360.74 seconds
+1700000	 events processed [14%] looptimer : Real Time = 386.98 seconds Cpu Time = 368.28 seconds
+1750000	 events processed [15%] looptimer : Real Time = 396.40 seconds Cpu Time = 377.68 seconds
+1800000	 events processed [15%] looptimer : Real Time = 405.52 seconds Cpu Time = 386.78 seconds
+1850000	 events processed [15%] looptimer : Real Time = 414.60 seconds Cpu Time = 395.86 seconds
+1900000	 events processed [16%] looptimer : Real Time = 422.87 seconds Cpu Time = 404.12 seconds
+1950000	 events processed [16%] looptimer : Real Time = 431.98 seconds Cpu Time = 413.22 seconds
+2000000	 events processed [17%] looptimer : Real Time = 441.11 seconds Cpu Time = 422.35 seconds
+2050000	 events processed [17%] looptimer : Real Time = 450.41 seconds Cpu Time = 431.64 seconds
+2100000	 events processed [18%] looptimer : Real Time = 459.90 seconds Cpu Time = 441.11 seconds
+2150000	 events processed [18%] looptimer : Real Time = 469.18 seconds Cpu Time = 450.36 seconds
+2200000	 events processed [18%] looptimer : Real Time = 478.36 seconds Cpu Time = 459.52 seconds
+2250000	 events processed [19%] looptimer : Real Time = 487.69 seconds Cpu Time = 468.84 seconds
+2300000	 events processed [19%] looptimer : Real Time = 494.84 seconds Cpu Time = 475.98 seconds
+2350000	 events processed [20%] looptimer : Real Time = 504.06 seconds Cpu Time = 485.18 seconds
+2400000	 events processed [20%] looptimer : Real Time = 513.32 seconds Cpu Time = 494.40 seconds
+2450000	 events processed [21%] looptimer : Real Time = 522.42 seconds Cpu Time = 503.49 seconds
+2500000	 events processed [21%] looptimer : Real Time = 531.62 seconds Cpu Time = 512.67 seconds
+2550000	 events processed [21%] looptimer : Real Time = 540.45 seconds Cpu Time = 521.48 seconds
+2600000	 events processed [22%] looptimer : Real Time = 549.49 seconds Cpu Time = 530.46 seconds
+2650000	 events processed [22%] looptimer : Real Time = 558.33 seconds Cpu Time = 539.27 seconds
+2700000	 events processed [23%] looptimer : Real Time = 567.54 seconds Cpu Time = 548.48 seconds
+2750000	 events processed [23%] looptimer : Real Time = 576.96 seconds Cpu Time = 557.86 seconds
+2800000	 events processed [24%] looptimer : Real Time = 586.22 seconds Cpu Time = 567.10 seconds
+2850000	 events processed [24%] looptimer : Real Time = 595.55 seconds Cpu Time = 576.40 seconds
+2900000	 events processed [24%] looptimer : Real Time = 604.73 seconds Cpu Time = 585.57 seconds
+2950000	 events processed [25%] looptimer : Real Time = 612.41 seconds Cpu Time = 593.21 seconds
+3000000	 events processed [25%] looptimer : Real Time = 621.63 seconds Cpu Time = 602.40 seconds
+3050000	 events processed [26%] looptimer : Real Time = 630.71 seconds Cpu Time = 611.46 seconds
+3100000	 events processed [26%] looptimer : Real Time = 639.80 seconds Cpu Time = 620.55 seconds
+3150000	 events processed [27%] looptimer : Real Time = 649.10 seconds Cpu Time = 629.81 seconds
+3200000	 events processed [27%] looptimer : Real Time = 657.96 seconds Cpu Time = 638.64 seconds
+3250000	 events processed [27%] looptimer : Real Time = 667.12 seconds Cpu Time = 647.76 seconds
+3300000	 events processed [28%] looptimer : Real Time = 676.13 seconds Cpu Time = 656.75 seconds
+3350000	 events processed [28%] looptimer : Real Time = 685.23 seconds Cpu Time = 665.82 seconds
+3400000	 events processed [29%] looptimer : Real Time = 694.43 seconds Cpu Time = 675.02 seconds
+3450000	 events processed [29%] looptimer : Real Time = 703.78 seconds Cpu Time = 684.34 seconds
+3500000	 events processed [30%] looptimer : Real Time = 713.26 seconds Cpu Time = 693.79 seconds
+3550000	 events processed [30%] looptimer : Real Time = 722.55 seconds Cpu Time = 703.04 seconds
+3600000	 events processed [30%] looptimer : Real Time = 730.25 seconds Cpu Time = 710.72 seconds
+3650000	 events processed [31%] looptimer : Real Time = 739.60 seconds Cpu Time = 720.07 seconds
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0sge_NoJetVtxCuts.root[0m
+3700000	 events processed [31%] looptimer : Real Time = 749.68 seconds Cpu Time = 730.13 seconds
+3750000	 events processed [32%] looptimer : Real Time = 759.77 seconds Cpu Time = 740.20 seconds
+3800000	 events processed [32%] looptimer : Real Time = 769.08 seconds Cpu Time = 749.49 seconds
+3850000	 events processed [33%] looptimer : Real Time = 778.85 seconds Cpu Time = 759.22 seconds
+3900000	 events processed [33%] looptimer : Real Time = 788.43 seconds Cpu Time = 768.76 seconds
+3950000	 events processed [33%] looptimer : Real Time = 798.09 seconds Cpu Time = 778.39 seconds
+4000000	 events processed [34%] looptimer : Real Time = 807.85 seconds Cpu Time = 788.10 seconds
+4050000	 events processed [34%] looptimer : Real Time = 817.74 seconds Cpu Time = 797.97 seconds
+4100000	 events processed [35%] looptimer : Real Time = 827.55 seconds Cpu Time = 807.74 seconds
+4150000	 events processed [35%] looptimer : Real Time = 837.41 seconds Cpu Time = 817.58 seconds
+4200000	 events processed [36%] looptimer : Real Time = 847.70 seconds Cpu Time = 827.84 seconds
+4250000	 events processed [36%] looptimer : Real Time = 857.26 seconds Cpu Time = 837.38 seconds
+4300000	 events processed [36%] looptimer : Real Time = 866.97 seconds Cpu Time = 847.07 seconds
+4350000	 events processed [37%] looptimer : Real Time = 877.13 seconds Cpu Time = 857.22 seconds
+4400000	 events processed [37%] looptimer : Real Time = 886.92 seconds Cpu Time = 866.98 seconds
+4450000	 events processed [38%] looptimer : Real Time = 896.58 seconds Cpu Time = 876.61 seconds
+4500000	 events processed [38%] looptimer : Real Time = 906.62 seconds Cpu Time = 886.62 seconds
+4550000	 events processed [39%] looptimer : Real Time = 916.12 seconds Cpu Time = 896.10 seconds
+4600000	 events processed [39%] looptimer : Real Time = 925.34 seconds Cpu Time = 905.29 seconds
+4650000	 events processed [39%] looptimer : Real Time = 936.09 seconds Cpu Time = 915.79 seconds
+4700000	 events processed [40%] looptimer : Real Time = 946.60 seconds Cpu Time = 926.14 seconds
+4750000	 events processed [40%] looptimer : Real Time = 956.81 seconds Cpu Time = 936.16 seconds
+4800000	 events processed [41%] looptimer : Real Time = 966.76 seconds Cpu Time = 945.76 seconds
+4850000	 events processed [41%] looptimer : Real Time = 976.31 seconds Cpu Time = 955.27 seconds
+4900000	 events processed [42%] looptimer : Real Time = 986.90 seconds Cpu Time = 965.47 seconds
+4950000	 events processed [42%] looptimer : Real Time = 997.43 seconds Cpu Time = 975.71 seconds
+5000000	 events processed [43%] looptimer : Real Time = 1007.82 seconds Cpu Time = 985.61 seconds
+5050000	 events processed [43%] looptimer : Real Time = 1018.82 seconds Cpu Time = 996.16 seconds
+5100000	 events processed [43%] looptimer : Real Time = 1028.96 seconds Cpu Time = 1006.02 seconds
+5150000	 events processed [44%] looptimer : Real Time = 1039.00 seconds Cpu Time = 1015.74 seconds
+5200000	 events processed [44%] looptimer : Real Time = 1050.08 seconds Cpu Time = 1026.47 seconds
+5250000	 events processed [45%] looptimer : Real Time = 1060.81 seconds Cpu Time = 1036.90 seconds
+5300000	 events processed [45%] looptimer : Real Time = 1071.18 seconds Cpu Time = 1047.00 seconds
+5350000	 events processed [46%] looptimer : Real Time = 1082.18 seconds Cpu Time = 1057.65 seconds
+5400000	 events processed [46%] looptimer : Real Time = 1092.44 seconds Cpu Time = 1067.69 seconds
+5450000	 events processed [46%] looptimer : Real Time = 1103.41 seconds Cpu Time = 1078.31 seconds
+5500000	 events processed [47%] looptimer : Real Time = 1113.54 seconds Cpu Time = 1088.21 seconds
+5550000	 events processed [47%] looptimer : Real Time = 1124.03 seconds Cpu Time = 1098.45 seconds
+5600000	 events processed [48%] looptimer : Real Time = 1134.77 seconds Cpu Time = 1108.80 seconds
+5650000	 events processed [48%] looptimer : Real Time = 1144.95 seconds Cpu Time = 1118.74 seconds
+5700000	 events processed [49%] looptimer : Real Time = 1155.23 seconds Cpu Time = 1128.82 seconds
+5750000	 events processed [49%] looptimer : Real Time = 1166.20 seconds Cpu Time = 1139.47 seconds
+5800000	 events processed [49%] looptimer : Real Time = 1176.20 seconds Cpu Time = 1149.32 seconds
+5850000	 events processed [50%] looptimer : Real Time = 1186.50 seconds Cpu Time = 1159.41 seconds
+5900000	 events processed [50%] looptimer : Real Time = 1197.45 seconds Cpu Time = 1169.99 seconds
+5950000	 events processed [51%] looptimer : Real Time = 1207.74 seconds Cpu Time = 1180.06 seconds
+6000000	 events processed [51%] looptimer : Real Time = 1217.71 seconds Cpu Time = 1189.90 seconds
+6050000	 events processed [52%] looptimer : Real Time = 1227.15 seconds Cpu Time = 1199.34 seconds
+6100000	 events processed [52%] looptimer : Real Time = 1236.77 seconds Cpu Time = 1208.94 seconds
+6150000	 events processed [52%] looptimer : Real Time = 1246.79 seconds Cpu Time = 1218.94 seconds
+6200000	 events processed [53%] looptimer : Real Time = 1256.18 seconds Cpu Time = 1228.30 seconds
+6250000	 events processed [53%] looptimer : Real Time = 1265.60 seconds Cpu Time = 1237.69 seconds
+6300000	 events processed [54%] looptimer : Real Time = 1275.40 seconds Cpu Time = 1247.48 seconds
+6350000	 events processed [54%] looptimer : Real Time = 1285.15 seconds Cpu Time = 1257.20 seconds
+6400000	 events processed [55%] looptimer : Real Time = 1295.23 seconds Cpu Time = 1267.25 seconds
+6450000	 events processed [55%] looptimer : Real Time = 1304.98 seconds Cpu Time = 1276.94 seconds
+6500000	 events processed [55%] looptimer : Real Time = 1314.26 seconds Cpu Time = 1286.22 seconds
+6550000	 events processed [56%] looptimer : Real Time = 1324.13 seconds Cpu Time = 1296.07 seconds
+6600000	 events processed [56%] looptimer : Real Time = 1333.21 seconds Cpu Time = 1305.13 seconds
+6650000	 events processed [57%] looptimer : Real Time = 1342.81 seconds Cpu Time = 1314.68 seconds
+6700000	 events processed [57%] looptimer : Real Time = 1352.76 seconds Cpu Time = 1324.58 seconds
+6750000	 events processed [58%] looptimer : Real Time = 1362.45 seconds Cpu Time = 1334.24 seconds
+6800000	 events processed [58%] looptimer : Real Time = 1372.02 seconds Cpu Time = 1343.79 seconds
+6850000	 events processed [58%] looptimer : Real Time = 1381.47 seconds Cpu Time = 1353.21 seconds
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0sge_NoJetVtxCuts_1.root[0m
+6900000	 events processed [59%] looptimer : Real Time = 1390.72 seconds Cpu Time = 1362.43 seconds
+6950000	 events processed [59%] looptimer : Real Time = 1399.96 seconds Cpu Time = 1371.64 seconds
+7000000	 events processed [60%] looptimer : Real Time = 1409.01 seconds Cpu Time = 1380.68 seconds
+7050000	 events processed [60%] looptimer : Real Time = 1418.52 seconds Cpu Time = 1390.14 seconds
+7100000	 events processed [61%] looptimer : Real Time = 1427.93 seconds Cpu Time = 1399.51 seconds
+7150000	 events processed [61%] looptimer : Real Time = 1437.20 seconds Cpu Time = 1408.77 seconds
+7200000	 events processed [61%] looptimer : Real Time = 1446.49 seconds Cpu Time = 1418.03 seconds
+7250000	 events processed [62%] looptimer : Real Time = 1456.41 seconds Cpu Time = 1427.93 seconds
+7300000	 events processed [62%] looptimer : Real Time = 1465.71 seconds Cpu Time = 1437.21 seconds
+7350000	 events processed [63%] looptimer : Real Time = 1475.21 seconds Cpu Time = 1446.67 seconds
+7400000	 events processed [63%] looptimer : Real Time = 1484.39 seconds Cpu Time = 1455.82 seconds
+7450000	 events processed [64%] looptimer : Real Time = 1493.64 seconds Cpu Time = 1465.05 seconds
+7500000	 events processed [64%] looptimer : Real Time = 1503.18 seconds Cpu Time = 1474.57 seconds
+7550000	 events processed [64%] looptimer : Real Time = 1512.45 seconds Cpu Time = 1483.82 seconds
+7600000	 events processed [65%] looptimer : Real Time = 1521.66 seconds Cpu Time = 1492.99 seconds
+7650000	 events processed [65%] looptimer : Real Time = 1531.42 seconds Cpu Time = 1502.71 seconds
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0she_NoJetVtxCuts.root[0m
+7700000	 events processed [66%] looptimer : Real Time = 1541.66 seconds Cpu Time = 1512.93 seconds
+7750000	 events processed [66%] looptimer : Real Time = 1551.07 seconds Cpu Time = 1522.33 seconds
+7800000	 events processed [67%] looptimer : Real Time = 1561.13 seconds Cpu Time = 1532.37 seconds
+7850000	 events processed [67%] looptimer : Real Time = 1570.94 seconds Cpu Time = 1542.18 seconds
+7900000	 events processed [67%] looptimer : Real Time = 1580.44 seconds Cpu Time = 1551.66 seconds
+7950000	 events processed [68%] looptimer : Real Time = 1590.45 seconds Cpu Time = 1561.65 seconds
+8000000	 events processed [68%] looptimer : Real Time = 1599.97 seconds Cpu Time = 1571.11 seconds
+8050000	 events processed [69%] looptimer : Real Time = 1609.05 seconds Cpu Time = 1580.15 seconds
+8100000	 events processed [69%] looptimer : Real Time = 1619.12 seconds Cpu Time = 1590.18 seconds
+8150000	 events processed [70%] looptimer : Real Time = 1628.56 seconds Cpu Time = 1599.58 seconds
+8200000	 events processed [70%] looptimer : Real Time = 1637.86 seconds Cpu Time = 1608.87 seconds
+8250000	 events processed [70%] looptimer : Real Time = 1647.61 seconds Cpu Time = 1618.59 seconds
+8300000	 events processed [71%] looptimer : Real Time = 1658.67 seconds Cpu Time = 1629.62 seconds
+8350000	 events processed [71%] looptimer : Real Time = 1668.58 seconds Cpu Time = 1639.50 seconds
+8400000	 events processed [72%] looptimer : Real Time = 1678.30 seconds Cpu Time = 1649.21 seconds
+8450000	 events processed [72%] looptimer : Real Time = 1687.75 seconds Cpu Time = 1658.65 seconds
+8500000	 events processed [73%] looptimer : Real Time = 1697.53 seconds Cpu Time = 1668.40 seconds
+8550000	 events processed [73%] looptimer : Real Time = 1706.79 seconds Cpu Time = 1677.63 seconds
+8600000	 events processed [73%] looptimer : Real Time = 1716.35 seconds Cpu Time = 1687.17 seconds
+8650000	 events processed [74%] looptimer : Real Time = 1726.40 seconds Cpu Time = 1697.21 seconds
+8700000	 events processed [74%] looptimer : Real Time = 1735.68 seconds Cpu Time = 1706.43 seconds
+8750000	 events processed [75%] looptimer : Real Time = 1745.37 seconds Cpu Time = 1716.08 seconds
+8800000	 events processed [75%] looptimer : Real Time = 1754.60 seconds Cpu Time = 1725.28 seconds
+8850000	 events processed [76%] looptimer : Real Time = 1763.98 seconds Cpu Time = 1734.61 seconds
+8900000	 events processed [76%] looptimer : Real Time = 1773.46 seconds Cpu Time = 1744.07 seconds
+8950000	 events processed [76%] looptimer : Real Time = 1782.81 seconds Cpu Time = 1753.39 seconds
+9000000	 events processed [77%] looptimer : Real Time = 1792.86 seconds Cpu Time = 1763.42 seconds
+9050000	 events processed [77%] looptimer : Real Time = 1802.10 seconds Cpu Time = 1772.63 seconds
+9100000	 events processed [78%] looptimer : Real Time = 1811.33 seconds Cpu Time = 1781.85 seconds
+9150000	 events processed [78%] looptimer : Real Time = 1821.34 seconds Cpu Time = 1791.83 seconds
+9200000	 events processed [79%] looptimer : Real Time = 1831.73 seconds Cpu Time = 1802.20 seconds
+9250000	 events processed [79%] looptimer : Real Time = 1841.45 seconds Cpu Time = 1811.90 seconds
+9300000	 events processed [79%] looptimer : Real Time = 1851.22 seconds Cpu Time = 1821.61 seconds
+9350000	 events processed [80%] looptimer : Real Time = 1860.36 seconds Cpu Time = 1830.71 seconds
+9400000	 events processed [80%] looptimer : Real Time = 1870.22 seconds Cpu Time = 1840.55 seconds
+9450000	 events processed [81%] looptimer : Real Time = 1879.58 seconds Cpu Time = 1849.89 seconds
+9500000	 events processed [81%] looptimer : Real Time = 1889.10 seconds Cpu Time = 1859.39 seconds
+9550000	 events processed [82%] looptimer : Real Time = 1899.07 seconds Cpu Time = 1869.34 seconds
+9600000	 events processed [82%] looptimer : Real Time = 1908.69 seconds Cpu Time = 1878.82 seconds
+9650000	 events processed [83%] looptimer : Real Time = 1919.05 seconds Cpu Time = 1888.87 seconds
+9700000	 events processed [83%] looptimer : Real Time = 1928.41 seconds Cpu Time = 1898.19 seconds
+9750000	 events processed [83%] looptimer : Real Time = 1938.37 seconds Cpu Time = 1908.13 seconds
+9800000	 events processed [84%] looptimer : Real Time = 1948.44 seconds Cpu Time = 1918.15 seconds
+9850000	 events processed [84%] looptimer : Real Time = 1958.03 seconds Cpu Time = 1927.71 seconds
+9900000	 events processed [85%] looptimer : Real Time = 1967.77 seconds Cpu Time = 1937.43 seconds
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_MCPythia_Wen_we0sie_NoJetVtxCuts.root[0m
+9950000	 events processed [85%] looptimer : Real Time = 1977.23 seconds Cpu Time = 1946.87 seconds
+10000000	 events processed [86%] looptimer : Real Time = 1988.07 seconds Cpu Time = 1957.66 seconds
+10050000	 events processed [86%] looptimer : Real Time = 1997.01 seconds Cpu Time = 1966.59 seconds
+10100000	 events processed [86%] looptimer : Real Time = 2006.85 seconds Cpu Time = 1976.36 seconds
+10150000	 events processed [87%] looptimer : Real Time = 2017.66 seconds Cpu Time = 1987.05 seconds
+10200000	 events processed [87%] looptimer : Real Time = 2028.16 seconds Cpu Time = 1996.21 seconds
+10250000	 events processed [88%] looptimer : Real Time = 2037.34 seconds Cpu Time = 2005.39 seconds
+10300000	 events processed [88%] looptimer : Real Time = 2046.73 seconds Cpu Time = 2014.78 seconds
+10350000	 events processed [89%] looptimer : Real Time = 2055.94 seconds Cpu Time = 2023.98 seconds
+10400000	 events processed [89%] looptimer : Real Time = 2065.22 seconds Cpu Time = 2033.22 seconds
+10450000	 events processed [89%] looptimer : Real Time = 2074.43 seconds Cpu Time = 2042.39 seconds
+10500000	 events processed [90%] looptimer : Real Time = 2084.39 seconds Cpu Time = 2052.23 seconds
+10550000	 events processed [90%] looptimer : Real Time = 2095.18 seconds Cpu Time = 2062.94 seconds
+10600000	 events processed [91%] looptimer : Real Time = 2104.31 seconds Cpu Time = 2072.05 seconds
+10650000	 events processed [91%] looptimer : Real Time = 2113.34 seconds Cpu Time = 2081.07 seconds
+10700000	 events processed [92%] looptimer : Real Time = 2122.59 seconds Cpu Time = 2090.29 seconds
+10750000	 events processed [92%] looptimer : Real Time = 2131.86 seconds Cpu Time = 2099.52 seconds
+10800000	 events processed [92%] looptimer : Real Time = 2141.13 seconds Cpu Time = 2108.78 seconds
+10850000	 events processed [93%] looptimer : Real Time = 2151.41 seconds Cpu Time = 2119.02 seconds
+10900000	 events processed [93%] looptimer : Real Time = 2164.05 seconds Cpu Time = 2131.58 seconds
+10950000	 events processed [94%] looptimer : Real Time = 2173.33 seconds Cpu Time = 2140.85 seconds
+11000000	 events processed [94%] looptimer : Real Time = 2182.92 seconds Cpu Time = 2150.09 seconds
+11050000	 events processed [95%] looptimer : Real Time = 2191.62 seconds Cpu Time = 2158.78 seconds
+11100000	 events processed [95%] looptimer : Real Time = 2200.31 seconds Cpu Time = 2167.46 seconds
+11150000	 events processed [95%] looptimer : Real Time = 2209.08 seconds Cpu Time = 2176.21 seconds
+11200000	 events processed [96%] looptimer : Real Time = 2217.65 seconds Cpu Time = 2184.75 seconds
+11250000	 events processed [96%] looptimer : Real Time = 2227.19 seconds Cpu Time = 2194.25 seconds
+11300000	 events processed [97%] looptimer : Real Time = 2237.32 seconds Cpu Time = 2204.34 seconds
+11350000	 events processed [97%] looptimer : Real Time = 2246.16 seconds Cpu Time = 2213.13 seconds
+11400000	 events processed [98%] looptimer : Real Time = 2254.85 seconds Cpu Time = 2221.82 seconds
+11450000	 events processed [98%] looptimer : Real Time = 2263.84 seconds Cpu Time = 2230.79 seconds
+11500000	 events processed [98%] looptimer : Real Time = 2272.68 seconds Cpu Time = 2239.59 seconds
+11550000	 events processed [99%] looptimer : Real Time = 2281.29 seconds Cpu Time = 2248.17 seconds
+11600000	 events processed [99%] looptimer : Real Time = 2289.89 seconds Cpu Time = 2256.75 seconds
+[32m
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@[0m
+[32m>>>>>>>>>>> Requested events processed. Doing final calculations..[0m
+[32m@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+[0m
+[35m======== PhotonJets =======================
+Entries found    = 11625289
+Entries request  = 0 (0%)
+Events Processed = 11625289 (100%)
+Ele./Pho Events  = 34637
+Ele Events       = 11108255
+Pho Events       = 482397
+Other Events     = 0
+First400 Events  = 0
+sum Events       = 11625289
+[31m__________________________________________
+Data Written to        = PhoJets_wenmc_Met20Cleaned.root
+Add Iso4(2) to QCD Pho = 0 (NO)
+Reweight Sideband Pho  = 0 (NO)
+MC Flag setting        = MC
+min,max Vtx for Signal =    1,  100
+Min,max njet15         =    1,  100
+Photon Et(min,max)     =   30,  1200
+Photon Eta(max)        =  1.1
+Jet Et(min,max)        =   15, 1200
+Jet Eta (min,max)      =   -3,    3
+Signal Time Window     = -4.8,  4.8
+Cosmic Time Window     =   30,   90
+Halo Type              =    5
+Min/max MEt            =   20, 1500
+MEt cleanup cuts?      =    1 (1=YES)
+Nvtx setting           = 1
+Nvtx Weighting?        = CENTRAL WEIGHTS
+PrintLevel             =    6
+Rejected Events        =      0 (0%)
+-------------- CENTRAL --------------------- 
+Pho Evts               = 47712
+Pho+>=1Jet Evts        = 8338
+Pho+>=2Jet Evts        = 977
+-------------- EM/JES UP ------------------- 
+Pho Evts               = 47769
+Pho+>=1Jet Evts        = 8765
+Pho+>=2Jet Evts        = 1164
+-------------- EM/JES DOWN ----------------- 
+Pho Evts               = 47769
+Pho+>=1Jet Evts        = 7230
+Pho+>=2Jet Evts        = 754
+-------------- SIDEBAND -------------------- 
+Pho Evts               = 46346
+Pho+>=1Jet Evts        = 5751
+Pho+>=2Jet Evts        = 724
+[36mData Written to        = PhoJets_wenmc_Met20Cleaned.root[0m
+======= END PhotonJets ====================
+phoana_time: Real Time = 2327.15 seconds Cpu Time = 2293.38 seconds

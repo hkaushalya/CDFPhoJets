@@ -1,0 +1,95 @@
+#ifndef WCROSSSECTION_HH
+#define WCROSSSECTION_HH
+
+#if !defined (__CINT__) || defined (__MAKECINT__)
+
+#include "Stntuple/obj/TStnHeaderBlock.hh"
+#include "Stntuple/loop/TStnModule.hh"
+#include "Stntuple/obj/TStnElectronBlock.hh"
+#include "Stntuple/obj/TStnMetBlock.hh"
+#include "samantha/obj/SuperPhoton.hh"
+#include "samantha/utils/FreeFunctions.hh"
+#include "TFolder.h"
+#include <string>
+#include <iostream>
+#include "samantha/Pho/InitSuperPhotons.hh"
+#include "samantha/Pho/TagElectrons.hh"
+#include "samantha/Pho/TagConvElectrons.hh"
+#endif
+
+class WCrossSection: public TStnModule {
+
+	protected:
+					// pointers to the data blocks used, header block is always
+					// available via TStnModule::GetHeaderBlock()
+
+		TStnHeaderBlock*    fHeaderBlock;
+		TStnElectronBlock*  fElectronBlock;
+		TStnMetBlock*       fMetBlock;
+
+
+	public:
+		WCrossSection(const char* name="WCrossSection", const char* title="WCrossSection");
+		~WCrossSection();
+
+		// ****** accessors
+		TStnHeaderBlock*   GetHeaderBlock()  { return fHeaderBlock;  }
+		TStnElectronBlock* GetElectronBlock(){ return fElectronBlock;}
+		TStnMetBlock*      GetMetBlock()     { return fMetBlock; }
+
+
+				/************** abstract objects *************************/
+
+
+		struct Global_Counters_t {
+			unsigned int evtsRunOver;		//___number of evts we ran over
+			unsigned int evtsPassModule;	//___number of evts pass this module
+			unsigned int Wevents;
+		};
+
+
+		// all the histograms
+		struct WPlots_t {	//__  plots
+			TH1F* WMass;
+			TH1F* WPt;
+			TH1F* WSumet0;
+			TH1F* WMet;
+		};
+		struct ElePlots_t { //__ vars from the matching electron
+			TH1F* EtCorr;
+			TH1F* HadEm;
+			TH1F* IsoEtCorr;
+			TH1F* TrkPt;
+			TH1F* EoverP;
+		};
+
+
+		// ****** over ridden methods of TStnModule
+		int BeginJob();
+		int BeginRun();
+		int Event   (int ientry);
+		int EndJob  ();
+
+		// ****** other methods
+		void BookHistograms();
+		void SaveHistograms();
+		void Cleanup();
+		void FillDataBlocks(int ientry);
+		void BookWHist(ZPlots_t& hist, std::string sFoldName, std::string sFoldTitle);
+		void BookEleHist(ElePlots_t& hist, std::string sFoldName, std::string sFoldTitle);
+		void FillWPlots(ZPlots_t& hist, SuperPhoton* sp1, SuperPhoton* sp2);
+		void FillElePlots(ElePlots_t& hist, SuperPhoton* sp);
+
+	private:
+		bool 	qMc;  				// true if MonteCarlo data
+		Global_Counters_t counter;
+		ZPlots_t hZPlot;
+		ElePlots_t hEle1Plot, hEle2Plot;
+		InitSuperPhotons* initSpMod;
+		TagConvElectrons* tagConvEleMod;
+		TagElectrons* tagEleMod;
+	
+	ClassDef(WCrossSection,1)
+};
+
+#endif

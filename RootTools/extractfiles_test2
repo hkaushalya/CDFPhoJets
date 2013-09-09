@@ -1,0 +1,97 @@
+#!/bin/sh
+if [ $# -ne 2 ]
+then 
+	echo "require file type filter and move option. exiting!"
+	echo "usage: extractfiles [file or pattern of the files to be extracted] [rename/mv the extracted files]
+	exit -1
+else
+
+	dotindex=0
+	starindex=0
+	baseend=0
+	base=""
+	extbegin=0
+	ext=""
+
+	dotindex=`expr index $1 .`
+	starindex=`expr index $1 \*`	#if the wild card is found,use text up to that point as base
+	length=`expr length $1`
+
+	#if * is found, use preceding text as base
+	#if . is found, use following text as ext
+	
+	#if [ starindex -g 0 ]
+	#then
+	#	baseend=`expr $starindex - 2`	# an escape \ precedes the wild card * 
+	#	base=`expr substr $1 1 $baseend`
+
+	#	if [dotindex -g 0]
+	#		extbegin=`expr $dotindex + 1`
+	#	else
+	#		extbegin=`expr $starindex + 1`
+	#	fi
+		
+	#	ext=`expr substr $1 $extbegin $length`
+		
+	#fi
+	
+	if [ dotindex -g 0 ]
+	then
+		base=`expr substr $1 1 $baseend`
+
+		if [dotindex -g 0]
+			extbegin=`expr $dotindex + 1`
+		else
+			extbegin=`expr $starindex + 1`
+		fi
+		
+		ext=`expr substr $1 $extbegin $length`
+		
+	fi
+
+	
+   echo "STARTING"
+	echo "TYPE $1"
+	type="$1"
+	currdir=`pwd`
+	#echo "currdir = $currdir"
+	`cd $pwd` || exit -1
+	#`cd $currdir` || exit -1
+	#echo $?
+	#echo `pwd`
+	#rm -f HaloStudy.root >& /dev/null
+	n=0	
+	for file in `ls | grep tgz$`
+	do
+		echo "TARBALL FILE $file"
+   	#dir="`pwd`/$1"files""
+    	#mkdir -p $dir
+    	#echo $dir
+	 	#tar xvzf $file 'Pho*' ##working do not change 
+	 	#tar xvzf $file 'HaloStudy*' ##working do not change 
+	 	#tar xvzf $file "$type"
+		#echo $type
+	 	exfile=`tar xvzf $file "$type"`
+    	if [ $? -ne 0 ]
+    	then
+      	echo '>>> file not found <<<'
+		else
+			n=`expr $n + 1`
+			echo "n=$n"
+			if [ $2 -ne 0 ]
+			then
+				#FILE='Stuple.root'
+				#mv -v $FILE "Stuple_$n.root"
+				#mv -v $type $type'_'$n
+				#mv -v $exfile $exfile'_'$n
+				if [dotindex -g 0]
+				then
+					mv -v $exfile "$base'_'$n.$ext"
+				else
+					mv -v $exfile $base'_'$n
+				fi
+					
+			fi
+    	fi
+	done 
+fi

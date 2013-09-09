@@ -1,0 +1,44 @@
+#!/bin/sh
+
+###########################################################
+# This is test shell script to study the string operation # 
+# in shell programming. I am planning to completely       #
+# automate the file extraction from tar balls I get       #
+# from CAF jobs.                                          #
+###########################################################
+
+if [ $# \> 0]
+then
+	dotindex=`expr index $1 .`
+	starindex=`expr index $1 \*`    #if the wild card is found,use text up to that point as base
+	if [ starindex -g 0 ]
+	then
+		 baseend=`expr $starindex - 1`
+		 base=`expr substr $1 1 $baseend`
+		 extbegin=0
+		 if [dotindex -g 0]
+		 then
+			extbegin=`expr $dotindex + 1`
+		 else
+			extbegin=`expr $starindex + 1`
+		 fi
+	fi
+
+	echo "ext"
+fi
+
+
+#test stuff
+
+#b=`expr length $1`
+#echo "Length=\"$1\" is $b"
+#dot=`expr index $1 .`
+#echo "dot is at=$dot"
+#upto=`expr $dot - 1`
+#base=`expr substr $1 1 $upto`
+#echo "base=$base"
+#begin=`expr $dot + 1`
+#ext=`expr substr $1 $begin $b`
+#echo "ext=$ext"
+#star=`expr index $1 \*`
+#echo "star found at=$star"

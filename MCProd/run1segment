@@ -1,0 +1,474 @@
+#!/usr/bin/env bash
+# -----------------------------------------------------------------------------
+# Name       : run1segment
+#
+# Purpose    : Run a single segment of MCProd machinery.  One segment produces
+#              a single file of suitable size for mass storage.  
+#              The MCProd script is called multiple times, 
+#              each time producing a file with a single run section.
+#              All the files containing single run sections are then 
+#              concatenated to make one final output file.
+#
+# Usage      : run1segment -s segment_number -b book -d dataset_id \
+#                          [-x USE_TIKI=1] [-x SOURCE_ME=0]
+#
+# Options    : "tiki" and "nosource" are optional. The order at which they appear 
+#              the command line doesn't matter  
+#
+# Arguments : 
+#              $1     = <segment_number> = In CAF terminology,  e.g., 3
+#              $2     = book in the DFC for this dataset, e.g., cdfpqcd
+#              $3     = <dataset_id> = The data set ID
+#              $4     = remote_output_directory
+#
+#              tiki     = you want to use the tiki database to get the dataset definition
+#
+#              nosource = don't source the SOURCE_ME file because cdfsoft products
+#                        are available where you execute this script
+#
+# Created    : RMS20040606
+#-----------------------------------------------------------------------
+. cdfopr/scripts/init_parameters
+. cdfopr/scripts/common_procedures
+
+export   CALIB_USE_FRONTIER=1
+
+export OPTIND=1
+while getopts :b:d:f:g:J:l:o:u:v:x: OPT; do
+    case $OPT in
+        b)                                          # input dataset
+	    export BOOK=${OPTARG}
+            if [ .$DEBUG_SCRIPT != ."none" ] ; then 
+              echo [MCProd]: BOOK=$BOOK
+            fi
+            ;;
+        d)                                          # input dataset
+	    export DATASET_ID=${OPTARG}
+            if [ $DEBUG_SCRIPT != "none" ] ; then 
+              echo [MCProd]:   DATASET_ID=${OPTARG}
+            fi
+            ;;
+        f)                                          # CAF, defautl="local"
+            export    CAF=$OPTARG
+                 echo CAF=$EVENT_SIZE
+            ;;
+        g)                                          # estimated event size in kB
+            export    EVENT_SIZE=$OPTARG
+                 echo EVENT_SIZE=$EVENT_SIZE
+            ;;
+        J)                                          # job number
+            export    JOB_NUMBER=$OPTARG
+                 echo JOB_NUMBER=$JOB_NUMBER
+            ;;
+        l)                                          # log file
+	    export     LOGFILE=$OPTARG
+	    ;;
+        o)                                          # output directory
+              export JOB_OUTPUT_DIR=$OPTARG
+	    ;;
+        u)                                          # project size in GB
+            export  PROJ_SIZE=$OPTARG
+               echo PROJ_SIZE=$PROJ_SIZE
+            ;;
+        v)                                          # debug script, 
+                                                    # should go first
+	    export  DEBUG_SCRIPT=$OPTARG
+	    ;;
+        x)                                          # export
+            export       $OPTARG
+            export REDEFINED_ENV_VARS=$REDEFINED_ENV_VARS" "$OPTARG
+            if [ $DEBUG_SCRIPT != "none" ] ; then 
+              echo [submit_MCProd]:  export $OPTARG
+            fi
+	    ;;
+        *)
+           echo [submit_MCProd]: OTHER: $OPT $OPTARG
+           usage
+           ;;
+     esac
+done
+
+#-----------------------------------------------------------------------
+if [ .$SOURCE_ME != ".0" ] ; then . mcProduction/scripts/source_me ; fi
+
+
+index=`printf "%04i" $JOB_NUMBER`;
+export WORK_DIR=$PWD
+        tmp_dir=$WORK_DIR/$DATASET_ID.$index.2concatenate
+     output_dir=$WORK_DIR/$DATASET_ID.$index.output
+ concat_tcl_dir=$WORK_DIR/$DATASET_ID.$index.concat_tcl
+     CONCAT_EXE=$WORK_DIR/bin/$BFARCH/ProductionExe
+    GRABBER_EXE=$WORK_DIR/bin/$BFARCH/getFileInfo
+   CHECKSUM_EXE=$WORK_DIR/bin/$BFARCH/ecrc
+
+for dir in $output_dir $tmp_dir $concat_tcl_dir ; do
+  if [ -d $dir ] ; then rm -rf $dir; fi 
+  mkdir $dir
+done
+#------------------------------------------------------------------------------
+#  Step #1: MC generation starts here
+#------------------------------------------------------------------------------
+#### if [ "0" == "1" ] ; then    #########################################
+
+if [ .$USE_TIKI == "." ] ; then 
+  DSdef=mcProduction/book/$BOOK/$DATASET_ID
+else
+#-----------------------------------------------------------------------
+# get definition of the job from tikiwiki (wiki pages)
+# from a wiki page named "$book.$dataset"
+# script to be sourced is taken from the same page
+#-----------------------------------------------------------------------
+  DSdef=$DATASET_ID.$index.definition
+  script=$DATASET_ID.$index.mcprod.commands
+
+  page=$BOOK.$DATASET_ID
+  tiki_host=www-cdf.fnal.gov
+
+  delimitor=mcprod.parameters
+  for((i=0;i<3;i++)) 
+  do 
+    echo . cdfopr/scripts/tiki_get_data $tiki_host wiki_page . $page $delimitor 
+         . cdfopr/scripts/tiki_get_data $tiki_host wiki_page . $page $delimitor > $DSdef
+    RC=$?
+    if [ $RC == 0 ]; then
+      if [ -f $DSdef ] ; then
+         echo  $DSdef created
+         ls -l $DSdef
+         echo -- cat $DSef ---------------------------------------
+         cat $DSdef 
+         echo ----------------------------------------------------
+         break
+      fi
+    fi
+    echo [RUN1SEGMENT]: tiki connection failed. Try again in 5 seconds
+    sleep 5
+  done
+
+  delimitor=mcprod.script
+  for((i=0;i<3;i++))                  
+  do 
+    echo . cdfopr/scripts/tiki_get_data $tiki_host wiki_page . $page $delimitor
+       . cdfopr/scripts/tiki_get_data $tiki_host wiki_page . $page $delimitor > $script
+    RC=$?
+    if [ $RC == 0 ]; then
+      break
+    fi
+    echo [RUN1SEGMENT]: tiki connection failed. Try again in 5 seconds
+    sleep 5
+  done
+
+  export DATASET_DEFINITION_FILE=$DSdef
+  export    SCRIPT_TO_BE_SOURCED=$script
+fi
+
+export SEGMENT_SIZE=`cat $DSdef | grep SEGMENT_SIZE | awk '{print $2}'`
+export   EVENT_SIZE=`cat $DSdef | grep EVENT_SIZE   | awk '{print $2}'`
+export   FILTER_EFF=`cat $DSdef | grep FILTER_EFF   | awk '{print $2}'`
+export   GENERATION_MODE=`cat $DSdef | grep GENERATION_MODE   | awk '{print $2}'`
+export   MC_PROCESS_TCL=`cat $DSdef | grep MC_PROCESS_TCL   | awk '{print $2}'`
+export   DSNAME=`cat $DSdef | grep DSNAME  | awk '{print $2}'`
+
+if [ $GENERATION_MODE == 2 ]; then
+    MIN_BIAS="yes"
+fi
+
+GENERATOR=`cat $WORK_DIR/mcProduction/tcl/$MC_PROCESS_TCL  | grep talk | awk -F "talk " '{print $2}'`
+
+echo "SEGMENT_SIZE =$SEGMENT_SIZE MB"
+echo "EVENT_SIZE   =$EVENT_SIZE kB"
+echo "FILTER_EFF   =$FILTER_EFF %"
+echo "MIN_BIAS     =$MIN_BIAS"
+echo "GENERATOR    =$GENERATOR"
+echo "DSNAME       =$DSNAME"
+
+cmd="./mcProduction/scripts/DSdef2SegmentList $DSdef $SEGMENT_SIZE $EVENT_SIZE $JOB_NUMBER $FILTER_EFF"
+segment_list=$DATASET_ID.$index.segment.lis
+echo cmd=$cmd
+$cmd >& $segment_list
+echo "section filename segment integrated_size(kB) events"
+cat $segment_list
+ istart=`head -1 $segment_list | cut -f1 -d" "`
+#   istart=1 
+   iend=`tail -1 $segment_list | cut -f1 -d" "`
+
+echo "istart $istart iend $iend"
+      i=$istart
+
+line="" ; for w in $REDEFINED_ENV_VARS ; do line=$line" -x $w" ; done
+
+# echo [run1segment]: line=$line
+
+STARTTIME=`date --utc +%s`
+while [ $i -le $iend ]; do
+  job_ind=`printf "%04i" $i`
+  logfile=$DATASET_ID.$index.MCProd.$job_ind.log
+
+  for((idx=0;idx<3;idx++))
+  do
+    echo [run1segment] [`date`] $idx MCProd ---------------------------------- 
+    echo [run1segment] [`date`] $idx MCProd ---------------------------------- >> $logfile
+    cmd="./mcProduction/scripts/MCProd -V 1 -l $logfile -J $i -b $BOOK -d $DATASET_ID \
+         -u $SEGMENT_SIZE -g $EVENT_SIZE $line \
+         -x DATASET_DEFINITION_FILE=$DSdef     \
+         -x SCRIPT_TO_BE_SOURCED=$SCRIPT_TO_BE_SOURCED \
+         -x N_MCPROD=$idx \
+			-m 1:0:0:0"			# I added this to turn of the CDFSim/TrigSim/Production - sam - 09-17-2009
+									#order is Gen/CDFSim/TrgSim/Production
+
+    if [ .${RECOVER_JOB} != "." ] ; then
+       ou=`grep  ./mcProduction/book/recover_list` 
+
+    fi
+    if [ .${TESTRUN} != "." ] ; then
+      cmd=${cmd}" -n 100"  # increase to 100 to measure filter efficiencies -JS
+#      iend=$i+1
+    fi
+
+    echo $cmd ; 
+    time $cmd ;
+    rc=$?
+    if [ $rc == 0 ]; then
+      echo [run1segment] [`date`] $idx MCProd success ---------------------------------
+      echo [run1segment] [`date`] $idx MCProd success --------------------------------- >> $logfile
+      break
+    else
+      echo [run1segment] [`date`] $idx MCProd failed ---------------------------------- >> $logfile
+      echo [run1segment] [`date`] $idx MCProd failed ----------------------------------
+    fi 
+  done
+
+  dfcname=`cat $logfile | grep DFC_COMPATIBLE_NAME | awk '{print $2}'`
+
+  mv $dfcname $tmp_dir/.
+  mv $logfile $output_dir/.
+
+# I am temporaly commenting out this gen file deletion. I only need gen files
+#for now- sam - Oct 10,2009
+#  if [ -f gen.$job_ind.*  ] ; then rm gen.$job_ind.*  ; fi
+  if [ -f ProductionExe.* ] ; then rm ProductionExe.* ; fi
+
+  let i=$i+1
+done
+
+#### fi   ; #############################################
+
+#------------------------------------------------------------------------------
+#  this is where concatenation starts
+#------------------------------------------------------------------------------
+logfile=$output_dir/$DATASET_ID.$index.concat.log 
+if [ -f $logfile ] ; then rm $logfile ; fi
+
+cmd="./cdfopr/scripts/make_prod_concat_tcl $DATASET_ID $tmp_dir $concat_tcl_dir"
+$cmd >& $logfile;
+
+cd $output_dir
+for tcl_file in `ls $concat_tcl_dir` ; do
+  echo "------------------------------------------------------" >> $logfile
+  echo " new concatenation job with $concat_tcl_dir/$tcl_file"  >> $logfile
+  cat  $concat_tcl_dir/$tcl_file                                >> $logfile
+  echo "------------------------------------------------------" >> $logfile
+  $CONCAT_EXE $concat_tcl_dir/$tcl_file >> $logfile 2>>$logfile
+done
+ENDTIME=`date --utc +%s`
+
+#------------------------------------------------------------------------------
+#  If it's not there yet, place a symbolic link to ValidateLogFiles.sh script
+#  in the output logfile directory.  The intention is to provide an easy way
+#  for a user to do a rudimentary check.  (2006.11.16  Andreas Warburton)
+#------------------------------------------------------------------------------
+if [ ! -e $output_dir/ValidateLogFiles.sh ]; then
+  if [ -e $WORK_DIR/mcProduction/scripts/checkMClog/ValidateLogFiles.sh ]; then
+    ln -s $WORK_DIR/mcProduction/scripts/checkMClog/ValidateLogFiles.sh $output_dir/ValidateLogFiles.sh
+  fi
+fi
+
+#------------------------------------------------------------------------------
+#  Create a .ok file which will contain metadata information about the outfile.
+#  Other information can later be included. 
+#
+#  We add the email address to the .ok file, assuming that $USER@fnal.gov is valid
+#------------------------------------------------------------------------------
+name_pattern=`echo $DATASET_ID | awk '{print substr($1,1,1)substr($1,6,1)"*.*"substr($1,2,4)}'`
+list_of_okfiles=`ls $name_pattern` ;
+for okfile in $list_of_okfiles ; do 
+    FILE_SIZE=`ls -l $okfile | awk '{print $5}'`
+    FIRST_RUN=`$GRABBER_EXE $okfile | grep First | awk '{print $3}'`
+    LAST_RUN=`$GRABBER_EXE $okfile | grep Last | awk '{print $3}'`
+    TOTAL_EVENTS=`$GRABBER_EXE $okfile | grep Physics | awk '{print $3}'`
+#    RUN_SECTS=`$GRABBER_EXE $okfile | grep Contributing | awk -F 'runsections: ' '{print $2}'`
+    $GRABBER_EXE $okfile | grep Contributing | awk -F 'runsections: ' '{print $2}' > mytemp
+    RUN_SECTS=`cat mytemp`
+    rm mytemp
+    ECRC=`$CHECKSUM_EXE $okfile | awk '{print $2}'`
+    NODENAME=`hostname`
+    baserel=`cat $WORK_DIR/.base_release`
+    patch=`cat $WORK_DIR/.mc_patch`
+    SIMVERS=$baserel$patch
+
+    echo "file_size        = $FILE_SIZE"       >> $okfile.ok
+    echo "first_run_event  = '$FIRST_RUN'"     >> $okfile.ok
+    echo "last_run_event   = '$LAST_RUN'"      >> $okfile.ok
+    echo "physics_events   = $TOTAL_EVENTS"    >> $okfile.ok
+    echo "run_sections     = '$RUN_SECTS'"     >> $okfile.ok
+    echo "startTime        = $STARTTIME"       >> $okfile.ok
+    echo "endTime          = $ENDTIME"         >> $okfile.ok
+    echo "crc              = $ECRC"            >> $okfile.ok
+    echo "principal        = '$USER'"          >> $okfile.ok
+    echo "nodename         = '$NODENAME'"      >> $okfile.ok
+    echo "email            = '$USER@fnal.gov'" >> $okfile.ok
+
+    echo "addParams        = { 'generated': {'generator' : '$GENERATOR',"  >>  $okfile.ok
+    echo "                                   'process' : '$DSNAME',"       >>  $okfile.ok
+    echo "                                   'minbias' : '$MIN_BIAS',"     >>  $okfile.ok
+    echo "                                   'simulatedversion' : '$SIMVERS' } }" >>  $okfile.ok
+
+done
+#------------------------------------------------------------------------------
+#  final step: copy output to final destination and cleanup the directory
+#------------------------------------------------------------------------------
+cd $WORK_DIR
+if [ .$JOB_OUTPUT_DIR != "." ] ; then
+
+  . cdfopr/scripts/parse_output_dir $JOB_OUTPUT_DIR
+
+  export RUSER=$OP1
+  export RHOST=$OP2
+  export  RDIR=$OP3
+
+  if [ .`hostname -f` != .$RHOST ] ; then 
+    echo KRB5BIN_DIR=$KRB5BIN_DIR
+
+    if [ .$KRB5BIN_DIR != "." ] ; then RCOPY="fcp -c $KRB5BIN_DIR/rcp -N -r "
+    else                               RCOPY="rcp"
+    fi
+
+    if [ .$USE_SCP != "."        ] ; then RCOPY="scp"  
+    fi
+
+  else                                    RCOPY="rcp" ; 
+  fi
+
+  list_of_files=`ls $output_dir` ;
+
+  # make a copy of  log files into another directoy  
+  mkdir ${output_dir}.log
+  cp ${output_dir}/*log ${output_dir}.log
+
+  # remove files if succeed transfering
+
+  RC=0
+  dest_dir=${RUSER}@$RHOST:$RDIR
+  #----------------------------------------------------------------------------
+  # USE Diskpool
+  #-----------------------------------------------------------------------------
+  #if [ .${USE_DISKPOOL} != "." ] ; then
+  #  # create directory in diskpool
+  #  source ${CDFSOFT}/cdf2.shrc
+  #  setup dcap
+  #  export LD_PRELOAD=${DCAP_DIR}/lib/libpdcap.so
+  #  ((port=${RANDOM}*13/32767+22125))
+  #  dcap_dest=dcap://fcdfrdc3.fnal.gov:${port}/pnfs/diskpool/ewk/${DATASET_ID}/${CAF}
+  #  ls -d ${dcap_dest}
+  #  RC=$?
+  #  if [ $RC != 0 ] ; then
+  #    ls -d dcap://fcdfrdc3.fnal.gov:${port}/pnfs/diskpool/ewk/${DATASET_ID}
+  #    RC=$?
+  #    if [ $RC != 0 ] ; then
+  #      mkdir dcap://fcdfrdc3.fnal.gov:${port}/pnfs/diskpool/ewk/${DATASET_ID}
+  #    fi
+  #    echo mkdir ${dcap_dest}
+  #    mkdir ${dcap_dest}
+  #  fi
+  #fi
+  #---------------------------------------------------------------
+  for file in $list_of_files ; do 
+
+    RC=1
+
+    if [ .${USE_DISKPOOL} != "." ] ; then
+    # first trial dccp: Don't copy logfiles
+       pattern=`echo $file | awk '/log/'`
+       if [  .${pattern} == "." ] ; then 
+         source ${CDFSOFT}/cdf2.shrc
+         setup dcap
+         ((port=${RANDOM}*13/32767+22125))
+         dcap_dest=dcap://fcdfrdc3.fnal.gov:${port}/pnfs/diskpool/ewk/6.1.3/${DATASET_ID}
+         unset LD_PRELOAD
+         echo dccp $output_dir/${file} ${dcap_dest}/${file}
+              dccp $output_dir/${file} ${dcap_dest}/${file}
+         RC=$?
+         echo [run1segment]: dccp completed with RC = $RC 
+       fi
+    fi
+    # second trial to output location with chosen transfer method
+    if [ $RC != 0 ] ; then 
+       echo $RCOPY $output_dir/$file $dest_dir/.
+            $RCOPY $output_dir/$file $dest_dir/.
+       RC=$?
+
+    #--perform md5sum and store result for later comparison--
+    #---------------------------------------------------------
+     echo md5sum $output_dir/$file >> $output_dir/$file.md5 
+     md5sum $output_dir/$file >> $output_dir/$file.md5
+    #---------------------------------------------------------
+
+       echo [run1segment]: $RCOPY completed with RC = $RC
+    fi
+
+    # third trial  rcp
+    if [ $RC != 0 ] ; then   
+      echo /usr/krb5/bin/rcp -N -r $output_dir/$file $dest_dir/.
+           /usr/krb5/bin/rcp -N -r $output_dir/$file $dest_dir/.
+      RC=$?
+      echo [run1segment]: /usr/krb5/bin/rcp completed with RC = $RC
+     
+      #if three trials all failed. exit
+      if [ $RC != 0 ] ; then   
+        echo [run1segment]: rcp ERROR: RC = $RC, exiting... 
+        exit $RC
+      fi                            
+    fi
+
+    if [ $RC == 0 ] ; then
+      rm $output_dir/$file
+    fi
+
+  done
+fi
+#------------------------------------------------------------------------------
+#  cleanup
+#------------------------------------------------------------------------------
+cd $WORK_DIR
+echo "SAM edits: $WORK_DIR : TRYING TO REMOVE TMP FILES!"
+
+rm -rf $tmp_dir $concat_tcl_dir  ; # $output_dir
+rm foo foo.1 bar $segment_list random_seed*.dat etdata
+rc=$?
+#------------------------------------------------------------------------------
+# if running on CAF, delete binaries and shared libraries
+#------------------------------------------------------------------------------
+if [ `running_on_caf` == "yes" ] ; then
+  echo running_on_caf !!!! 
+  echo Before removing files. chekc what we have
+  echo =============================================== 
+  ls -l *
+  ls -l */*
+  ls -l */*/*
+  echo ===============================================
+  rm -rf bin shlib oracle cesData dbt dab
+  rm -rf CalTrigger TriggerMods Production
+  rm -rf svtsim XFTSim XTRPSim SimulationMods
+  rm -rf cdfopr TclUtils mcProduction
+  rm -rf fcp fcslib farmsonly rcpdb etc
+  rm -rf RootObjs cint GNUmakefile include
+fi
+
+echo -----------------------------------------------------------
+env 
+echo -----------------------------------------------------------
+#------------------------------------------------------------------------------
+#  exit
+#------------------------------------------------------------------------------
+echo End with  rc=$rc
+exit $rc
+#------------------------------------------------------------------------------

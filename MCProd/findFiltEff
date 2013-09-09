@@ -1,0 +1,17 @@
+#source this to find filter efficiencies for jobs.
+####################################################
+echo "===== filter test for base ======"
+./mcProduction/scripts/MCProd -J 1 -b cdfpexo -d pexog0 -n 100 \
+-m 1:0:0:0 -x USER_GENMODE=1 -x ISR=0 -x FSR=0 -x Q2=0 \
+-x minPtHat=22 -x minPhoPt=23
+grep -a4 "PartFilter Summary" mcprod.*.0001.log
+echo "===== filter test for Q2 up======"
+./mcProduction/scripts/MCProd -J 1 -b cdfpexo -d pexog0 -n 100 \
+-m 1:0:0:0 -x USER_GENMODE=1 -x ISR=0 -x FSR=0 -x Q2=1 \
+-x minPtHat=22 -x minPhoPt=23
+grep -a4 "PartFilter Summary" mcprod.*.0001.log
+echo "===== filter test for DQ down ======"
+./mcProduction/scripts/MCProd -J 1 -b cdfpexo -d pexog0 -n 100 \
+-m 1:0:0:0 -x USER_GENMODE=1 -x ISR=0 -x FSR=0 -x Q2=-1 \
+-x minPtHat=22 -x minPhoPt=23
+grep -a4 "PartFilter Summary" mcprod.*.0001.log

@@ -1,0 +1,142 @@
+#ifndef TPDFREWEIGHT_HH
+#define TPDFREWEIGHT_HH
+
+// TPDFReweight.hh contains the description for the module which computes the reweighting 
+//                 due to the PDFs (following Stephen Miller's method).
+// Written by O. Gonzalez (21-V-2004)
+
+#if !defined (__CINT__) || defined (__MAKECINT__)
+
+#include "TH1.h"
+#include "TH2.h"
+#include "TProfile.h"
+#include <Stntuple/loop/TStnModule.hh>
+#include <Stntuple/obj/TStnVertexBlock.hh>
+#include <Stntuple/obj/TGenpBlock.hh>
+#include <Stntuple/obj/TStnHeaderBlock.hh>
+
+#include <string>
+//using namespace std;
+
+#endif
+
+class TPDFReweight: public TStnModule {
+	public:
+		struct Hist_t {
+
+			TH1F*     fEtGenParticles;
+			TH1F*     fPtGenParticles;
+			TH1F*     fEtaGenParticles;
+			TH1F*     fEtDecParticles;
+			TH1F*     fPtDecParticles;
+			TH1F*     fEtaDecParticles;
+
+			TH1F*     fEtGenParticles_orig;
+			TH1F*     fPtGenParticles_orig;
+			TH1F*     fEtaGenParticles_orig;
+			TH1F*     fEtDecParticles_orig;
+			TH1F*     fPtDecParticles_orig;
+			TH1F*     fEtaDecParticles_orig;
+
+			void Write (void) {
+				fEtGenParticles->Write();
+				fEtaGenParticles->Write();
+				fEtDecParticles->Write();
+				fEtaDecParticles->Write();
+			}
+
+		};
+
+	protected:
+		// pointers to the data blocks used
+		TGenpBlock* fGenpBlock;
+		TStnHeaderBlock *fHeaderBlock;
+
+
+		// histograms filled
+		Hist_t  fHist;
+		// could be used as a filter 
+		// by deafult everything is of
+		/*
+			Int_t    ZVertexVClass;  // z-vertex quality flag
+			Float_t Z_max_cut;
+			Int_t    _fail;  
+			Int_t    _fail_zcut;  
+			Int_t    _pass;
+			*/
+
+		std::string _usingMCgen;
+		// Available Options:
+		//        Isajet    
+		//        Pythia
+
+		float _usingScale;   // Using this Q instead of the calculated (useful for resonances)
+
+		int _pdfref_grp;
+		int _pdfref_set;
+
+		std::string _usingPDFset;
+
+		int _nEvents;
+
+		int _nalternativepdfs;
+		bool _hasstandarderrors;
+
+		int _pdfalt_grp[50]; 
+		int _pdfalt_set[50];
+
+		bool _consideralphaseffect;
+		int _iordalphas;  // For pythia it should be -1. For Isajet (if QCD value was changed)
+		// it should be also LO (although Isajet is tricky)
+
+
+		double tot_weight[50];
+		double tot_weightsqr[50];
+
+		int _indexHistogram;   // Indicates which Reweighted PDF is selected for the histograms
+
+	public:
+
+		TPDFReweight(const char* name="PDFReweight", const char* title="PDFReweight");
+		~TPDFReweight();
+
+		// ****** accessors
+		Hist_t*        GetHist     () { return &fHist;    }
+		double GetTotWeight (const unsigned ipdf=0) const { return ((ipdf<50)?tot_weight[ipdf]:0);}
+		double GetTotWeightSqr (const unsigned ipdf=0) const { return ((ipdf<50)?tot_weightsqr[ipdf]:0);}
+		double GetAvrWeight (const unsigned ipdf=0) const { return ((ipdf<50)?tot_weight[ipdf]/_nEvents:0);}
+		double GetErrorOnAvrWeight (const unsigned ipdf=0) const;
+
+		// ****** setters
+		void SetMCGenerator (std::string gen) {_usingMCgen=gen;}
+		void SetMCScale (float q) {_usingScale=q;}
+		void SetReferencePDF (int group,int pdfset) {_pdfref_grp=group;_pdfref_set=pdfset;}
+		void SetReweightedwithPDF (std::string pdfname);
+		void SetConsiderAlphasEffect (bool consideralphaseffect)
+		{
+			_consideralphaseffect = consideralphaseffect;
+		}
+
+		void SetAlphaSOrder (int iord) {_iordalphas=iord;}
+		void SetIndexForControlHistogramming (const int idx) {_indexHistogram=idx;}
+
+
+		/*  void  SetZVertexVClass(int vclass) {ZVertexVClass=vclass;} 
+
+			 void SetZVertexZCut (float zcut) {Z_max_cut=zcut;}
+			 */ 
+		// ****** overloaded methods of 
+		// TStnModule
+		int     BeginJob();
+		int     BeginRun();
+		int     Event   (int ientry);
+		int     EndJob  ();
+		// ****** other methods
+		void    BookHistograms();
+		//void    PlotHistograms(int run_number, int slide);
+		//  void    PlotHistograms(char *run_number, int slide);
+
+
+		ClassDef(TPDFReweight,0)
+};
+#endif

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if [ $# -lt 1 ]
+then 
+	echo "require file name. exiting!"
+	exit -1
+else
+	for file in $*
+	do
+		echo "***File Processed: " $file 
+		line1=`grep -m1 "chained " $file`
+		echo $line1
+		total=`grep -m1 "chained " $file | awk '{print $5}'`
+		echo $total
+		#completed=`grep "Processed " $file | tail -1`
+	done
+fi

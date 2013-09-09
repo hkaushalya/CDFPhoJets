@@ -1,0 +1,59 @@
+#ifndef PhotonBlock_HH
+#define PhotonBlock_HH
+
+#if !defined (__CINT__) || defined (__MAKECINT__)
+#include <Rtypes.h>
+#endif
+
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+// Author: Samantha Hewamanage <samantha@fnal.gov>
+/*
+
+*/
+class PhotonBlock {
+
+	protected:
+
+	public:
+			PhotonBlock(int Npho);
+			
+			UInt_t  pho_num;							// number of electrons so we know how much to read from arrays
+			UInt_t  pho_Ntight;						// # of tight photons
+			UInt_t  pho_Nloose;						// # of loose photons
+			Int_t   pho_Index[Npho];				//this is the index(order) in the Photon block
+			Int_t   pho_PhoBlockIndex[Npho];  	//this is the index(order) in the Photon block
+			Float_t pho_Etc[Npho];
+			Float_t pho_E[Npho];
+			Float_t pho_Px[Npho];
+			Float_t pho_Py[Npho];
+			Float_t pho_Pz[Npho];
+			Int_t   pho_Detector[Npho];
+			Float_t pho_DetEta[Npho];
+			Float_t pho_DetPhi[Npho];
+			Float_t pho_XCes[Npho];
+			Float_t pho_ZCes[Npho];
+			Float_t pho_HadEm[Npho];
+			Float_t pho_Chi2Mean[Npho];
+			Int_t   pho_N3d[Npho];
+			Float_t pho_Iso4[Npho];
+			Float_t pho_TrkPt[Npho];				// from photon block
+			Float_t pho_TrkIso[Npho];				// from photon block
+			Float_t pho_CesWireE2[Npho];
+			Float_t pho_CesStripE2[Npho];
+			Int_t   pho_PhiWedge[Npho];
+			Int_t   pho_NMuonStubs[Npho];			//trkless muon stubs around 30 degree cone of the photon
+			Float_t pho_EmTime[Npho];
+			Int_t   pho_TightId[Npho];
+			Int_t   pho_LooseId[Npho];
+			Int_t   pho_PhoenixId[Npho];
+			Int_t   pho_Halo_seedWedge[Npho];
+			Int_t   pho_Halo_eastNhad[Npho];
+			Int_t   pho_Halo_westNhad[Npho];
+			Int_t   pho_matchJetIndex[Npho]; 	//if a matching jet is found and removed from jet list
+
+	private:
+
+};
+
+#endif

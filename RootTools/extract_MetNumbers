@@ -1,0 +1,33 @@
+#echo "========== METSIG>4 =============="
+#echo "TMJ:19: Events before cuts"
+#grep -m1 "TMJ:19" job_* | awk '{f+=$8}END{print f}' 
+#echo -n  "TMJ:20: Events after cuts = "
+#grep -m1 "TMJ:20" job_* | awk '{f+=$8}END{print f}' 
+#echo -n  "TMJ:17: Data observed="
+#grep -m1 "TMJ:17" job_* | awk '{f+=$6}END{print f}' 
+#echo -n  "TMJ:18: Prediction/syst?/stat?"
+#grep -m1 "TMJ:18" job_* | awk '{f+=$6}END{print f}' 
+#grep -m1 "TMJ:18" job_* | awk '{f+=($8*$8)}END{print sqrt(f)}' 
+#grep -m1 "TMJ:18" job_* | awk '{f+=($10*$10)}END{print sqrt(f)}' 
+
+
+echo "========== METSIG>4 =============="
+#echo "TMJ:19: Events before cuts"
+#grep -m1 "TMJ:19" job_* | awk '{f+=$8}END{print f}' 
+echo -n  "TMJ:20: Events after cuts      = "
+grep "TMJ:" *.out | head -21 | grep "TMJ:20" | awk '{f+=$8}END{print f}' 
+echo -n  "TMJ:17: Data observed          = "
+grep "TMJ:" *.out | head -21 | grep "TMJ:17" | awk '{f+=$6}END{print f}' 
+echo -n  "TMJ:18: Prediction/syst?/stat? = "
+grep "TMJ:" *.out | head -21 | grep "TMJ:18" | awk '{f+=$6}END{print f}' 
+grep "TMJ:" *.out | head -21 | grep "TMJ:18" | awk '{f+=($8*$8)}END{print sqrt(f)}' 
+grep "TMJ:" *.out | head -21 | grep "TMJ:18" | awk '{f+=($10*$10)}END{print sqrt(f)}' 
+
+grep TMJ: *.out | head -21 | awk '{f+=$8}END{print f}'
+
+echo "========== METSIG>5 =============="
+echo "========== METSIG>6 =============="
+
+#grep "TMJ:18" job_* | awk '{print $6}' | sed 's/+-/ /g' > prediction.txt
+#awk '{f+=($2^2)}END{print sqrt(f)}' prediction.txt
+#awk '{f+=($3^2)}END{print sqrt(f)}' prediction.txt

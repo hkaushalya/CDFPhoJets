@@ -1,0 +1,702 @@
+#include "samantha/obj/Stuple.hh"
+#include <iostream>
+#include "../RootTools/IOColors.hh"
+///////////////////////////////////////////////////////////
+// Defines Stuple object.                                //
+///////////////////////////////////////////////////////////
+// Author: Samantha Hewamanage <samantha@fnal.gov>
+
+const UInt_t Stuple::Npho;
+const UInt_t Stuple::Nele;
+const UInt_t Stuple::Njet;
+const UInt_t Stuple::Nrawjet;
+const UInt_t Stuple::Ngenpho;
+const UInt_t Stuple::Ngenele;
+const UInt_t Stuple::Ngenjet;
+
+Stuple::Stuple()
+{
+	Init();
+	Version = 5.1;
+}
+void Stuple::Init()
+{
+	evt_McFlag 		= -999999;		//0=data 1=MC
+	evt_RunNumber 	= -999999;
+	evt_EventNumber= -999999;
+	
+	tri_pho25iso = -999999;
+	tri_pho50    = -999999;
+	tri_pho70    = -999999;
+
+	jet_num = 0;
+	gen_phonum = 0;
+	gen_elenum = 0;
+
+	// photon collections
+	pho_num = 0;
+	pho_Ntight = 0;                       // # of tight photons
+	pho_Nloose = 0;                       // # of loose photons
+	
+	for (unsigned int i=0; i < Stuple::Npho; i++) {
+		pho_Index[i] 			= -999999;
+		pho_PhoBlockIndex[i]	= -999999;
+		pho_Etc[i] 				= -999999.9;
+		pho_E[i] 				= -999999.9;
+		pho_Px[i] 				= -999999.9;
+		pho_Py[i] 				= -999999.9;
+		pho_Pz[i] 				= -999999.9;
+		pho_Detector[i]		= -999999;
+		pho_DetEta[i] 			= -999999.9;
+		pho_DetPhi[i] 			= -999999.9;
+		pho_XCes[i] 			= -999999.9;
+		pho_ZCes[i] 			= -999999.9;
+		pho_HadEm[i] 			= -999999.9;
+		pho_Chi2Mean[i]		= -999999.9;
+		pho_N3d[i] 				= -999999;
+		pho_Iso4[i] 			= -999999.9;
+		pho_TrkPt[i] 			= -999999.9;                //from photon block
+		pho_TrkPt2[i] 			= -999999.9;                //from photon block, 2nd highest pt track
+		pho_TrkIso[i] 			= -999999.9;               //from photon block
+		pho_CesWireE2[i]		= -999999.9;
+		pho_CesStripE2[i] 	= -999999.9;
+		pho_PhiWedge[i] 		= -999999;
+		pho_NMuonStubs[i] 	= -999999;     //trkless muon stubs around 30 degree cone of the photon
+		pho_EmTime[i] 			= -999999.9;
+		pho_TightId[i] 		= -999999;
+		pho_LooseId[i] 		= -999999;
+		pho_PhoenixId[i] 		= -999999;
+		pho_Halo_seedWedge[i]= -999999;
+		pho_Halo_eastNhad[i] = -999999;
+		pho_Halo_westNhad[i] = -999999;
+		pho_matchJetIndex[i] = -999999;  //if a matching jet is found and removed from jet list
+		//cpr mtd return 0 for the photons failed the cpr fiducial cuts and 0 
+		//should not be used to initialize!	
+		pho_CprWgt[i] 			= -999999.0;
+		pho_CprSys1[i] 		= -999999.0;
+		pho_CprSys2[i] 		= -999999.0;
+		pho_CprSys3[i] 		= -999999.0;
+		pho_CprSys4[i] 		= -999999.0;
+		pho_CprSys5[i] 		= -999999.0;
+		pho_CprSys6[i] 		= -999999.0;
+		pho_CprSys7[i] 		= -999999.0;
+		pho_CprSys8[i] 		= -999999.0;
+		
+	}
+
+
+			// EM E uncertainty up 1%
+
+	pho_up_num = 0;
+	pho_up_Ntight = 0;                       // # of tight photons
+	pho_up_Nloose = 0;                       // # of loose photons
+
+	for (unsigned int i=0; i < Stuple::Npho; i++) {
+		pho_up_Index[i] 			= -999999;
+		pho_up_PhoBlockIndex[i]	= -999999;
+		pho_up_Etc[i] 				= -999999.9;
+		pho_up_E[i] 				= -999999.9;
+		pho_up_Px[i] 				= -999999.9;
+		pho_up_Py[i] 				= -999999.9;
+		pho_up_Pz[i] 				= -999999.9;
+		pho_up_Detector[i]		= -999999;
+		pho_up_DetEta[i] 			= -999999.9;
+		pho_up_DetPhi[i] 			= -999999.9;
+		pho_up_XCes[i] 			= -999999.9;
+		pho_up_ZCes[i] 			= -999999.9;
+		pho_up_HadEm[i] 			= -999999.9;
+		pho_up_Chi2Mean[i]		= -999999.9;
+		pho_up_N3d[i] 				= -999999;
+		pho_up_Iso4[i] 			= -999999.9;
+		pho_up_TrkPt[i] 			= -999999.9;                //from photon block
+		pho_up_TrkPt2[i] 			= -999999.9;                //from photon block, 2nd highest pt track
+		pho_up_TrkIso[i] 			= -999999.9;               //from photon block
+		pho_up_CesWireE2[i]		= -999999.9;
+		pho_up_CesStripE2[i] 	= -999999.9;
+		pho_up_PhiWedge[i] 		= -999999;
+		pho_up_NMuonStubs[i] 	= -999999;     //trkless muon stubs around 30 degree cone of the photon
+		pho_up_EmTime[i] 			= -999999.9;
+		pho_up_TightId[i] 		= -999999;
+		pho_up_LooseId[i] 		= -999999;
+		pho_up_PhoenixId[i] 		= -999999;
+		pho_up_Halo_seedWedge[i]= -999999;
+		pho_up_Halo_eastNhad[i] = -999999;
+		pho_up_Halo_westNhad[i] = -999999;
+		pho_up_matchJetIndex[i] = -999999;  //if a matching jet is found and removed from jet list
+		//cpr mtd return 0 for the photons failed the cpr fiducial cuts and 0 
+		//should not be used to initialize!	
+		pho_up_CprWgt[i] 			= -999999.0;
+		pho_up_CprSys1[i] 		= -999999.0;
+		pho_up_CprSys2[i] 		= -999999.0;
+		pho_up_CprSys3[i] 		= -999999.0;
+		pho_up_CprSys4[i] 		= -999999.0;
+		pho_up_CprSys5[i] 		= -999999.0;
+		pho_up_CprSys6[i] 		= -999999.0;
+		pho_up_CprSys7[i] 		= -999999.0;
+		pho_up_CprSys8[i] 		= -999999.0;
+	}
+
+			
+			// EM E uncertainty down 1%
+
+	pho_down_num = 0;
+	pho_down_Ntight = 0;                       // # of tight photons
+	pho_down_Nloose = 0;                       // # of loose photons
+
+	for (unsigned int i=0; i < Stuple::Npho; i++) {
+		pho_down_Index[i] 			= -999999;
+		pho_down_PhoBlockIndex[i]	= -999999;
+		pho_down_Etc[i] 				= -999999.9;
+		pho_down_E[i] 					= -999999.9;
+		pho_down_Px[i] 				= -999999.9;
+		pho_down_Py[i] 				= -999999.9;
+		pho_down_Pz[i] 				= -999999.9;
+		pho_down_Detector[i]			= -999999;
+		pho_down_DetEta[i] 			= -999999.9;
+		pho_down_DetPhi[i] 			= -999999.9;
+		pho_down_XCes[i] 				= -999999.9;
+		pho_down_ZCes[i] 				= -999999.9;
+		pho_down_HadEm[i] 			= -999999.9;
+		pho_down_Chi2Mean[i]			= -999999.9;
+		pho_down_N3d[i] 				= -999999;
+		pho_down_Iso4[i] 				= -999999.9;
+		pho_down_TrkPt[i] 			= -999999.9;                //from photon block
+		pho_down_TrkPt2[i] 			= -999999.9;                //from photon block, 2nd highest pt track
+		pho_down_TrkIso[i] 			= -999999.9;               //from photon block
+		pho_down_CesWireE2[i]		= -999999.9;
+		pho_down_CesStripE2[i] 		= -999999.9;
+		pho_down_PhiWedge[i] 		= -999999;
+		pho_down_NMuonStubs[i] 		= -999999;     //trkless muon stubs around 30 degree cone of the photon
+		pho_down_EmTime[i] 			= -999999.9;
+		pho_down_TightId[i] 			= -999999;
+		pho_down_LooseId[i] 			= -999999;
+		pho_down_PhoenixId[i] 		= -999999;
+		pho_down_Halo_seedWedge[i]	= -999999;
+		pho_down_Halo_eastNhad[i] 	= -999999;
+		pho_down_Halo_westNhad[i] 	= -999999;
+		pho_down_matchJetIndex[i] 	= -999999;  //if a matching jet is found and removed from jet list
+		//cpr mtd return 0 for the photons failed the cpr fiducial cuts and 0 
+		//should not be used to initialize!	
+		pho_down_CprWgt[i] 		= -999999.0;
+		pho_down_CprSys1[i] 		= -999999.0;
+		pho_down_CprSys2[i] 		= -999999.0;
+		pho_down_CprSys3[i] 		= -999999.0;
+		pho_down_CprSys4[i] 		= -999999.0;
+		pho_down_CprSys5[i] 		= -999999.0;
+		pho_down_CprSys6[i] 		= -999999.0;
+		pho_down_CprSys7[i] 		= -999999.0;
+		pho_down_CprSys8[i] 		= -999999.0;
+	}
+
+	// electron collections
+
+	ele_num = 0;
+	ele_Ntight = 0;
+	ele_Nloose = 0;
+
+	for (unsigned int i=0; i < Stuple::Nele; i++) {
+		ele_Index[i] 			= -999999;
+		ele_PhoBlockIndex[i] = -999999;
+		ele_EleBlockIndex[i]	= -999999;
+		ele_Etc[i] 				= -999999.9;
+		ele_E[i] 				= -999999.9;
+		ele_Px[i] 				= -999999.9;
+		ele_Py[i] 				= -999999.9;
+		ele_Pz[i] 				= -999999.9;
+		ele_Detector[i]		= -999999;
+		ele_DetEta[i] 			= -999999.9;
+		ele_DetPhi[i] 			= -999999.9;
+		ele_XCes[i] 			= -999999.9;
+		ele_ZCes[i] 			= -999999.9;
+		ele_HadEm[i] 			= -999999.9;
+		ele_Chi2Mean[i]		= -999999.9;
+		ele_N3d[i] 				= -999999;
+		ele_Iso4[i] 			= -999999.9;
+		ele_TrkIso[i] 			= -999999.9;               //from photon block
+		ele_CesWireE2[i]		= -999999.9;
+		ele_CesStripE2[i] 	= -999999.9;
+		ele_PhiWedge[i] 		= -999999;
+		ele_NMuonStubs[i] 	= -999999;     //trkless muon stubs around 30 degree cone of the photon
+		ele_EmTime[i] 			= -999999.9;
+		ele_PhoenixId[i] 		= -999999;
+		ele_Halo_seedWedge[i]= -999999;
+		ele_Halo_eastNhad[i] = -999999;
+		ele_Halo_westNhad[i] = -999999;
+		ele_matchJetIndex[i] = -999999;  //if a matching jet is found and removed from jet list
+		ele_Ntracks[i] 		= -999999;                                //these are from TStnelectron
+		ele_Emfr[i] 			= -999999 ;
+		ele_EoverP[i] 			= -999999;
+		ele_TrackPt[i] 		= -999999.9;
+		ele_TrackPt2[i] 		= -999999.9;  //2nd highest pt track
+		ele_TrackBcPt[i] 		= -999999.9;
+		ele_TrackPhi[i] 		= -999999.9;
+		ele_Nssl[i] 			= -999999;
+		ele_Nasl[i]				= -999999;
+		ele_TightId[i] 		= -999999;
+		ele_LooseId[i] 		= -999999;
+		ele_ConversionId[i]	= -999999;
+		ele_StdLooseId[i] = -999999;
+		ele_StdTightId[i] = -999999;
+	}
+	
+
+
+	// EM 1% Up electrons
+
+	ele_up_num = 0;
+	ele_up_Ntight = 0;
+	ele_up_Nloose = 0;
+
+	for (unsigned int i=0; i < Stuple::Nele; i++) {
+		ele_up_Index[i] 			= -999999;
+		ele_up_PhoBlockIndex[i] = -999999;
+		ele_up_EleBlockIndex[i]	= -999999;
+		ele_up_Etc[i] 				= -999999.9;
+		ele_up_E[i] 				= -999999.9;
+		ele_up_Px[i] 				= -999999.9;
+		ele_up_Py[i] 				= -999999.9;
+		ele_up_Pz[i] 				= -999999.9;
+		ele_up_Detector[i]		= -999999;
+		ele_up_DetEta[i] 			= -999999.9;
+		ele_up_DetPhi[i] 			= -999999.9;
+		ele_up_XCes[i] 			= -999999.9;
+		ele_up_ZCes[i] 			= -999999.9;
+		ele_up_HadEm[i] 			= -999999.9;
+		ele_up_Chi2Mean[i]		= -999999.9;
+		ele_up_N3d[i] 				= -999999;
+		ele_up_Iso4[i] 			= -999999.9;
+		ele_up_TrkIso[i] 			= -999999.9;               //from photon block
+		ele_up_CesWireE2[i]		= -999999.9;
+		ele_up_CesStripE2[i] 	= -999999.9;
+		ele_up_PhiWedge[i] 		= -999999;
+		ele_up_NMuonStubs[i] 	= -999999;     //trkless muon stubs around 30 degree cone of the photon
+		ele_up_EmTime[i] 			= -999999.9;
+		ele_up_PhoenixId[i] 		= -999999;
+		ele_up_Halo_seedWedge[i]= -999999;
+		ele_up_Halo_eastNhad[i] = -999999;
+		ele_up_Halo_westNhad[i] = -999999;
+		ele_up_matchJetIndex[i] = -999999;  //if a matching jet is found and removed from jet list
+		ele_up_Ntracks[i] 		= -999999;                                //these are from TStnelectron
+		ele_up_Emfr[i] 			= -999999 ;
+		ele_up_EoverP[i] 			= -999999;
+		ele_up_TrackPt[i] 		= -999999.9;
+		ele_up_TrackPt2[i] 		= -999999.9;  //2nd highest pt track
+		ele_up_TrackBcPt[i] 		= -999999.9;
+		ele_up_TrackPhi[i] 		= -999999.9;
+		ele_up_Nssl[i] 			= -999999;
+		ele_up_Nasl[i]				= -999999;
+		ele_up_TightId[i] 		= -999999;
+		ele_up_LooseId[i] 		= -999999;
+		ele_up_ConversionId[i]	= -999999;
+		ele_up_StdLooseId[i] = -999999;
+		ele_up_StdTightId[i] = -999999;
+	}
+
+	// EM 2% Down electrons
+
+	ele_down_num = 0;
+	ele_down_Ntight = 0;
+	ele_down_Nloose = 0;
+
+	for (unsigned int i=0; i < Stuple::Nele; i++) {
+		ele_down_Index[i] 			= -999999;
+		ele_down_PhoBlockIndex[i]	= -999999;
+		ele_down_EleBlockIndex[i]	= -999999;
+		ele_down_Etc[i] 				= -999999.9;
+		ele_down_E[i] 					= -999999.9;
+		ele_down_Px[i] 				= -999999.9;
+		ele_down_Py[i] 				= -999999.9;
+		ele_down_Pz[i] 				= -999999.9;
+		ele_down_Detector[i]			= -999999;
+		ele_down_DetEta[i] 			= -999999.9;
+		ele_down_DetPhi[i] 			= -999999.9;
+		ele_down_XCes[i] 				= -999999.9;
+		ele_down_ZCes[i] 				= -999999.9;
+		ele_down_HadEm[i] 			= -999999.9;
+		ele_down_Chi2Mean[i]			= -999999.9;
+		ele_down_N3d[i] 				= -999999;
+		ele_down_Iso4[i] 				= -999999.9;
+		ele_down_TrkIso[i] 			= -999999.9;               //from photon block
+		ele_down_CesWireE2[i]		= -999999.9;
+		ele_down_CesStripE2[i] 		= -999999.9;
+		ele_down_PhiWedge[i] 		= -999999;
+		ele_down_NMuonStubs[i] 		= -999999;     //trkless muon stubs around 30 degree cone of the photon
+		ele_down_EmTime[i] 			= -999999.9;
+		ele_down_PhoenixId[i] 		= -999999;
+		ele_down_Halo_seedWedge[i]	= -999999;
+		ele_down_Halo_eastNhad[i] 	= -999999;
+		ele_down_Halo_westNhad[i] 	= -999999;
+		ele_down_matchJetIndex[i] 	= -999999;  //if a matching jet is found and removed from jet list
+		ele_down_Ntracks[i] 		= -999999;                                //these are from TStnelectron
+		ele_down_Emfr[i] 			= -999999 ;
+		ele_down_EoverP[i] 		= -999999;
+		ele_down_TrackPt[i] 		= -999999.9;
+		ele_down_TrackPt2[i] 	= -999999.9;  //2nd highest pt track
+		ele_down_TrackBcPt[i] 	= -999999.9;
+		ele_down_TrackPhi[i] 	= -999999.9;
+		ele_down_Nssl[i] 			= -999999;
+		ele_down_Nasl[i]			= -999999;
+		ele_down_TightId[i] 		= -999999;
+		ele_down_LooseId[i] 		= -999999;
+		ele_down_ConversionId[i]= -999999;
+		ele_down_StdLooseId[i] = -999999;
+		ele_down_StdTightId[i] = -999999;
+	}
+
+
+	// CENTRAL JET COLLECTION
+
+	jet_NJet15 = 0;
+	for (unsigned int i=0; i < Stuple::Njet; i++) {
+		jet_Index[i] 		= -999999;                          //original index in jet block
+		jet_Pt[i] 			= -999999.9;                                   //easy to get from JetFilter
+		jet_E[i] 			= -999999.9;
+		jet_Px[i] 			= -999999.9;
+		jet_Py[i] 			= -999999.9;
+		jet_Pz[i] 			= -999999.9;
+		jet_DetEta[i] 		= -999999.9;
+		jet_DetPhi[i]	 	= -999999.9;
+		jet_HadEm[i] 		= -999999.9;
+		jet_Emfr[i] 		= -999999.9;
+		jet_Ntowers[i] 	= -999999;
+		jet_Ntracks[i] 	= -999999;
+		jet_SeedIPhi[i] 	= -999999;
+		jet_SeedIEta[i] 	= -999999;
+		jet_EmTime[i]     = -999999.9;
+		jet_SecVtxTag[i]  = -999999; 
+		jet_SecVtxppb[i]  = -999999.9;
+		jet_SecVtxnpb[i]  = -999999.9;
+		jet_SecVtxTrkmass[i] = -999999.9;
+	}
+
+	//RAW JET COLLECTION
+	jet_raw_num = 0;
+	for (unsigned int i=0; i < Nrawjet; ++i)
+	{
+		jet_raw_Index[i] 	= -999999;
+		jet_raw_Pt[i] 		= -999999.9;	
+		jet_raw_E[i] 		= -999999.9;
+		jet_raw_Px[i] 		= -999999.9;
+		jet_raw_Py[i] 		= -999999.9;
+		jet_raw_Pz[i] 		= -999999.9;
+	}
+	
+		// JES JET COLLECTION
+	jet_up_num      = 0;
+	jet_up_NJet15   = 0;
+	jet_down_num    = 0;
+	jet_down_NJet15 = 0;
+
+	for (unsigned int i=0; i < Njet; ++i) {
+		jet_up_Index[i] 	= -999999;
+		jet_up_Pt[i] 		= -999999.9;	
+		jet_up_E[i] 		= -999999.9;
+		jet_up_Px[i] 		= -999999.9;
+		jet_up_Py[i] 		= -999999.9;
+		jet_up_Pz[i] 		= -999999.9;
+		jet_up_DetEta[i] 	= -999999.9;
+		jet_up_DetPhi[i] 	= -999999.9;
+		jet_up_HadEm[i] 	= -999999.9;
+		jet_up_Emfr[i] 	= -999999.9;
+		jet_up_Ntowers[i] = -999999;
+		jet_up_Ntracks[i] = -999999;
+		jet_up_SeedIPhi[i] = -999999;
+		jet_up_SeedIEta[i] = -999999;
+		jet_up_EmTime[i]     = -999999.9;
+		jet_up_SecVtxTag[i]  = -999999; 
+		jet_up_SecVtxppb[i]  = -999999.9;
+		jet_up_SecVtxnpb[i]  = -999999.9;
+		jet_up_SecVtxTrkmass[i] = -999999.9;
+
+		jet_down_Index[i] = -999999;
+		jet_down_Pt[i] 	= -999999.9;
+		jet_down_E[i] 		= -999999.9;
+		jet_down_Px[i] 	= -999999.9;
+		jet_down_Py[i] 	= -999999.9;
+		jet_down_Pz[i] 	= -999999.9;
+		jet_down_DetEta[i] 	= -999999.9;
+		jet_down_DetPhi[i] 	= -999999.9;
+		jet_down_HadEm[i] 	= -999999.9;
+		jet_down_Emfr[i] 		= -999999.9;
+		jet_down_Ntowers[i] 	= -999999;
+		jet_down_Ntracks[i] 	= -999999;
+		jet_down_SeedIPhi[i] = -999999;
+		jet_down_SeedIEta[i] = -999999;
+		jet_down_EmTime[i]     = -999999.9;
+		jet_down_SecVtxTag[i]  = -999999; 
+		jet_down_SecVtxppb[i]  = -999999.9;
+		jet_down_SecVtxnpb[i]  = -999999.9;
+		jet_down_SecVtxTrkmass[i] = -999999.9;
+	}
+
+
+
+
+	vtx_N 			= -999999;
+	vtx_NClass12 	= -999999;
+	vtx_z 			= -999999.9;                          // highest sum pt vertex Z
+	vtx_Ntracks 	= -999999;              // in highest sum pt vertex
+	vtx_SumPt 		= -999999.9;                      // highest
+
+	met_Met 			= -999999.9;                                // corrected MET
+	met_RawMet  	= -999999.9;                                // uncorrected MET
+	met_MetX 		= -999999.9;                                // corrected MET
+	met_MetY 		= -999999.9;                                // corrected MET
+	met_SumEt 		= -999999.9;                      // corrected
+	met_Ht 			= -999999.9;                         // corrected
+	met_MetPhi 		= -999999.9;
+	//met_Gen_d 		= -999999.9;
+	//met_Gen_m 		= -999999.9;
+	//met_Gen_p 		= -999999.9;
+	//met_Gen_mUn 	= -999999.9;
+	//met_Gen_pUn 	= -999999.9;
+
+
+	//generator level stuf for MC
+	gen_MomIndex 	= -999999;
+	gen_MomPDG 		= -999999;
+	gen_MomStatus 	= -999999;
+	gen_MomEtc 		= -999999.9;
+	gen_MomE 		= -999999.9;
+	gen_MomPx 		= -999999.9;
+	gen_MomPy 		= -999999.9;
+	gen_MomPz 		= -999999.9;
+	gen_ProdVtxX 	= -999999.9;
+	gen_ProdVtxY 	= -999999.9;
+	gen_ProdVtxZ 	= -999999.9;
+	gen_ProdVtxT 	= -999999.9;
+	
+	
+	for (unsigned int i=0; i< Ngenpho; ++i) {
+		gen_pho_Index[i] 	= -999999;
+		gen_pho_PDG[i] 	= -999999;
+		gen_pho_Status[i] = -999999;
+		gen_pho_Etc[i] 	= -999999.9;
+		gen_pho_E[i] 		= -999999.9;
+		gen_pho_Px[i] 		= -999999.9;
+		gen_pho_Py[i] 		= -999999.9;
+		gen_pho_Pz[i] 		= -999999.9;
+		gen_pho_ProdVtxX[i] 	= -999999.9;
+		gen_pho_ProdVtxY[i] 	= -999999.9;
+		gen_pho_ProdVtxZ[i] 	= -999999.9;
+		gen_pho_ProdVtxT[i] 	= -999999.9;
+	}
+
+	for (unsigned int i=0; i< Ngenele; ++i) {
+		gen_ele_Index[i] 	= -999999;
+		gen_ele_PDG[i] 	= -999999;
+		gen_ele_Status[i] = -999999;
+		gen_ele_Etc[i] 	= -999999.9;
+		gen_ele_E[i] 		= -999999.9;
+		gen_ele_Px[i] 		= -999999.9;
+		gen_ele_Py[i] 		= -999999.9;
+		gen_ele_Pz[i] 		= -999999.9;
+		gen_ele_ProdVtxX[i] 	= -999999.9;
+		gen_ele_ProdVtxY[i] 	= -999999.9;
+		gen_ele_ProdVtxZ[i] 	= -999999.9;
+		gen_ele_ProdVtxT[i] 	= -999999.9;
+	}
+
+}
+
+
+void Stuple::Dump(int iObjType)
+{
+	std::cout << "======Stuple::Dump()===================" <<std::endl;
+	std::cout << "evt_McFlag            = " << evt_McFlag << std::endl;
+	std::cout << "evt_RunNumber      = " << evt_RunNumber << std::endl;
+	std::cout << "evt_EventNumber    = " << evt_EventNumber << std::endl;
+	std::cout << "pho_num      = " << pho_num << std::endl;
+	std::cout << "ele_num      = " << ele_num << std::endl;
+	std::cout << "jet_num      = " << jet_num << std::endl;
+
+	std::cout << "tri_pho25iso = " << tri_pho25iso << std::endl;
+	std::cout << "tri_pho50    = " << tri_pho50 << std::endl;
+	std::cout << "tri_pho70    = " << tri_pho70 << std::endl;
+
+	std::cout << "pho_Ntight   = " << pho_Ntight << std::endl;
+	std::cout << "pho_Nloose   = " << pho_Nloose << std::endl;
+	std::cout << "ele_Ntight   = " << ele_Ntight << std::endl;
+	std::cout << "ele_Nloose   = " << ele_Nloose << std::endl;
+
+	//std::cout << "objtype = " << iObjType << std::endl;
+	//for (unsigned int i=0; i < Stuple::Npho; i++) DumpPhoton(i);
+	//for (unsigned int i=0; i < Stuple::Nele; i++) DumpElectron(i);
+	std::cout << green;
+	for (unsigned int i=0; i < pho_num; i++) DumpPhoton(i);
+	std::cout << blue;
+	for (unsigned int i=0; i < ele_num; i++) DumpElectron(i);
+	std::cout << clearatt;
+	
+	//return;	
+	
+	std::cout <<    "jet_NJet15                = " << jet_NJet15 << std::endl;
+	
+	for (unsigned int i=0; i < jet_num; i++) {
+		std::cout << "jet_Index    [" << i <<"] = " << jet_Index[i] << std::endl;
+		std::cout << "jet_Pt       [" << i <<"] = " << jet_Pt[i] << std::endl;
+		std::cout << "jet_E        [" << i <<"] = " << jet_E[i] << std::endl;
+		std::cout << "jet_Px       [" << i <<"] = " << jet_Px[i] << std::endl;
+		std::cout << "jet_Py       [" << i <<"] = " << jet_Py[i] << std::endl;
+		std::cout << "jet_Pz       [" << i <<"] = " << jet_Pz[i] << std::endl;
+		std::cout << "jet_DetEta   [" << i <<"] = " << jet_DetEta[i] << std::endl;
+		std::cout << "jet_DetPhi   [" << i <<"] = " << jet_DetPhi[i] << std::endl;
+		std::cout << "jet_HadEm    [" << i <<"] = " << jet_HadEm[i] << std::endl;
+		std::cout << "jet_Emfr     [" << i <<"] = " << jet_Emfr[i] << std::endl;
+		std::cout << "jet_Ntowers  [" << i <<"] = " << jet_Ntowers[i] << std::endl;
+		std::cout << "jet_Ntracks  [" << i <<"] = " << jet_Ntracks[i] << std::endl;
+		std::cout << "jet_SeedIPhi [" << i <<"] = " << jet_SeedIPhi[i] << std::endl;
+		std::cout << "jet_SeedIEta [" << i <<"] = " << jet_SeedIEta[i] << std::endl;
+		std::cout << "jet_up_SecVtxTag    [" << i << "] = " << jet_up_SecVtxTag[i] << std::endl; 
+		std::cout << "jet_up_SecVtxppb    [" << i << "] = " << jet_up_SecVtxppb[i] << std::endl;
+		std::cout << "jet_up_SecVtxnpb    [" << i << "] = " << jet_up_SecVtxnpb[i] << std::endl;
+		std::cout << "jet_up_SecVtxTrkmass[" << i << "] = " << jet_up_SecVtxTrkmass[i] << std::endl;
+	}
+
+	std::cout << "vtx_N        = " << vtx_N << std::endl;
+	std::cout << "vtx_NClass12 = " << vtx_NClass12 << std::endl;
+	std::cout << "vtx_z        = " << vtx_z << std::endl;
+	std::cout << "vtx_Ntracks  = " << vtx_Ntracks << std::endl;
+	std::cout << "vtx_SumPt    = " << vtx_SumPt << std::endl;
+
+	std::cout << "met_Met      = " << met_Met << std::endl; 
+	std::cout << "met_SumEt    = " << met_SumEt << std::endl;
+	std::cout << "met_Ht       = " << met_Ht << std::endl;
+	std::cout << "met_MetPhi   = " << met_MetPhi << std::endl;
+//	std::cout << "met_Gen_d    = " << met_Gen_d << std::endl;
+//	std::cout << "met_Gen_m    = " << met_Gen_m << std::endl;
+//	std::cout << "met_Gen_p    = " << met_Gen_p << std::endl;
+//	std::cout << "met_Gen_mUn  = " << met_Gen_mUn << std::endl;
+//	std::cout << "met_Gen_pUn  = " << met_Gen_pUn << std::endl;
+
+}
+void Stuple::DumpPhotonBlock() const
+{
+	for (unsigned i=0; i < pho_num; ++i) {
+		DumpPhoton(i);
+	}
+}
+
+void Stuple::DumpPhoton(const int i) const
+{
+		std::cout << "pho_Index         [" << i << "] = " << pho_Index[i] << std::endl;
+		std::cout << "pho_PhoBlockIndex [" << i << "] = " << pho_PhoBlockIndex[i] << std::endl;
+		std::cout << "pho_Etc           [" << i << "] = " << pho_Etc[i] << std::endl;
+		std::cout << "pho_E             [" << i << "] = " << pho_E[i] << std::endl;
+		std::cout << "pho_TightId       [" << i << "] = " << pho_TightId[i] << std::endl;
+		std::cout << "pho_LooseId       [" << i << "] = " << pho_LooseId[i] << std::endl;
+		std::cout << "pho_Px            [" << i << "] = " << pho_Px[i] << std::endl;
+		std::cout << "pho_Py            [" << i << "] = " << pho_Py[i] << std::endl;
+		std::cout << "pho_Pz            [" << i << "] = " << pho_Pz[i] << std::endl;
+		std::cout << "pho_Detector      [" << i << "] = " << pho_Detector[i] << std::endl;
+		std::cout << "pho_DetEta        [" << i << "] = " << pho_DetEta[i] << std::endl;
+		return;
+		std::cout << "pho_DetPhi        [" << i << "] = " << pho_DetPhi[i] << std::endl;
+		std::cout << "pho_XCes          [" << i << "] = " << pho_XCes[i] << std::endl;
+		std::cout << "pho_ZCes          [" << i << "] = " << pho_ZCes[i] << std::endl;
+		std::cout << "pho_HadEm         [" << i << "] = " << pho_HadEm[i] << std::endl;
+		std::cout << "pho_Chi2Mean      [" << i << "] = " << pho_Chi2Mean[i] << std::endl;
+		std::cout << "pho_N3d           [" << i << "] = " << pho_N3d[i] << std::endl;
+		std::cout << "pho_Iso4          [" << i << "] = " << pho_Iso4[i] << std::endl;
+		std::cout << "pho_TrkPt         [" << i << "] = " << pho_TrkPt[i] << std::endl;
+		std::cout << "pho_TrkPt2        [" << i << "] = " << pho_TrkPt2[i] << std::endl;
+		std::cout << "pho_TrkIso        [" << i << "] = " << pho_TrkIso[i] << std::endl;
+		std::cout << "pho_CesWireE2     [" << i << "] = " << pho_CesWireE2[i]  << std::endl;
+		std::cout << "pho_CesStripE2    [" << i << "] = " << pho_CesStripE2[i] << std::endl;
+		std::cout << "pho_PhiWedge      [" << i << "] = " << pho_PhiWedge[i] << std::endl;
+		std::cout << "pho_NMuonStubs    [" << i << "] = " << pho_NMuonStubs[i] << std::endl;
+		std::cout << "pho_EmTime        [" << i << "] = " << pho_EmTime[i] << std::endl;
+		std::cout << "pho_PhoenixId     [" << i << "] = " << pho_PhoenixId[i] << std::endl;
+		std::cout << "pho_Halo_seedWedge[" << i << "] = " << pho_Halo_seedWedge[i] << std::endl;
+		std::cout << "pho_Halo_eastNhad [" << i << "] = " << pho_Halo_eastNhad[i] << std::endl;
+		std::cout << "pho_Halo_westNhad [" << i << "] = " << pho_Halo_westNhad[i] << std::endl;
+		std::cout << "pho_matchJetIndex [" << i << "] = " << pho_matchJetIndex[i] << std::endl;
+}
+	
+
+void Stuple::DumpElectron(const int i) const 
+{
+		std::cout << "ele_Index         [" << i << "] = " << ele_Index[i] << std::endl;
+		std::cout << "ele_EleBlockIndex         [" << i << "] = " << ele_EleBlockIndex[i] << std::endl;
+		std::cout << "ele_Etc           [" << i << "] = " << ele_Etc[i] << std::endl;
+		std::cout << "ele_E             [" << i << "] = " << ele_E[i] << std::endl;
+		std::cout << "ele_TightId       [" << i <<"] = " << ele_TightId[i] << std::endl;
+		std::cout << "ele_LooseId       [" << i <<"] = " << ele_LooseId[i] << std::endl;
+		return;
+		std::cout << "ele_Px            [" << i << "] = " << ele_Px[i] << std::endl;
+		std::cout << "ele_Py            [" << i << "] = " << ele_Py[i] << std::endl;
+		std::cout << "ele_Pz            [" << i << "] = " << ele_Pz[i] << std::endl;
+		std::cout << "ele_Detector      [" << i << "] = " << ele_Detector[i] << std::endl;
+		std::cout << "ele_DetEta        [" << i << "] = " << ele_DetEta[i] << std::endl;
+		std::cout << "ele_DetPhi        [" << i << "] = " << ele_DetPhi[i] << std::endl;
+		std::cout << "ele_XCes          [" << i << "] = " << ele_XCes[i] << std::endl;
+		std::cout << "ele_ZCes          [" << i << "] = " << ele_ZCes[i] << std::endl;
+		std::cout << "ele_HadEm         [" << i << "] = " << ele_HadEm[i] << std::endl;
+		std::cout << "ele_Chi2Mean      [" << i << "] = " << ele_Chi2Mean[i] << std::endl;
+		std::cout << "ele_N3d           [" << i << "] = " << ele_N3d[i] << std::endl;
+		std::cout << "ele_Iso4          [" << i << "] = " << ele_Iso4[i] << std::endl;
+		std::cout << "ele_TrkIso        [" << i << "] = " << ele_TrkIso[i] << std::endl;
+		std::cout << "ele_CesWireE2     [" << i << "] = " << ele_CesWireE2[i]  << std::endl;
+		std::cout << "ele_CesStripE2    [" << i << "] = " << ele_CesStripE2[i] << std::endl;
+		std::cout << "ele_PhiWedge      [" << i << "] = " << ele_PhiWedge[i] << std::endl;
+		std::cout << "ele_NMuonStubs    [" << i << "] = " << ele_NMuonStubs[i] << std::endl;
+		std::cout << "ele_EmTime        [" << i << "] = " << ele_EmTime[i] << std::endl;
+		std::cout << "ele_PhoenixId     [" << i << "] = " << ele_PhoenixId[i] << std::endl;
+		std::cout << "ele_Halo_seedWedge[" << i << "] = " << ele_Halo_seedWedge[i] << std::endl;
+		std::cout << "ele_Halo_eastNhad [" << i << "] = " << ele_Halo_eastNhad[i] << std::endl;
+		std::cout << "ele_Halo_westNhad [" << i << "] = " << ele_Halo_westNhad[i] << std::endl;
+		std::cout << "ele_Ntracks       [" << i <<"] = " << ele_Ntracks[i] << std::endl;
+		std::cout << "ele_Emfr          [" << i <<"] = " << ele_Emfr[i] << std::endl;
+		std::cout << "ele_EoverP        [" << i <<"] = " << ele_EoverP[i] << std::endl;
+		std::cout << "ele_TrackPt       [" << i <<"] = " << ele_TrackPt[i] << std::endl;
+		std::cout << "ele_TrackPt2      [" << i <<"] = " << ele_TrackPt2[i] << std::endl;
+		std::cout << "ele_TrackBcPt     [" << i <<"] = " << ele_TrackBcPt[i] << std::endl;
+		std::cout << "ele_TrackPhi      [" << i <<"] = " << ele_TrackPhi[i] << std::endl;
+		std::cout << "ele_Nssl          [" << i <<"] = " << ele_Nssl[i] << std::endl;
+		std::cout << "ele_Nasl          [" << i <<"] = " << ele_Nasl[i] << std::endl;
+		std::cout << "ele_ConversionId  [" << i <<"] = " << ele_ConversionId[i] << std::endl;
+		std::cout << "ele_matchJetIndex [" << i <<"] = " << ele_matchJetIndex[i] << std::endl;
+
+}	
+
+void Stuple::DumpEventSummary() const 
+{
+	std::cout << ">> Run, Event Number :" << evt_RunNumber << ", " << evt_EventNumber << std::endl;
+	std::cout << "McFlag = " << evt_McFlag << std::endl; 
+}
+
+
+void Stuple::DumpJetBlock() const
+{
+	std::cout << "======= JET BLOCK ==========================" <<std::endl;
+	std::cout <<    "jet_NJet15                = " << jet_NJet15 << std::endl;
+	
+	for (unsigned int i=0; i < jet_num; i++) {
+		DumpJet(i);
+	}
+}
+
+	
+void Stuple::DumpJet(const int i) const
+{
+	if (i < jet_num) {
+		std::cout << "jet_Index    [" << i <<"] = " << jet_Index[i] << std::endl;
+		std::cout << "jet_Pt       [" << i <<"] = " << jet_Pt[i] << std::endl;
+		std::cout << "jet_E        [" << i <<"] = " << jet_E[i] << std::endl;
+		std::cout << "jet_Px       [" << i <<"] = " << jet_Px[i] << std::endl;
+		std::cout << "jet_Py       [" << i <<"] = " << jet_Py[i] << std::endl;
+		std::cout << "jet_Pz       [" << i <<"] = " << jet_Pz[i] << std::endl;
+		std::cout << "jet_DetEta   [" << i <<"] = " << jet_DetEta[i] << std::endl;
+		std::cout << "jet_DetPhi   [" << i <<"] = " << jet_DetPhi[i] << std::endl;
+		std::cout << "jet_HadEm    [" << i <<"] = " << jet_HadEm[i] << std::endl;
+		std::cout << "jet_Emfr     [" << i <<"] = " << jet_Emfr[i] << std::endl;
+		std::cout << "jet_Ntowers  [" << i <<"] = " << jet_Ntowers[i] << std::endl;
+		std::cout << "jet_Ntracks  [" << i <<"] = " << jet_Ntracks[i] << std::endl;
+		std::cout << "jet_SeedIPhi [" << i <<"] = " << jet_SeedIPhi[i] << std::endl;
+		std::cout << "jet_SeedIEta [" << i <<"] = " << jet_SeedIEta[i] << std::endl;
+		std::cout << "jet_EmTime   [" << i <<"] = " << jet_EmTime[i] << std::endl;
+	} else {
+		std::cout << __FILE__ << "::" << __LINE__ << ":: Invalid Jet index given!" <<std::endl;
+		exit(1);
+	}
+}

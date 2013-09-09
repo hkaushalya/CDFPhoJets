@@ -1,0 +1,198 @@
+#include "samantha/Pho/TagLoosePhotons.hh"
+#include "samantha/Pho/InitSuperPhotons.hh"
+#include "Stntuple/loop/TStnAna.hh"
+#include <iostream>
+
+ClassImp(TagLoosePhotons)
+
+//_____________________________________________________________________________
+TagLoosePhotons::TagLoosePhotons(const char* name, const char* title):
+  TStnModule(name,title),
+  bRunPermit(true),
+  iNLooseBits(8)
+{
+	//std::cout << "Hello I am TagLoosePhotons module" << std::endl;
+}
+
+//_____________________________________________________________________________
+TagLoosePhotons::~TagLoosePhotons() {
+}
+
+//_____________________________________________________________________________
+void TagLoosePhotons::SaveHistograms() {
+}
+
+//_____________________________________________________________________________
+void TagLoosePhotons::BookHistograms()
+{
+	DeleteHistograms();
+}
+
+
+//_____________________________________________________________________________
+int TagLoosePhotons::BeginJob()
+{
+	initSpMod = (InitSuperPhotons*) ((TStnAna*) GetAna()->GetModule("InitSuperPhotons"));
+	if (initSpMod == NULL) {
+		StdErr(__FILE__,__LINE__,3,"Could not find module InitSuperPhotons!");
+		bRunPermit = false;
+		return 0;
+	}
+				// register the data blocks
+	fHeaderBlock 	= (TStnHeaderBlock*)   RegisterDataBlock("HeaderBlock","TStnHeaderBlock");
+
+	BookHistograms();
+
+	// initialize vars
+	counter.evtsRunOver 			= 0;
+	counter.evtsPassModule 		= 0;
+
+	counter.oneloosephoton 		= 0;
+	counter.twoloosephotons 	= 0;
+	counter.morethan2loosephotons = 0;
+	counter.PhoEvts				= 0;
+
+	return 0;
+}
+
+//_____________________________________________________________________________
+int TagLoosePhotons::BeginRun()
+{
+
+	return 0;
+
+} //BeginRun
+
+/*-------------------------------------------------------------------*/
+// EVENT LOOP
+/*-------------------------------------------------------------------*/
+int TagLoosePhotons::Event(int ientry)
+{
+	SetPassed(1);
+	if (!bRunPermit) {
+		StdOut(__FILE__,__LINE__,3,"One or more dependencies not found. pl check. Run Permit not cleared!");
+		exit (1);
+	}
+	counter.evtsRunOver++;
+
+	int iNSp = 0;
+  
+  	for (int i = 0; i < initSpMod->GetSuperPhoSize() ; i++) {
+		SuperPhoton* aSp = initSpMod->GetSuperPhoton(i); // does this poniter becomes dagling afterward??
+		int iIdWord = GetLooseIdWord(aSp);
+		if (iIdWord == 0) iNSp++;
+		initSpMod->GetSuperPhoton(i)->SetLoosePhotonId(iIdWord);
+	}
+
+
+	if (iNSp>0) counter.PhoEvts++;
+	if (iNSp == 1) counter.oneloosephoton++;
+	else if (iNSp == 2) counter.twoloosephotons++;
+	else if (iNSp>=3) counter.morethan2loosephotons++;
+
+
+	if (GetPassed()) counter.evtsPassModule++;
+
+	return 0;
+
+} // Event
+
+/*-------------------------------------------------------------------*/
+// Loose Photon ID CUTS
+/*-------------------------------------------------------------------*/
+int TagLoosePhotons::GetLooseIdWord(SuperPhoton* sp)
+{
+	if (!sp) {
+		StdOut(__FILE__,__LINE__,3,"SuperPhoton is NULL. pl. check. exiting");
+		exit (1);
+	}
+
+	unsigned int IDWord = 0x0;
+
+	// change this. no need to copy stuff anymore!
+	int   detector 	= sp->GetDetector();
+	float ECorr 		= sp->GetECorr();
+	float EtCorr 		= sp->GetEtCorr();
+	float XCes			= sp->GetXCes();
+	float ZCes 			= sp->GetZCes();
+	float HadEm 		= sp->GetHadEm();
+	float Chi2Mean 	= sp->GetChi2Mean();  			// (strip+wire)/2
+	int   N3d			= sp->GetN3d();
+	float IsoEtCorr	= sp->GetIso4();			//Corrected for leakage and MI
+	float TrkPt  		= sp->GetTrkPt();     				//using max pt track in the cluster
+	float TrkIso 		= sp->GetTrkIso();
+	float CesWireE2	= sp->GetCesWireE2();
+	float CesStripE2	= sp->GetCesStripE2();
+
+	if (detector != 0						) {
+		IDWord |= kCentralBit;
+	}
+	if (EtCorr < 30. 						) {
+		IDWord |= kEtCorrBit;
+	}
+	if (fabs(XCes) > 21					) {
+		IDWord |= kXCesBit;
+	}
+	if (fabs(ZCes) < 9 ||  fabs(ZCes) > 230) {
+		IDWord |= kZCesBit;
+	}
+	if (HadEm > 0.125) {
+		IDWord |= kHadEmBit;
+	}
+
+	if (EtCorr < 20) {
+		if (IsoEtCorr > 0.15*EtCorr) {
+			IDWord |= kIso4Bit;
+		}
+	} else {
+		if (IsoEtCorr > 3.0) {
+			IDWord |= kIso4Bit;
+		}
+	}
+	
+	if (TrkPt > (0.25*EtCorr)	) {
+		IDWord |= kTrkPtBit;
+	}
+	if (TrkIso >5.0 ) {
+		IDWord |= kTrkIsoBit;
+	}
+	
+	return IDWord;
+
+}
+
+
+/*-------------------------------------------------------------------*/
+// clean and clear things for the run
+/*-------------------------------------------------------------------*/
+void TagLoosePhotons::Cleanup()
+{
+
+} //Cleanup
+
+
+/*-------------------------------------------------------------------*/
+void TagLoosePhotons::FillDataBlocks(int ientry)
+{
+}
+
+//_____________________________________________________________________________
+//  END JOB SUMMARY
+//_____________________________________________________________________________
+int TagLoosePhotons::EndJob() {
+
+	std::string sMsg, sMsg1;
+	std::string sModName = GetName();
+
+	sMsg += "[TLP:00:]----- end job: ----- " + sModName + "\n";
+	sMsg += "[TLP:01:] Events Processed------------ = " + ToStr(counter.evtsRunOver) + "\n";
+	sMsg += "[TLP:02:] Events Passed -------------- = " + ToStr(counter.evtsPassModule) + "\n";
+	sMsg += "[TLP:03:] Events with >=1 loose Photons= " + ToStr(counter.PhoEvts) + "\n";
+	sMsg += "[TLP:04:] Events with 1 loose photon   = " + ToStr(counter.oneloosephoton) + "\n";
+	sMsg += "[TLP:05:] Events with 2 loose photons  = " + ToStr(counter.twoloosephotons) + "\n";
+	sMsg += "[TLP:06:] Events with >2 loose photons = " + ToStr(counter.morethan2loosephotons) + "\n";
+	sMsg += "---------------------------------------------------\n";
+	std::cout << sMsg;
+	
+	return 0;
+}

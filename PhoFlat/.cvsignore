@@ -1,0 +1,9 @@
+Stuple.cc
+*.root
+*.d
+*.log
+*.pdf
+*.gif
+*.swp
+RootFiles
+*.eps

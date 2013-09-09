@@ -1,0 +1,8 @@
+Description of samantha/samantha directory 
+---------------------------------------------
+
+This area should contain only include-path files such as:
+    *.h
+    *.hh
+    *.inc
+    link_samantha.mk for PackageList

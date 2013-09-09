@@ -1,0 +1,46 @@
+
+#To run
+# source create_sam_dataset > log.txt
+# change the run numbers and the defname as needed
+echo "Setting up cdfsoft2 6.1.4"
+source ~cdfsoft/cdf2.cshrc
+setup cdfsoft2 6.1.4
+
+
+setenv PERIOD  99 
+setenv STREAM   "gphysr"
+setenv LOWRUN   291307
+setenv HIRUN    291307
+#ONLY FOR CALIB EXE TEST
+setenv LOEVT    271006
+setenv HIEVT    226663
+setenv DEFNAME  "'cp2p'${PERIOD}'_'${STREAM}'_raw'"
+setenv GROUP    "test"
+setenv DESC     "P${PERIOD}_CP2_Calibration_datastream_${STREAM}"
+#setenv DIM      "CDF.DATASET ${STREAM} and RUN_NUMBER >= ${LOWRUN} and RUN_NUMBER <= ${HIRUN}"
+setenv DIM      "'CDF.DATASET '${STREAM}' and RUN_NUMBER '${LOWRUN}"
+#setenv DIM      "CDF.DATASET ${STREAM} and RUN_NUMBER >= ${LOWRUN} and RUN_NUMBER <= ${HIRUN} and EVENT_NUMBER>=${LOEVT} and EVENT_NUMBER <= ${HIEVT}"
+
+echo "=========== CREATING SAM DATA SET WITH =============================="
+echo "PERIOD  = ${PERIOD}"
+echo "STREAM  = ${STREAM}"
+echo "LOWRUN  = ${LOWRUN}"
+echo "HIRUN   = ${HIRUN}"
+echo "DEFNAME = ${DEFNAME}"
+echo "GROUP   = ${GROUP}"
+echo "DESC    = ${DESC}"
+echo "DIM     = ${DIM}"
+
+
+sam create dataset definition \
+--defname=${DEFNAME} \
+--group=${GROUP} \
+--defdesc=${DESC} \
+--dim=${DIM}
+
+sam take snapshot --defname=${DEFNAME} --group=${GROUP}
+echo "=========== LISTING FILES IN THE SNAP SHOT =========================="
+
+sam list files --dim=${DIM}
+echo "===========  SAM SNAP SHOT TAKEN ===================================="
+

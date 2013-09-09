@@ -1,0 +1,4018 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   5.26/00  14 December 2009   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+ROOT 5.26/00 (trunk@31882, Dec 14 2009, 20:18:36 on linux)
+
+CINT/ROOT C/C++ Interpreter version 5.17.00, Dec 21, 2008
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+Note: File "iostream" already loaded
+Loading /cdf/home/samantha/samantha/PhoFlat/rootlogon.C
+
+Processing RunExoticSearch.C(0)...
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_1P4.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_1P4_1.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_5P10.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_5P10_1.root, title=, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_5P10_2.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_5P10_3.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_11P13.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_11P13_1.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_11P13_2.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_11P13_3.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_14P17_1.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_14P17_2.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_1.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_2.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_3.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_4.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_5.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_6.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_7.root, title=chain files, option=READ
+Attached data file: TFile: name=/cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_8.root, title=chain files, option=READ
+/cdf/home/samantha/samantha/PhoFlat/./RunExoticSearch.C: Total Entries in chain = 49292109
+/cdf/home/samantha/samantha/PhoFlat/./RunExoticSearch.C ch = 0x84e4b50
+Info in <TUnixSystem::ACLiC>: creating shared library /cdf/home/samantha/samantha/PhoFlat/ExoticEvts_C.so
+In file included from /cdf/home/samantha/samantha/PhoFlat/ExoticEvts_C_ACLiC_dict.h:33,
+                 from /cdf/home/samantha/samantha/PhoFlat/ExoticEvts_C_ACLiC_dict.cxx:16:
+/cdf/home/samantha/samantha/PhoFlat/ExoticEvts.C: In function `bool ExoticEvent(const Stuple&)':
+/cdf/home/samantha/samantha/PhoFlat/ExoticEvts.C:30: warning: comparison between signed and unsigned integer expressions
+/cdf/home/samantha/samantha/PhoFlat/ExoticEvts.C: In function `void ExoticEvts(TChain*, int)':
+/cdf/home/samantha/samantha/PhoFlat/ExoticEvts.C:75: warning: comparison between signed and unsigned integer expressions
+/cdf/home/samantha/samantha/PhoFlat/ExoticEvts.C:91: warning: unused variable 'iEleEvts'
+/cdf/home/samantha/samantha/PhoFlat/ExoticEvts.C:91: warning: unused variable 'iPhoEvts'
+/cdf/home/samantha/samantha/PhoFlat/ExoticEvts.C:91: warning: unused variable 'iOther'
+Enabling Central Photons Read-in.
+Enabling Central Electrons Read-in.
+Enabling Central Jets to Read-in.
+Enabling MET to Read-in.
+pho_num status=1
+pho_up_num status=0
+pho_down_num status=0
+ ==> Entries found :: 49292109
+Init done. Ready, Set , GO... 
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_1P4.root[0m
+ Entry # = 473584
+[32m ----------  EXOTIC EVENT: Run, Event: 198514, 198514 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   395.062   189.421
+[34mobjind TightId      Et       eta
+[36m  g  0       0 188.677  0.154773
+[31mjet  0         16.9629  0.685165
+[0m
+ Entry # = 500232
+[32m ----------  EXOTIC EVENT: Run, Event: 198514, 198514 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   4   434.437   177.815
+[34mobjind TightId      Et       eta
+[36m  g  0       0 59.2143-0.0521343
+[31mjet  0         77.8948  0.988428
+[31mjet  1         58.6006  0.582423
+[31mjet  2         37.3962  -1.28246
+[31mjet  3          23.516 -0.890659
+[0m
+ Entry # = 623782
+[32m ----------  EXOTIC EVENT: Run, Event: 198695, 198695 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   545.019   269.949
+[34mobjind TightId      Et       eta
+[36m  g  0       0 250.878 -0.562013
+[31mjet  0         24.1924 -0.454905
+[0m
+ Entry # = 690458
+[32m ----------  EXOTIC EVENT: Run, Event: 198739, 198739 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3    887.16   410.269
+[34mobjind TightId      Et       eta
+[36m  g  0       0 15.9216  -0.64491
+[31mjet  0         373.453  -1.95871
+[31mjet  1         58.9412  -1.44834
+[31mjet  2         28.5754  -1.86201
+[0m
+ Entry # = 748114
+[32m ----------  EXOTIC EVENT: Run, Event: 198843, 198843 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   334.322   150.989
+[34mobjind TightId      Et       eta
+[36m  g  0       0 17.1783  0.491299
+[31mjet  0         166.154  0.445003
+[0m
+ Entry # = 842385
+[32m ----------  EXOTIC EVENT: Run, Event: 199041, 199041 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   397.161   180.413
+[34mobjind TightId      Et       eta
+[36m  g  0       0 194.174    0.6105
+[31mjet  0         22.5741 -0.178424
+[0m
+ Entry # = 961393
+[32m ----------  EXOTIC EVENT: Run, Event: 199148, 199148 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+2[2/0]       0[0/0]   1    633.58   165.106
+[34mobjind TightId      Et       eta
+[36m  g  0       0  304.63  0.876885
+[36m  g  1       0 20.2751  0.877068
+[31mjet  0          143.57   0.42398
+[0m
+ Entry # = 967718
+[32m ----------  EXOTIC EVENT: Run, Event: 199146, 199146 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   552.021   267.205
+[34mobjind TightId      Et       eta
+[36m  g  0       0 38.5843  0.049116
+[31mjet  0         211.006 -0.196219
+[31mjet  1         35.2262 -0.321175
+[0m
+ Entry # = 1009703
+[32m ----------  EXOTIC EVENT: Run, Event: 199559, 199559 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   647.533   307.676
+[34mobjind TightId      Et       eta
+[36m  g  0       0  292.61  0.260296
+[31mjet  0         29.3137  0.499553
+[31mjet  1         17.9342   1.32723
+[0m
+ Entry # = 1190973
+[32m ----------  EXOTIC EVENT: Run, Event: 200056, 200056 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   428.282   204.165
+[34mobjind TightId      Et       eta
+[36m  g  0       0 15.9532 -0.972125
+[31mjet  0         208.164   1.20213
+[0m
+ Entry # = 1255709
+[32m ----------  EXOTIC EVENT: Run, Event: 200056, 200056 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   997.271   223.579
+[34mobjind TightId      Et       eta
+[36m  g  0       0 482.095 -0.763344
+[31mjet  0         291.597-0.00561546
+[0m
+ Entry # = 1338113
+[32m ----------  EXOTIC EVENT: Run, Event: 200309, 200309 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   360.424   180.657
+[34mobjind TightId      Et       eta
+[36m  g  0       0 157.543 0.0918425
+[31mjet  0         22.2247-0.0407429
+[0m
+ Entry # = 1340610
+[32m ----------  EXOTIC EVENT: Run, Event: 200309, 200309 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   587.681   180.989
+[34mobjind TightId      Et       eta
+[36m  g  0       0 110.163 -0.442115
+[31mjet  0          296.53 -0.957759
+[0m
+ Entry # = 1382209
+[32m ----------  EXOTIC EVENT: Run, Event: 200641, 200641 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1386.06    643.61
+[34mobjind TightId      Et       eta
+[36m  g  0       0 654.177 -0.552148
+[31mjet  0         88.2726  0.277365
+[0m
+ Entry # = 1437451
+[32m ----------  EXOTIC EVENT: Run, Event: 200660, 200660 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   353.842   164.211
+[34mobjind TightId      Et       eta
+[36m  g  0       0 171.032  0.718657
+[31mjet  0         18.5994  -1.01788
+[0m
+ Entry # = 1488325
+[32m ----------  EXOTIC EVENT: Run, Event: 200756, 200756 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   1269.89   1143.25
+[34mobjind TightId      Et       eta
+[36m  g  0       0 29.9265   0.30616
+[31mjet  0         1051.340.00751324
+[31mjet  1         71.7984  -1.35315
+[31mjet  2          24.908   0.10027
+[0m
+ Entry # = 1529869
+[32m ----------  EXOTIC EVENT: Run, Event: 201083, 201083 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   345.607   177.489
+[34mobjind TightId      Et       eta
+[36m  g  0       0 30.2877 -0.689143
+[31mjet  0          137.83 0.0918771
+[0m
+ Entry # = 1556545
+[32m ----------  EXOTIC EVENT: Run, Event: 201130, 201130 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    297.18   151.242
+[34mobjind TightId      Et       eta
+[36m  g  0       0 29.2503  0.625137
+[31mjet  0         116.688   1.17094
+[0m
+ Entry # = 1585401
+[32m ----------  EXOTIC EVENT: Run, Event: 201132, 201132 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   4   529.531    172.35
+[34mobjind TightId      Et       eta
+[36m  g  0       0 122.129 -0.536375
+[31mjet  0         129.954 -0.331696
+[31mjet  1         44.9305   1.46142
+[31mjet  2         44.3359  -1.39679
+[31mjet  3         15.8313  -1.86273
+[0m
+ Entry # = 1832172
+[32m ----------  EXOTIC EVENT: Run, Event: 202003, 202003 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   824.729    388.57
+[34mobjind TightId      Et       eta
+[36m  g  0       0 51.8027  0.460875
+[31mjet  0         359.039 -0.194149
+[31mjet  1         25.3164 -0.580648
+[0m
+ Entry # = 1867953
+[32m ----------  EXOTIC EVENT: Run, Event: 201883, 201883 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    345.62   160.271
+[34mobjind TightId      Et       eta
+[36m  g  0       0 22.7045 -0.660361
+[31mjet  0         162.644  0.772367
+[0m
+ Entry # = 1953221
+[32m ----------  EXOTIC EVENT: Run, Event: 202041, 202041 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   622.525   311.775
+[34mobjind TightId      Et       eta
+[36m  g  0       0 31.5177 -0.420224
+[31mjet  0         279.232  0.540526
+[0m
+ Entry # = 2059663
+[32m ----------  EXOTIC EVENT: Run, Event: 202313, 202313 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   320.907   159.162
+[34mobjind TightId      Et       eta
+[36m  g  0       0 30.2984 -0.874061
+[31mjet  0         116.259 -0.293103
+[31mjet  1         15.1874 -0.787164
+[0m
+ Entry # = 2108998
+[32m ----------  EXOTIC EVENT: Run, Event: 202514, 202514 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   359.444   183.556
+[34mobjind TightId      Et       eta
+[36m  g  0       0 22.3964  0.469891
+[31mjet  0         153.491 -0.298497
+[0m
+ Entry # = 2132699
+[32m ----------  EXOTIC EVENT: Run, Event: 202739, 202739 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   325.421   155.128
+[34mobjind TightId      Et       eta
+[36m  g  0       0 72.4326 -0.331027
+[31mjet  0          97.861 0.0796983
+[0m
+ Entry # = 2157801
+[32m ----------  EXOTIC EVENT: Run, Event: 202697, 202697 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1437.12   658.749
+[34mobjind TightId      Et       eta
+[36m  g  0       0 58.5651 -0.512253
+[31mjet  0          719.81  0.558277
+[0m
+ Entry # = 2183577
+[32m ----------  EXOTIC EVENT: Run, Event: 202817, 202817 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   401.706   174.101
+[34mobjind TightId      Et       eta
+[36m  g  0       0 195.415 -0.214217
+[31mjet  0          32.189 -0.243688
+[0m
+ Entry # = 2235000
+[32m ----------  EXOTIC EVENT: Run, Event: 202973, 202973 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   375.778   236.991
+[34mobjind TightId      Et       eta
+[36m  g  0       0 123.783 -0.482921
+[31mjet  0         15.0036  -1.26377
+[0m
+ Entry # = 2396033
+[32m ----------  EXOTIC EVENT: Run, Event: 203195, 203195 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   327.763   162.388
+[34mobjind TightId      Et       eta
+[36m  g  0       0 19.0475 -0.239438
+[31mjet  0         146.328  0.721951
+[0m
+ Entry # = 2421601
+[32m ----------  EXOTIC EVENT: Run, Event: 203206, 203206 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   426.768   209.452
+[34mobjind TightId      Et       eta
+[36m  g  0       0 200.745  -0.49148
+[31mjet  0         16.5706  -1.59154
+[0m
+ Entry # = 2466737
+[32m ----------  EXOTIC EVENT: Run, Event: 203347, 203347 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   392.073   196.716
+[34mobjind TightId      Et       eta
+[36m  g  0       0 117.925  0.779713
+[31mjet  0         77.4315  0.639049
+[0m
+ Entry # = 2596328
+[32m ----------  EXOTIC EVENT: Run, Event: 203764, 203764 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1799.26   871.534
+[34mobjind TightId      Et       eta
+[36m  g  0       0 42.1194 -0.868502
+[31mjet  0         885.603  0.183816
+[0m
+ Entry # = 2693524
+[32m ----------  EXOTIC EVENT: Run, Event: 192197, 192197 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+2[1/1]       0[0/0]   1   367.864    186.89
+[34mobjind TightId      Et       eta
+[36m  g  0      88 66.1897   -1.2069
+[36m  g  1       0 52.2341 -0.555462
+[31mjet  0           62.55 -0.667893
+[0m
+ Entry # = 2726739
+[32m ----------  EXOTIC EVENT: Run, Event: 192171, 192171 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1046.84   505.535
+[34mobjind TightId      Et       eta
+[36m  g  0       0 393.719  0.366864
+[31mjet  0         147.588   1.23498
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_1P4_1.root[0m
+ Entry # = 2796123
+[32m ----------  EXOTIC EVENT: Run, Event: 192345, 192345 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1298.78   642.853
+[34mobjind TightId      Et       eta
+[36m  g  0       0 18.9737  -1.03718
+[31mjet  0         636.956 -0.242809
+[0m
+ Entry # = 2800970
+[32m ----------  EXOTIC EVENT: Run, Event: 192345, 192345 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   313.612   153.331
+[34mobjind TightId      Et       eta
+[36m  g  0       0 143.898  0.483917
+[31mjet  0         16.3823-0.0679214
+[0m
+ Entry # = 2835813
+[32m ----------  EXOTIC EVENT: Run, Event: 192282, 192282 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+2[1/1]       0[0/0]   1   303.594   157.854
+[34mobjind TightId      Et       eta
+[36m  g  0       0 71.2942 -0.348605
+[36m  g  1      28   58.75  -1.31884
+[31mjet  0         15.6956 -0.812287
+[0m
+ Entry # = 2961401
+[32m ----------  EXOTIC EVENT: Run, Event: 192868, 192868 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1343.03   667.413
+[34mobjind TightId      Et       eta
+[36m  g  0       0 19.6151 -0.893986
+[31mjet  0         656.001 -0.899002
+[0m
+ Entry # = 2987359
+[32m ----------  EXOTIC EVENT: Run, Event: 192892, 192892 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   426.406   223.561
+[34mobjind TightId      Et       eta
+[36m  g  0       0 19.4756  -0.55024
+[31mjet  0         183.369  0.313418
+[0m
+ Entry # = 3180689
+[32m ----------  EXOTIC EVENT: Run, Event: 193396, 193396 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    335.07   154.341
+[34mobjind TightId      Et       eta
+[36m  g  0       0 162.731  0.228969
+[31mjet  0         17.9984 -0.994058
+[0m
+ Entry # = 3262499
+[32m ----------  EXOTIC EVENT: Run, Event: 193487, 193487 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   327.527   164.031
+[34mobjind TightId      Et       eta
+[36m  g  0       0  138.73  0.109917
+[31mjet  0         24.7652 0.0188849
+[0m
+ Entry # = 3279662
+[32m ----------  EXOTIC EVENT: Run, Event: 193464, 193464 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   348.684   173.882
+[34mobjind TightId      Et       eta
+[36m  g  0       0 131.614  0.886975
+[31mjet  0         43.1878  0.738662
+[0m
+ Entry # = 3303226
+[32m ----------  EXOTIC EVENT: Run, Event: 194032, 194032 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   302.773   156.548
+[34mobjind TightId      Et       eta
+[36m  g  0       0 121.019 -0.829505
+[31mjet  0         25.2059  -1.11992
+[0m
+ Entry # = 3354586
+[32m ----------  EXOTIC EVENT: Run, Event: 194161, 194161 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   317.251   161.844
+[34mobjind TightId      Et       eta
+[36m  g  0       0 112.611 -0.959598
+[31mjet  0         42.7963  -0.94732
+[0m
+ Entry # = 3354756
+[32m ----------  EXOTIC EVENT: Run, Event: 194161, 194161 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   405.766   159.256
+[34mobjind TightId      Et       eta
+[36m  g  0       0 201.849 -0.133853
+[31mjet  0          44.661  -0.48283
+[0m
+ Entry # = 3367080
+[32m ----------  EXOTIC EVENT: Run, Event: 194005, 194005 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   1985.34    992.74
+[34mobjind TightId      Et       eta
+[36m  g  0       0 18.9256 -0.651896
+[31mjet  0         956.737  0.652829
+[31mjet  1          16.938  -0.69152
+[0m
+ Entry # = 3387432
+[32m ----------  EXOTIC EVENT: Run, Event: 194386, 194386 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   451.757   214.587
+[34mobjind TightId      Et       eta
+[36m  g  0       0 219.933 -0.143376
+[31mjet  0         17.2372 -0.111674
+[0m
+ Entry # = 3393099
+[32m ----------  EXOTIC EVENT: Run, Event: 194323, 194323 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   404.759   201.618
+[34mobjind TightId      Et       eta
+[36m  g  0       0 27.3737 -0.304619
+[31mjet  0         175.767 -0.387207
+[0m
+ Entry # = 3393430
+[32m ----------  EXOTIC EVENT: Run, Event: 194323, 194323 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   424.653   202.559
+[34mobjind TightId      Et       eta
+[36m  g  0       0 204.717  0.387142
+[31mjet  0         17.3762  -1.53438
+[0m
+ Entry # = 3439094
+[32m ----------  EXOTIC EVENT: Run, Event: 194460, 194460 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   326.452    150.69
+[34mobjind TightId      Et       eta
+[36m  g  0       0 152.597  -0.81811
+[31mjet  0         23.1648  0.430418
+[0m
+ Entry # = 3449495
+[32m ----------  EXOTIC EVENT: Run, Event: 194323, 194323 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   438.574   218.554
+[34mobjind TightId      Et       eta
+[36m  g  0       0 33.4523 -0.216883
+[31mjet  0         115.957   0.18729
+[31mjet  1         70.6105   1.59709
+[0m
+ Entry # = 3451844
+[32m ----------  EXOTIC EVENT: Run, Event: 194323, 194323 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   456.505   175.905
+[34mobjind TightId      Et       eta
+[36m  g  0       0 58.5906 -0.896122
+[31mjet  0          222.01  -0.37762
+[0m
+ Entry # = 3539072
+[32m ----------  EXOTIC EVENT: Run, Event: 194460, 194460 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    400.25   196.557
+[34mobjind TightId      Et       eta
+[36m  g  0       0 187.014  0.335428
+[31mjet  0         16.6784   0.43144
+[0m
+ Entry # = 3548442
+[32m ----------  EXOTIC EVENT: Run, Event: 194539, 194539 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   397.487   202.619
+[34mobjind TightId      Et       eta
+[36m  g  0       0 20.4598   1.00874
+[31mjet  0         174.408  0.127731
+[0m
+ Entry # = 3582818
+[32m ----------  EXOTIC EVENT: Run, Event: 194845, 194845 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   677.688   336.308
+[34mobjind TightId      Et       eta
+[36m  g  0       0 318.473 -0.192381
+[31mjet  0         22.9072 -0.247636
+[0m
+ Entry # = 3618090
+[32m ----------  EXOTIC EVENT: Run, Event: 194845, 194845 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   1250.06   452.584
+[34mobjind TightId      Et       eta
+[36m  g  0       0 410.137 -0.396693
+[31mjet  0         353.537 -0.181049
+[31mjet  1         33.8019 -0.250877
+[0m
+ Entry # = 3623506
+[32m ----------  EXOTIC EVENT: Run, Event: 194845, 194845 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   545.761   266.807
+[34mobjind TightId      Et       eta
+[36m  g  0       0  72.971  0.847147
+[31mjet  0         189.756-0.0513841
+[31mjet  1         16.2269   1.31156
+[0m
+ Entry # = 3627053
+[32m ----------  EXOTIC EVENT: Run, Event: 194862, 194862 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    1629.2   836.067
+[34mobjind TightId      Et       eta
+[36m  g  0       0 763.017  0.408563
+[31mjet  0         30.1208 -0.105816
+[0m
+ Entry # = 3672643
+[32m ----------  EXOTIC EVENT: Run, Event: 194905, 194905 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    314.99   158.453
+[34mobjind TightId      Et       eta
+[36m  g  0       0 117.772 -0.967888
+[31mjet  0         38.7649 -0.845954
+[0m
+ Entry # = 3678161
+[32m ----------  EXOTIC EVENT: Run, Event: 194905, 194905 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   309.858   157.585
+[34mobjind TightId      Et       eta
+[36m  g  0       0 98.8138  0.703101
+[31mjet  0         53.4593  0.525295
+[0m
+ Entry # = 3732067
+[32m ----------  EXOTIC EVENT: Run, Event: 195308, 195308 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   574.301   255.103
+[34mobjind TightId      Et       eta
+[36m  g  0       0 270.563  0.610933
+[31mjet  0         48.6363 -0.455652
+[0m
+ Entry # = 3915336
+[32m ----------  EXOTIC EVENT: Run, Event: 195620, 195620 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   335.474   162.506
+[34mobjind TightId      Et       eta
+[36m  g  0       0 156.881   0.75324
+[31mjet  0         16.0872  0.241957
+[0m
+ Entry # = 3988004
+[32m ----------  EXOTIC EVENT: Run, Event: 195678, 195678 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   399.531   183.463
+[34mobjind TightId      Et       eta
+[36m  g  0       0 24.4473 -0.653548
+[31mjet  0         191.621 -0.447431
+[0m
+ Entry # = 3989247
+[32m ----------  EXOTIC EVENT: Run, Event: 195678, 195678 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   423.464   175.412
+[34mobjind TightId      Et       eta
+[36m  g  0       0 212.707  -0.59974
+[31mjet  0          35.344-0.0888711
+[0m
+ Entry # = 4013778
+[32m ----------  EXOTIC EVENT: Run, Event: 195678, 195678 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   414.725   185.302
+[34mobjind TightId      Et       eta
+[36m  g  0       0 202.852 -0.270641
+[31mjet  0         26.5712 -0.818534
+[0m
+ Entry # = 4035671
+[32m ----------  EXOTIC EVENT: Run, Event: 195678, 195678 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   383.945   190.955
+[34mobjind TightId      Et       eta
+[36m  g  0       0 151.341  0.774253
+[31mjet  0         41.6489  0.649928
+[0m
+ Entry # = 4046077
+[32m ----------  EXOTIC EVENT: Run, Event: 195651, 195651 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   319.173   162.564
+[34mobjind TightId      Et       eta
+[36m  g  0       0 114.879  0.543653
+[31mjet  0         41.7295 -0.278851
+[0m
+ Entry # = 4117705
+[32m ----------  EXOTIC EVENT: Run, Event: 195742, 195742 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   427.745    185.58
+[34mobjind TightId      Et       eta
+[36m  g  0       0 213.711  0.200508
+[31mjet  0         28.4535 -0.536397
+[0m
+ Entry # = 4183694
+[32m ----------  EXOTIC EVENT: Run, Event: 196043, 196043 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   358.485   155.917
+[34mobjind TightId      Et       eta
+[36m  g  0       0 50.3809  0.371426
+[31mjet  0         152.187  0.437203
+[0m
+ Entry # = 4226118
+[32m ----------  EXOTIC EVENT: Run, Event: 196152, 196152 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   399.412   200.689
+[34mobjind TightId      Et       eta
+[36m  g  0       0 125.903  0.673878
+[31mjet  0         72.8204  0.552749
+[0m
+ Entry # = 4283272
+[32m ----------  EXOTIC EVENT: Run, Event: 196183, 196183 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   303.653    150.23
+[34mobjind TightId      Et       eta
+[36m  g  0       0 100.062 -0.768643
+[31mjet  0         53.3608 -0.797403
+[0m
+ Entry # = 4651661
+[32m ----------  EXOTIC EVENT: Run, Event: 196752, 196752 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   328.539   166.985
+[34mobjind TightId      Et       eta
+[36m  g  0       0 19.8796 -0.238775
+[31mjet  0         141.674  -1.41808
+[0m
+ Entry # = 4652989
+[32m ----------  EXOTIC EVENT: Run, Event: 196752, 196752 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   375.759   187.359
+[34mobjind TightId      Et       eta
+[36m  g  0       0 164.511   0.78917
+[31mjet  0         23.8894   1.01549
+[0m
+ Entry # = 4700944
+[32m ----------  EXOTIC EVENT: Run, Event: 196879, 196879 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   381.834   194.597
+[34mobjind TightId      Et       eta
+[36m  g  0       0 143.445 -0.780497
+[31mjet  0          43.792  -0.73438
+[0m
+ Entry # = 4711034
+[32m ----------  EXOTIC EVENT: Run, Event: 196886, 196886 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    416.92   207.103
+[34mobjind TightId      Et       eta
+[36m  g  0       0 29.0918  0.753792
+[31mjet  0         180.725   1.37092
+[0m
+ Entry # = 4720854
+[32m ----------  EXOTIC EVENT: Run, Event: 196892, 196892 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   690.963   287.003
+[34mobjind TightId      Et       eta
+[36m  g  0       0 87.3855  0.300417
+[31mjet  0         316.575 0.0649864
+[0m
+ Entry # = 4807547
+[32m ----------  EXOTIC EVENT: Run, Event: 196948, 196948 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1218.54   575.235
+[34mobjind TightId      Et       eta
+[36m  g  0       0 43.3316 -0.240104
+[31mjet  0          599.97 -0.868459
+[0m
+ Entry # = 4812428
+[32m ----------  EXOTIC EVENT: Run, Event: 197103, 197103 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   324.007   150.556
+[34mobjind TightId      Et       eta
+[36m  g  0       0 158.329  0.158847
+[31mjet  0         15.1227 -0.662802
+[0m
+4929210	 events processed [9%] looptimer : Real Time = 629.14 seconds Cpu Time = 211.98 seconds
+ Entry # = 5146720
+[32m ----------  EXOTIC EVENT: Run, Event: 197716, 197716 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   291.759   151.692
+[34mobjind TightId      Et       eta
+[36m  g  0       0 30.6748 -0.578659
+[31mjet  0         71.6198   1.70515
+[31mjet  1         37.7722 -0.441322
+[0m
+ Entry # = 5158505
+[32m ----------  EXOTIC EVENT: Run, Event: 197716, 197716 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   342.154   152.145
+[34mobjind TightId      Et       eta
+[36m  g  0       0 25.6729  -1.01733
+[31mjet  0         103.671  -1.23024
+[31mjet  1         60.6641 -0.687829
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_5P10.root[0m
+ Entry # = 5299154
+[32m ----------  EXOTIC EVENT: Run, Event: 203826, 203826 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   402.452   200.941
+[34mobjind TightId      Et       eta
+[36m  g  0       0 173.621  0.571994
+[31mjet  0         15.3769-0.0499294
+[0m
+ Entry # = 5310802
+[32m ----------  EXOTIC EVENT: Run, Event: 204119, 204119 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   5   804.007    300.46
+[34mobjind TightId      Et       eta
+[36m  g  0       0 68.5071 -0.845829
+[31mjet  0         349.806-0.0676338
+[31mjet  1         28.8272-0.0714414
+[31mjet  2         24.7101 -0.177779
+[31mjet  3         16.6604 -0.119619
+[31mjet  4         15.0361 -0.299442
+[0m
+ Entry # = 5376109
+[32m ----------  EXOTIC EVENT: Run, Event: 203881, 203881 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   347.173   178.063
+[34mobjind TightId      Et       eta
+[36m  g  0       0 19.7004 -0.763581
+[31mjet  0         132.962  0.944231
+[31mjet  1         16.4469 -0.834998
+[0m
+ Entry # = 5390860
+[32m ----------  EXOTIC EVENT: Run, Event: 204265, 204265 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   301.307   151.838
+[34mobjind TightId      Et       eta
+[36m  g  0       0 100.639  0.605932
+[31mjet  0         48.8297  0.161584
+[0m
+ Entry # = 5533862
+[32m ----------  EXOTIC EVENT: Run, Event: 205995, 205995 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   610.465   253.434
+[34mobjind TightId      Et       eta
+[36m  g  0       0 261.651  0.935304
+[31mjet  0           95.38  0.194515
+[0m
+ Entry # = 5533873
+[32m ----------  EXOTIC EVENT: Run, Event: 205995, 205995 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   464.726   213.789
+[34mobjind TightId      Et       eta
+[36m  g  0       0 230.955 -0.396548
+[31mjet  0         19.9816  -1.05271
+[0m
+ Entry # = 5645301
+[32m ----------  EXOTIC EVENT: Run, Event: 206258, 206258 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   684.732   348.453
+[34mobjind TightId      Et       eta
+[36m  g  0       0 74.5572  0.201542
+[31mjet  0         261.722 -0.321895
+[0m
+ Entry # = 5836105
+[32m ----------  EXOTIC EVENT: Run, Event: 206695, 206695 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   300.657   152.372
+[34mobjind TightId      Et       eta
+[36m  g  0       0 15.1856 -0.728086
+[31mjet  0         133.099  0.670105
+[0m
+ Entry # = 5875708
+[32m ----------  EXOTIC EVENT: Run, Event: 206989, 206989 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   323.631   161.031
+[34mobjind TightId      Et       eta
+[36m  g  0       0 129.387  0.845859
+[31mjet  0         33.2127   1.28246
+[0m
+ Entry # = 5935054
+[32m ----------  EXOTIC EVENT: Run, Event: 207080, 207080 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   554.631   272.552
+[34mobjind TightId      Et       eta
+[36m  g  0       0 264.207 -0.895835
+[31mjet  0         17.8712 -0.533066
+[0m
+ Entry # = 6013362
+[32m ----------  EXOTIC EVENT: Run, Event: 207153, 207153 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    527.02   233.458
+[34mobjind TightId      Et       eta
+[36m  g  0       0 51.2525 -0.231202
+[31mjet  0         242.309   1.58133
+[0m
+ Entry # = 6252867
+[32m ----------  EXOTIC EVENT: Run, Event: 207488, 207488 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    448.12   195.404
+[34mobjind TightId      Et       eta
+[36m  g  0       0 30.1961  0.999993
+[31mjet  0         222.521  0.267999
+[0m
+ Entry # = 6303003
+[32m ----------  EXOTIC EVENT: Run, Event: 209085, 209085 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   426.644   224.298
+[34mobjind TightId      Et       eta
+[36m  g  0       0 184.386   0.88903
+[31mjet  0         17.9604   1.15552
+[0m
+ Entry # = 6424679
+[32m ----------  EXOTIC EVENT: Run, Event: 209263, 209263 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   913.339   459.932
+[34mobjind TightId      Et       eta
+[36m  g  0       0 405.095  0.401914
+[31mjet  0         48.3117  0.246028
+[0m
+ Entry # = 6628881
+[32m ----------  EXOTIC EVENT: Run, Event: 204413, 204413 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   785.108   417.033
+[34mobjind TightId      Et       eta
+[36m  g  0       0 345.931  0.197379
+[31mjet  0         22.1432   1.14996
+[0m
+ Entry # = 6844155
+[32m ----------  EXOTIC EVENT: Run, Event: 209498, 209498 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    611.64   280.908
+[34mobjind TightId      Et       eta
+[36m  g  0       0 21.3483 -0.690127
+[31mjet  0         309.384  0.193552
+[0m
+ Entry # = 6967756
+[32m ----------  EXOTIC EVENT: Run, Event: 209537, 209537 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   347.758    177.85
+[34mobjind TightId      Et       eta
+[36m  g  0       0 138.969  0.726885
+[31mjet  0         30.9388 -0.281883
+[0m
+ Entry # = 7002390
+[32m ----------  EXOTIC EVENT: Run, Event: 209789, 209789 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   422.283   217.082
+[34mobjind TightId      Et       eta
+[36m  g  0       0 151.202  0.235695
+[31mjet  0         53.9986-0.0143303
+[0m
+ Entry # = 7006229
+[32m ----------  EXOTIC EVENT: Run, Event: 209789, 209789 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   499.726   234.601
+[34mobjind TightId      Et       eta
+[36m  g  0       0 50.7899 -0.199122
+[31mjet  0         214.335 -0.958899
+[0m
+ Entry # = 7083962
+[32m ----------  EXOTIC EVENT: Run, Event: 209850, 209850 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   452.034   225.296
+[34mobjind TightId      Et       eta
+[36m  g  0       0 35.6716 -0.187725
+[31mjet  0         191.067  -0.19424
+[0m
+ Entry # = 7127356
+[32m ----------  EXOTIC EVENT: Run, Event: 209820, 209820 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1713.56    856.98
+[34mobjind TightId      Et       eta
+[36m  g  0       0 20.9414  0.548688
+[31mjet  0         835.644  0.266774
+[0m
+ Entry # = 7179039
+[32m ----------  EXOTIC EVENT: Run, Event: 209920, 209920 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   530.678     243.7
+[34mobjind TightId      Et       eta
+[36m  g  0       0 248.454 -0.538932
+[31mjet  0         38.5237 0.0558065
+[0m
+ Entry # = 7195695
+[32m ----------  EXOTIC EVENT: Run, Event: 209986, 209986 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   467.387    157.81
+[34mobjind TightId      Et       eta
+[36m  g  0       0 78.5036  0.292288
+[31mjet  0         145.738 -0.625797
+[31mjet  1          58.764  0.134743
+[31mjet  2         26.5716   -2.1608
+[0m
+ Entry # = 7215560
+[32m ----------  EXOTIC EVENT: Run, Event: 210859, 210859 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   366.132   185.133
+[34mobjind TightId      Et       eta
+[36m  g  0       0 110.461 -0.323108
+[31mjet  0         70.5371 0.0631634
+[0m
+ Entry # = 7220348
+[32m ----------  EXOTIC EVENT: Run, Event: 209986, 209986 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   624.434   300.681
+[34mobjind TightId      Et       eta
+[36m  g  0       0 292.761 -0.123099
+[31mjet  0         30.9925 0.0989908
+[0m
+ Entry # = 7252723
+[32m ----------  EXOTIC EVENT: Run, Event: 210008, 210008 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   409.782   201.819
+[34mobjind TightId      Et       eta
+[36m  g  0       0  189.12-0.0884745
+[31mjet  0         18.8419 -0.325749
+[0m
+ Entry # = 7329985
+[32m ----------  EXOTIC EVENT: Run, Event: 211135, 211135 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   456.084   229.445
+[34mobjind TightId      Et       eta
+[36m  g  0       0 201.768  0.798659
+[31mjet  0         24.8715   0.63162
+[0m
+ Entry # = 7407787
+[32m ----------  EXOTIC EVENT: Run, Event: 211312, 211312 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   675.317   342.123
+[34mobjind TightId      Et       eta
+[36m  g  0       0 17.5629  0.360943
+[31mjet  0         315.631 -0.196062
+[0m
+ Entry # = 7463503
+[32m ----------  EXOTIC EVENT: Run, Event: 211337, 211337 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   480.361   167.265
+[34mobjind TightId      Et       eta
+[36m  g  0       0 109.156 -0.598966
+[31mjet  0          203.94 -0.139559
+[0m
+ Entry # = 7467976
+[32m ----------  EXOTIC EVENT: Run, Event: 211337, 211337 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   332.108    180.09
+[34mobjind TightId      Et       eta
+[36m  g  0       0  29.854  0.466955
+[31mjet  0         122.164 -0.193409
+[0m
+ Entry # = 7535859
+[32m ----------  EXOTIC EVENT: Run, Event: 211452, 211452 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    303.28   159.464
+[34mobjind TightId      Et       eta
+[36m  g  0       0 126.724   0.66121
+[31mjet  0         17.0926  0.602044
+[0m
+ Entry # = 7567459
+[32m ----------  EXOTIC EVENT: Run, Event: 211903, 211903 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   300.537   155.642
+[34mobjind TightId      Et       eta
+[36m  g  0       0 78.1974 -0.183988
+[31mjet  0         66.6975 -0.303722
+[0m
+ Entry # = 7576020
+[32m ----------  EXOTIC EVENT: Run, Event: 211867, 211867 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   622.216   298.207
+[34mobjind TightId      Et       eta
+[36m  g  0       0  302.66  0.199267
+[31mjet  0         21.3493 -0.191385
+[0m
+ Entry # = 7586105
+[32m ----------  EXOTIC EVENT: Run, Event: 211903, 211903 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   337.428    171.06
+[34mobjind TightId      Et       eta
+[36m  g  0       0 113.995 -0.954606
+[31mjet  0         52.3727  -1.04484
+[0m
+ Entry # = 7690344
+[32m ----------  EXOTIC EVENT: Run, Event: 204478, 204478 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    1033.4   498.257
+[34mobjind TightId      Et       eta
+[36m  g  0       0 27.2569 -0.819984
+[31mjet  0         507.884  -1.42914
+[0m
+ Entry # = 7735371
+[32m ----------  EXOTIC EVENT: Run, Event: 204591, 204591 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   691.558   204.974
+[34mobjind TightId      Et       eta
+[36m  g  0       0 177.955  0.462291
+[31mjet  0         276.047 0.0692777
+[31mjet  1         32.5828  0.115793
+[0m
+ Entry # = 7740389
+[32m ----------  EXOTIC EVENT: Run, Event: 204550, 204550 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   399.869   199.119
+[34mobjind TightId      Et       eta
+[36m  g  0       0 124.811  0.562076
+[31mjet  0         75.9393  0.416786
+[0m
+ Entry # = 7750725
+[32m ----------  EXOTIC EVENT: Run, Event: 204639, 204639 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   480.261   243.323
+[34mobjind TightId      Et       eta
+[36m  g  0       0  26.257  0.509715
+[31mjet  0         210.681 -0.325746
+[0m
+ Entry # = 7863923
+[32m ----------  EXOTIC EVENT: Run, Event: 219108, 219108 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   395.235   167.452
+[34mobjind TightId      Et       eta
+[36m  g  0       0 169.251  0.524307
+[31mjet  0         58.5315   1.27734
+[0m
+ Entry # = 7911470
+[32m ----------  EXOTIC EVENT: Run, Event: 219266, 219266 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   596.048   289.634
+[34mobjind TightId      Et       eta
+[36m  g  0       0 282.251 -0.544109
+[31mjet  0         16.5408   1.59914
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_5P10_1.root[0m
+ Entry # = 8024658
+[32m ----------  EXOTIC EVENT: Run, Event: 222552, 222552 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   365.959    185.13
+[34mobjind TightId      Et       eta
+[36m  g  0       0 16.3184 -0.938442
+[31mjet  0         164.511  0.477252
+[0m
+ Entry # = 8060763
+[32m ----------  EXOTIC EVENT: Run, Event: 222533, 222533 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   362.138    176.33
+[34mobjind TightId      Et       eta
+[36m  g  0       0 167.511 -0.610863
+[31mjet  0         18.2968  -1.71338
+[0m
+ Entry # = 8109451
+[32m ----------  EXOTIC EVENT: Run, Event: 222576, 222576 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   731.962   335.102
+[34mobjind TightId      Et       eta
+[36m  g  0       0 53.0758  -0.89993
+[31mjet  0         343.785  0.446533
+[0m
+ Entry # = 8177732
+[32m ----------  EXOTIC EVENT: Run, Event: 222655, 222655 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    375.04   156.032
+[34mobjind TightId      Et       eta
+[36m  g  0       0  181.43 -0.231775
+[31mjet  0         37.5775 -0.717554
+[0m
+ Entry # = 8403508
+[32m ----------  EXOTIC EVENT: Run, Event: 222946, 222946 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   555.155   282.072
+[34mobjind TightId      Et       eta
+[36m  g  0       0 255.318  0.682862
+[31mjet  0         17.7653   0.21558
+[0m
+ Entry # = 8517461
+[32m ----------  EXOTIC EVENT: Run, Event: 223160, 223160 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   415.109   204.248
+[34mobjind TightId      Et       eta
+[36m  g  0       0 188.109  0.284237
+[31mjet  0         22.7531-0.0576033
+[0m
+ Entry # = 8565196
+[32m ----------  EXOTIC EVENT: Run, Event: 223233, 223233 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   747.751   333.431
+[34mobjind TightId      Et       eta
+[36m  g  0       0 362.558 -0.168656
+[31mjet  0         51.7626  -1.26628
+[0m
+ Entry # = 8628624
+[32m ----------  EXOTIC EVENT: Run, Event: 223240, 223240 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   4   511.514   214.931
+[34mobjind TightId      Et       eta
+[36m  g  0       0 27.5274 -0.593406
+[31mjet  0         191.321   0.19942
+[31mjet  1         36.5236  0.279007
+[31mjet  2         25.3955 0.0901944
+[31mjet  3         15.8159  0.298354
+[0m
+ Entry # = 8694379
+[32m ----------  EXOTIC EVENT: Run, Event: 223373, 223373 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   435.406   208.859
+[34mobjind TightId      Et       eta
+[36m  g  0       0 207.272-0.0866406
+[31mjet  0         19.2757    1.2087
+[0m
+ Entry # = 8882718
+[32m ----------  EXOTIC EVENT: Run, Event: 205151, 205151 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   348.808   178.269
+[34mobjind TightId      Et       eta
+[36m  g  0       0 15.0193-0.0760378
+[31mjet  0         155.519  0.789254
+[0m
+ Entry # = 9036761
+[32m ----------  EXOTIC EVENT: Run, Event: 224126, 224126 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   365.991   170.474
+[34mobjind TightId      Et       eta
+[36m  g  0       0 180.107  0.552454
+[31mjet  0         15.4095  0.146571
+[0m
+ Entry # = 9080629
+[32m ----------  EXOTIC EVENT: Run, Event: 224423, 224423 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   357.876   182.492
+[34mobjind TightId      Et       eta
+[36m  g  0       0  29.517 -0.264811
+[31mjet  0         145.868  0.371491
+[0m
+ Entry # = 9293323
+[32m ----------  EXOTIC EVENT: Run, Event: 226189, 226189 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   446.233   182.817
+[34mobjind TightId      Et       eta
+[36m  g  0       0 209.463 -0.461289
+[31mjet  0         53.9534 -0.545719
+[0m
+ Entry # = 9356681
+[32m ----------  EXOTIC EVENT: Run, Event: 226297, 226297 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   442.344   183.688
+[34mobjind TightId      Et       eta
+[36m  g  0       0 53.3623 -0.860506
+[31mjet  0         205.294   1.25732
+[0m
+ Entry # = 9557064
+[32m ----------  EXOTIC EVENT: Run, Event: 227782, 227782 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    558.95    265.04
+[34mobjind TightId      Et       eta
+[36m  g  0       0 264.113  0.404366
+[31mjet  0         29.7974  0.161517
+[0m
+ Entry # = 9588215
+[32m ----------  EXOTIC EVENT: Run, Event: 227747, 227747 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   794.151   392.007
+[34mobjind TightId      Et       eta
+[36m  g  0       0 28.7351  0.929943
+[31mjet  0         373.409  0.598515
+[0m
+ Entry # = 9672814
+[32m ----------  EXOTIC EVENT: Run, Event: 227808, 227808 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   338.141    159.58
+[34mobjind TightId      Et       eta
+[36m  g  0       0 26.6599 -0.477904
+[31mjet  0         136.447  0.109362
+[31mjet  1         15.4538-0.0919794
+[0m
+ Entry # = 9681748
+[32m ----------  EXOTIC EVENT: Run, Event: 227782, 227782 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   368.167   170.086
+[34mobjind TightId      Et       eta
+[36m  g  0       0 178.869  0.308714
+[31mjet  0         19.2114  -1.17002
+[0m
+ Entry # = 9833576
+[32m ----------  EXOTIC EVENT: Run, Event: 228576, 228576 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   739.076   377.484
+[34mobjind TightId      Et       eta
+[36m  g  0       0 346.211  0.778058
+[31mjet  0         15.3804  0.105159
+[0m
+9858420	 events processed [19%] looptimer : Real Time = 1252.47 seconds Cpu Time = 416.24 seconds
+ Entry # = 9938196
+[32m ----------  EXOTIC EVENT: Run, Event: 205560, 205560 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   336.627   155.208
+[34mobjind TightId      Et       eta
+[36m  g  0       0 23.3579   0.55386
+[31mjet  0         158.061 -0.764706
+[0m
+ Entry # = 9954182
+[32m ----------  EXOTIC EVENT: Run, Event: 229084, 229084 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   429.486     214.3
+[34mobjind TightId      Et       eta
+[36m  g  0       0 194.744 -0.142665
+[31mjet  0         20.4419  -1.02993
+[0m
+ Entry # = 10047133
+[32m ----------  EXOTIC EVENT: Run, Event: 228664, 228664 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   387.883   175.977
+[34mobjind TightId      Et       eta
+[36m  g  0       0 184.802  0.332823
+[31mjet  0         27.1034  -0.96873
+[0m
+ Entry # = 10227302
+[32m ----------  EXOTIC EVENT: Run, Event: 230615, 230615 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   342.819   158.631
+[34mobjind TightId      Et       eta
+[36m  g  0       0 167.623 -0.707505
+[31mjet  0         16.5644   1.86678
+[0m
+ Entry # = 10232352
+[32m ----------  EXOTIC EVENT: Run, Event: 229313, 229313 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   337.546   153.443
+[34mobjind TightId      Et       eta
+[36m  g  0       0  165.68 -0.806143
+[31mjet  0         18.4221 -0.122041
+[0m
+ Entry # = 10314240
+[32m ----------  EXOTIC EVENT: Run, Event: 232297, 232297 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   333.804   166.913
+[34mobjind TightId      Et       eta
+[36m  g  0       0 112.686  0.840957
+[31mjet  0         54.2048   1.33543
+[0m
+ Entry # = 10376106
+[32m ----------  EXOTIC EVENT: Run, Event: 229408, 229408 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   603.658    301.21
+[34mobjind TightId      Et       eta
+[36m  g  0       0 264.386 -0.941089
+[31mjet  0         38.0632  -1.02177
+[0m
+ Entry # = 10383573
+[32m ----------  EXOTIC EVENT: Run, Event: 230921, 230921 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   661.164   165.662
+[34mobjind TightId      Et       eta
+[36m  g  0       0 159.074 -0.358295
+[31mjet  0         281.541 0.0622685
+[31mjet  1         36.9375 0.0580302
+[31mjet  2         17.9498-0.0685564
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_5P10_2.root[0m
+ Entry # = 10682855
+[32m ----------  EXOTIC EVENT: Run, Event: 219350, 219350 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   328.154    161.06
+[34mobjind TightId      Et       eta
+[36m  g  0       0 88.0124  0.800234
+[31mjet  0         79.0822   1.31072
+[0m
+ Entry # = 10759733
+[32m ----------  EXOTIC EVENT: Run, Event: 219477, 219477 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   318.514   161.687
+[34mobjind TightId      Et       eta
+[36m  g  0       0 141.303 -0.678787
+[31mjet  0         15.5232  -2.13881
+[0m
+ Entry # = 10793580
+[32m ----------  EXOTIC EVENT: Run, Event: 219471, 219471 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   643.524   166.598
+[34mobjind TightId      Et       eta
+[36m  g  0       0 106.942 -0.185192
+[31mjet  0         314.357 -0.295857
+[31mjet  1         55.62670.00561269
+[0m
+ Entry # = 10903055
+[32m ----------  EXOTIC EVENT: Run, Event: 219572, 219572 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   455.301   206.718
+[34mobjind TightId      Et       eta
+[36m  g  0       0 42.5304 -0.740414
+[31mjet  0         206.053  -1.96101
+[0m
+ Entry # = 11068707
+[32m ----------  EXOTIC EVENT: Run, Event: 219789, 219789 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   563.449   205.092
+[34mobjind TightId      Et       eta
+[36m  g  0       0 256.496  0.280641
+[31mjet  0         101.861-0.0580268
+[0m
+ Entry # = 11276128
+[32m ----------  EXOTIC EVENT: Run, Event: 220221, 220221 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   861.917    400.47
+[34mobjind TightId      Et       eta
+[36m  g  0       0 35.7852  0.654773
+[31mjet  0         425.662  0.293962
+[0m
+ Entry # = 11483280
+[32m ----------  EXOTIC EVENT: Run, Event: 220604, 220604 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   556.599   267.965
+[34mobjind TightId      Et       eta
+[36m  g  0       0 252.122 -0.571159
+[31mjet  0         36.5119-0.0624872
+[0m
+ Entry # = 11504061
+[32m ----------  EXOTIC EVENT: Run, Event: 204643, 204643 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   431.922   217.229
+[34mobjind TightId      Et       eta
+[36m  g  0       0 191.669  0.311952
+[31mjet  0         23.0244  0.423723
+[0m
+ Entry # = 11509883
+[32m ----------  EXOTIC EVENT: Run, Event: 204643, 204643 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1311.87   636.431
+[34mobjind TightId      Et       eta
+[36m  g  0       0  27.824  0.194545
+[31mjet  0         647.614  0.319165
+[0m
+ Entry # = 11617213
+[32m ----------  EXOTIC EVENT: Run, Event: 220730, 220730 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   685.206   330.373
+[34mobjind TightId      Et       eta
+[36m  g  0       0 339.416  0.144306
+[31mjet  0         15.4171 -0.747108
+[0m
+ Entry # = 11675905
+[32m ----------  EXOTIC EVENT: Run, Event: 220898, 220898 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   735.745   363.346
+[34mobjind TightId      Et       eta
+[36m  g  0       0 347.841  0.875798
+[31mjet  0         24.5582-0.0966986
+[0m
+ Entry # = 11795542
+[32m ----------  EXOTIC EVENT: Run, Event: 221174, 221174 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    492.25   215.125
+[34mobjind TightId      Et       eta
+[36m  g  0       0 244.745  0.105518
+[31mjet  0         32.3794 -0.249751
+[0m
+ Entry # = 11803978
+[32m ----------  EXOTIC EVENT: Run, Event: 221334, 221334 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   648.468   312.797
+[34mobjind TightId      Et       eta
+[36m  g  0       0  317.87 -0.516033
+[31mjet  0         17.8014  0.345807
+[0m
+ Entry # = 11819307
+[32m ----------  EXOTIC EVENT: Run, Event: 221334, 221334 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    532.73   272.093
+[34mobjind TightId      Et       eta
+[36m  g  0       0 244.077   0.63379
+[31mjet  0         16.5606  0.833539
+[0m
+ Entry # = 12233607
+[32m ----------  EXOTIC EVENT: Run, Event: 221804, 221804 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   802.844   169.437
+[34mobjind TightId      Et       eta
+[36m  g  0       0 338.801    0.4825
+[31mjet  0         140.476 -0.107631
+[31mjet  1         115.249 -0.519445
+[31mjet  2         38.8798  -1.01496
+[0m
+ Entry # = 12273821
+[32m ----------  EXOTIC EVENT: Run, Event: 221827, 221827 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   597.987   282.956
+[34mobjind TightId      Et       eta
+[36m  g  0       0  19.518 -0.779414
+[31mjet  0         268.403-0.0536182
+[31mjet  1         27.1103 -0.237544
+[0m
+ Entry # = 12397989
+[32m ----------  EXOTIC EVENT: Run, Event: 222253, 222253 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   454.058   211.316
+[34mobjind TightId      Et       eta
+[36m  g  0       0 25.0662 -0.168233
+[31mjet  0         217.676  0.566086
+[0m
+ Entry # = 12412098
+[32m ----------  EXOTIC EVENT: Run, Event: 222186, 222186 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   348.491   162.451
+[34mobjind TightId      Et       eta
+[36m  g  0       0 163.069  0.163723
+[31mjet  0         22.9711  0.777079
+[0m
+ Entry # = 12472206
+[32m ----------  EXOTIC EVENT: Run, Event: 222271, 222271 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   550.856   252.614
+[34mobjind TightId      Et       eta
+[36m  g  0       0  24.856  -0.50925
+[31mjet  0         273.386  0.078973
+[0m
+ Entry # = 12546838
+[32m ----------  EXOTIC EVENT: Run, Event: 204748, 204748 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   5   609.627   209.827
+[34mobjind TightId      Et       eta
+[36m  g  0       0 158.897  0.483384
+[31mjet  0         92.5254  0.102156
+[31mjet  1         50.1524  0.726385
+[31mjet  2         45.0959 -0.376735
+[31mjet  3         27.2235   1.52431
+[31mjet  4         25.9051  -1.19083
+[0m
+ Entry # = 12579442
+[32m ----------  EXOTIC EVENT: Run, Event: 204835, 204835 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   2403.98   1224.92
+[34mobjind TightId      Et       eta
+[36m  g  0       0 1147.78 -0.511193
+[31mjet  0         15.8811 -0.157817
+[31mjet  1         15.3945  0.149962
+[0m
+ Entry # = 12587999
+[32m ----------  EXOTIC EVENT: Run, Event: 205007, 205007 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1364.73   674.122
+[34mobjind TightId      Et       eta
+[36m  g  0       0 31.1344  0.952627
+[31mjet  0         659.476  0.445511
+[0m
+ Entry # = 12618459
+[32m ----------  EXOTIC EVENT: Run, Event: 204921, 204921 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   1059.94    474.39
+[34mobjind TightId      Et       eta
+[36m  g  0       0 59.1674-0.0513966
+[31mjet  0         502.624 -0.582501
+[31mjet  1         23.7597 -0.527804
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_5P10_3.root[0m
+ Entry # = 12767716
+[32m ----------  EXOTIC EVENT: Run, Event: 229772, 229772 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   323.221   163.471
+[34mobjind TightId      Et       eta
+[36m  g  0       0 124.085  0.720826
+[31mjet  0         35.6654-0.00884542
+[0m
+ Entry # = 12780027
+[32m ----------  EXOTIC EVENT: Run, Event: 229934, 229934 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   490.785   231.602
+[34mobjind TightId      Et       eta
+[36m  g  0       0 237.288  0.148442
+[31mjet  0         21.8948 -0.322079
+[0m
+ Entry # = 12922650
+[32m ----------  EXOTIC EVENT: Run, Event: 230078, 230078 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   604.945   224.958
+[34mobjind TightId      Et       eta
+[36m  g  0       0 244.037  0.687654
+[31mjet  0          135.95 -0.118873
+[0m
+ Entry # = 12923822
+[32m ----------  EXOTIC EVENT: Run, Event: 230078, 230078 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    622.27   265.851
+[34mobjind TightId      Et       eta
+[36m  g  0       0 45.9845  0.203265
+[31mjet  0         310.434-0.0647815
+[0m
+ Entry # = 12943528
+[32m ----------  EXOTIC EVENT: Run, Event: 230560, 230560 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    790.62   389.307
+[34mobjind TightId      Et       eta
+[36m  g  0       0 25.2321 -0.244121
+[31mjet  0         376.081 -0.564255
+[0m
+ Entry # = 13213122
+[32m ----------  EXOTIC EVENT: Run, Event: 231022, 231022 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   370.613    194.14
+[34mobjind TightId      Et       eta
+[36m  g  0       0 150.497 -0.332419
+[31mjet  0         25.9761  0.184322
+[0m
+ Entry # = 13275266
+[32m ----------  EXOTIC EVENT: Run, Event: 230616, 230616 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   337.383   167.235
+[34mobjind TightId      Et       eta
+[36m  g  0       0 30.1787 -0.729129
+[31mjet  0          139.97 -0.558745
+[0m
+ Entry # = 13354632
+[32m ----------  EXOTIC EVENT: Run, Event: 232062, 232062 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   701.035    348.66
+[34mobjind TightId      Et       eta
+[36m  g  0       0 57.7218  -1.03799
+[31mjet  0         294.653 -0.489249
+[0m
+ Entry # = 13514984
+[32m ----------  EXOTIC EVENT: Run, Event: 231153, 231153 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   335.476   167.183
+[34mobjind TightId      Et       eta
+[36m  g  0       0 148.107  0.480122
+[31mjet  0         20.1848  0.138569
+[0m
+ Entry # = 13592136
+[32m ----------  EXOTIC EVENT: Run, Event: 231082, 231082 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   606.153   307.653
+[34mobjind TightId      Et       eta
+[36m  g  0       0  38.941  0.577531
+[31mjet  0         259.559 -0.310775
+[0m
+ Entry # = 13669021
+[32m ----------  EXOTIC EVENT: Run, Event: 231126, 231126 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   650.596   208.746
+[34mobjind TightId      Et       eta
+[36m  g  0       0 209.033  0.391548
+[31mjet  0         215.553  0.688812
+[31mjet  1         17.2641  0.546701
+[0m
+ Entry # = 13714966
+[32m ----------  EXOTIC EVENT: Run, Event: 231156, 231156 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   512.317   247.364
+[34mobjind TightId      Et       eta
+[36m  g  0       0  77.539  0.552658
+[31mjet  0         187.414  0.660605
+[0m
+ Entry # = 13722700
+[32m ----------  EXOTIC EVENT: Run, Event: 231294, 231294 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   629.715   318.954
+[34mobjind TightId      Et       eta
+[36m  g  0       0 32.6349  0.770584
+[31mjet  0         278.125   1.29465
+[0m
+ Entry # = 14064199
+[32m ----------  EXOTIC EVENT: Run, Event: 205894, 205894 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   689.086   305.372
+[34mobjind TightId      Et       eta
+[36m  g  0       0 343.868  0.161079
+[31mjet  0         39.8451  0.369101
+[0m
+ Entry # = 14064565
+[32m ----------  EXOTIC EVENT: Run, Event: 205894, 205894 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   369.276   158.589
+[34mobjind TightId      Et       eta
+[36m  g  0       0 181.439 0.0698822
+[31mjet  0          29.248 -0.540873
+[0m
+ Entry # = 14251975
+[32m ----------  EXOTIC EVENT: Run, Event: 231741, 231741 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   538.575    259.88
+[34mobjind TightId      Et       eta
+[36m  g  0       0 258.563 -0.315571
+[31mjet  0         20.1321  0.628302
+[0m
+ Entry # = 14283058
+[32m ----------  EXOTIC EVENT: Run, Event: 231453, 231453 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       1[0/1]   1   498.858   196.337
+[34mobjind TightId      Et       eta
+[36m  g  0       0 43.1818 -0.465426
+  e  0    1032 15.1348  -0.61357
+[31mjet  0         244.204 -0.379231
+[0m
+ Entry # = 14342517
+[32m ----------  EXOTIC EVENT: Run, Event: 231741, 231741 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   362.927   152.023
+[34mobjind TightId      Et       eta
+[36m  g  0       0 181.106 -0.382969
+[31mjet  0         29.7986 -0.570093
+[0m
+ Entry # = 14466334
+[32m ----------  EXOTIC EVENT: Run, Event: 231712, 231712 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    483.69   245.442
+[34mobjind TightId      Et       eta
+[36m  g  0       0 24.1985  0.908361
+[31mjet  0          214.05  0.361341
+[0m
+ Entry # = 14489677
+[32m ----------  EXOTIC EVENT: Run, Event: 231924, 231924 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   287.088   151.858
+[34mobjind TightId      Et       eta
+[36m  g  0       0 42.5097   0.66671
+[31mjet  0         92.7205   1.32304
+[0m
+ Entry # = 14528010
+[32m ----------  EXOTIC EVENT: Run, Event: 232062, 232062 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    423.13   214.181
+[34mobjind TightId      Et       eta
+[36m  g  0       0 25.7458 -0.357321
+[31mjet  0         183.204 -0.956687
+[0m
+ Entry # = 14623234
+[32m ----------  EXOTIC EVENT: Run, Event: 232088, 232088 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   695.037   307.038
+[34mobjind TightId      Et       eta
+[36m  g  0       0 314.204 -0.373404
+[31mjet  0         35.1827 -0.510802
+[31mjet  1          23.025 -0.121911
+[31mjet  2         15.5874  0.485186
+[0m
+ Entry # = 14623360
+[32m ----------  EXOTIC EVENT: Run, Event: 232264, 232264 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   327.075   166.368
+[34mobjind TightId      Et       eta
+[36m  g  0       0 132.093   0.21467
+[31mjet  0         28.6134  0.318844
+[0m
+14787630	 events processed [29%] looptimer : Real Time = 1713.58 seconds Cpu Time = 628.67 seconds
+ Entry # = 14882262
+[32m ----------  EXOTIC EVENT: Run, Event: 232496, 232496 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   497.469   247.872
+[34mobjind TightId      Et       eta
+[36m  g  0       0 28.1745 -0.968443
+[31mjet  0         221.423  -1.74458
+[0m
+ Entry # = 14912796
+[32m ----------  EXOTIC EVENT: Run, Event: 232522, 232522 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   452.411   217.844
+[34mobjind TightId      Et       eta
+[36m  g  0       0 192.513 -0.571085
+[31mjet  0         42.0532   -1.3055
+[0m
+ Entry # = 14986555
+[32m ----------  EXOTIC EVENT: Run, Event: 233097, 233097 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   346.496   175.867
+[34mobjind TightId      Et       eta
+[36m  g  0       0 23.0899 -0.425967
+[31mjet  0         147.539  0.770696
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_11P13.root[0m
+ Entry # = 15133774
+[32m ----------  EXOTIC EVENT: Run, Event: 233610, 233610 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   492.397   226.662
+[34mobjind TightId      Et       eta
+[36m  g  0       0 244.124 -0.125615
+[31mjet  0         21.6106 -0.294041
+[0m
+ Entry # = 15207534
+[32m ----------  EXOTIC EVENT: Run, Event: 234463, 234463 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   307.061   151.994
+[34mobjind TightId      Et       eta
+[36m  g  0       0 36.8687 -0.217319
+[31mjet  0         118.198   1.18337
+[0m
+ Entry # = 15218532
+[32m ----------  EXOTIC EVENT: Run, Event: 234985, 234985 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       1[1/0]   1   535.102   265.718
+[34mobjind TightId      Et       eta
+[36m  g  0       0 15.1442 -0.178569
+  e  0       0  238.55  0.612997
+[31mjet  0         15.6895  -1.12908
+[0m
+ Entry # = 15234135
+[32m ----------  EXOTIC EVENT: Run, Event: 234864, 234864 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   632.591   272.442
+[34mobjind TightId      Et       eta
+[36m  g  0       0 34.6941 -0.119561
+[31mjet  0         306.695  0.052417
+[31mjet  1         18.7609  -2.33347
+[0m
+ Entry # = 15253837
+[32m ----------  EXOTIC EVENT: Run, Event: 235924, 235924 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   329.805   166.887
+[34mobjind TightId      Et       eta
+[36m  g  0       0 97.6735   0.45882
+[31mjet  0         65.2441  0.558275
+[0m
+ Entry # = 15284418
+[32m ----------  EXOTIC EVENT: Run, Event: 235195, 235195 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   434.991   210.797
+[34mobjind TightId      Et       eta
+[36m  g  0       0 41.0829 -0.489007
+[31mjet  0         168.105 0.0695517
+[31mjet  1         15.0062 -0.902746
+[0m
+ Entry # = 15297154
+[32m ----------  EXOTIC EVENT: Run, Event: 235002, 235002 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   4   381.771   182.849
+[34mobjind TightId      Et       eta
+[36m  g  0       0 89.4388  -0.26003
+[31mjet  0         43.3301 -0.507006
+[31mjet  1         29.1511  -1.45982
+[31mjet  2         19.3305   -1.5457
+[31mjet  3         17.6707   1.86739
+[0m
+ Entry # = 15388915
+[32m ----------  EXOTIC EVENT: Run, Event: 235158, 235158 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1483.21   715.772
+[34mobjind TightId      Et       eta
+[36m  g  0       0 23.7584  0.168813
+[31mjet  0         743.675  0.191647
+[0m
+ Entry # = 15765144
+[32m ----------  EXOTIC EVENT: Run, Event: 235648, 235648 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   391.825   188.616
+[34mobjind TightId      Et       eta
+[36m  g  0       0 182.847 -0.817958
+[31mjet  0         20.3613  -0.11038
+[0m
+ Entry # = 15772133
+[32m ----------  EXOTIC EVENT: Run, Event: 235648, 235648 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    387.16   179.204
+[34mobjind TightId      Et       eta
+[36m  g  0       0 169.805   1.04601
+[31mjet  0         38.1518 -0.608046
+[0m
+ Entry # = 16026036
+[32m ----------  EXOTIC EVENT: Run, Event: 235780, 235780 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   536.184   234.722
+[34mobjind TightId      Et       eta
+[36m  g  0       0  34.692 -0.671781
+[31mjet  0          266.77 -0.237964
+[0m
+ Entry # = 16123763
+[32m ----------  EXOTIC EVENT: Run, Event: 236653, 236653 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   369.797   187.512
+[34mobjind TightId      Et       eta
+[36m  g  0       0 160.708 -0.790998
+[31mjet  0         21.5769 -0.745361
+[0m
+ Entry # = 16144499
+[32m ----------  EXOTIC EVENT: Run, Event: 236399, 236399 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   1350.86   482.622
+[34mobjind TightId      Et       eta
+[36m  g  0       0 17.6879  0.334486
+[31mjet  0         621.678 0.0882555
+[31mjet  1         209.467  0.556676
+[31mjet  2         19.4043  -0.32532
+[0m
+ Entry # = 16184506
+[32m ----------  EXOTIC EVENT: Run, Event: 236399, 236399 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   340.934   171.191
+[34mobjind TightId      Et       eta
+[36m  g  0       0 141.761  0.765478
+[31mjet  0         27.9826  0.801951
+[0m
+ Entry # = 16198887
+[32m ----------  EXOTIC EVENT: Run, Event: 236389, 236389 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   361.575   179.685
+[34mobjind TightId      Et       eta
+[36m  g  0       0 27.8845  0.303235
+[31mjet  0         154.005 -0.435295
+[0m
+ Entry # = 16220183
+[32m ----------  EXOTIC EVENT: Run, Event: 236585, 236585 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    355.14   168.668
+[34mobjind TightId      Et       eta
+[36m  g  0       0 127.958  0.410262
+[31mjet  0         58.5131  0.753598
+[0m
+ Entry # = 16283494
+[32m ----------  EXOTIC EVENT: Run, Event: 236517, 236517 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   753.724   201.977
+[34mobjind TightId      Et       eta
+[36m  g  0       0 371.186-0.0763542
+[31mjet  0         180.561 -0.053577
+[0m
+ Entry # = 16610452
+[32m ----------  EXOTIC EVENT: Run, Event: 236965, 236965 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   646.137   201.372
+[34mobjind TightId      Et       eta
+[36m  g  0       0 306.014  -0.46264
+[31mjet  0         113.517  0.610553
+[31mjet  1         25.2343   1.48997
+[0m
+ Entry # = 16649335
+[32m ----------  EXOTIC EVENT: Run, Event: 236806, 236806 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   457.645   189.666
+[34mobjind TightId      Et       eta
+[36m  g  0       0  37.598 -0.385538
+[31mjet  0         230.382 0.0959439
+[0m
+ Entry # = 16659161
+[32m ----------  EXOTIC EVENT: Run, Event: 237226, 237226 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   527.961   151.792
+[34mobjind TightId      Et       eta
+[36m  g  0       0 37.2531 -0.644528
+[31mjet  0         225.021 -0.211038
+[31mjet  1         80.2164  0.699519
+[31mjet  2         33.6788   1.26685
+[0m
+ Entry # = 16742851
+[32m ----------  EXOTIC EVENT: Run, Event: 237310, 237310 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   326.642   152.067
+[34mobjind TightId      Et       eta
+[36m  g  0       0  152.69 -0.650475
+[31mjet  0         21.8848 0.0921717
+[0m
+ Entry # = 16898658
+[32m ----------  EXOTIC EVENT: Run, Event: 233743, 233743 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   367.472   189.546
+[34mobjind TightId      Et       eta
+[36m  g  0       0  139.71 -0.572639
+[31mjet  0         38.2161  -1.88514
+[0m
+ Entry # = 16914850
+[32m ----------  EXOTIC EVENT: Run, Event: 233171, 233171 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   385.259    166.03
+[34mobjind TightId      Et       eta
+[36m  g  0       0 34.7831  0.211889
+[31mjet  0         184.446   1.40374
+[0m
+ Entry # = 17019016
+[32m ----------  EXOTIC EVENT: Run, Event: 237795, 237795 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   384.146   180.337
+[34mobjind TightId      Et       eta
+[36m  g  0       0 15.4525 -0.791926
+[31mjet  0         188.357 -0.475326
+[0m
+ Entry # = 17059845
+[32m ----------  EXOTIC EVENT: Run, Event: 237457, 237457 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    1611.2   717.277
+[34mobjind TightId      Et       eta
+[36m  g  0       0 87.4032 -0.808914
+[31mjet  0         806.524 0.0568503
+[0m
+ Entry # = 17174407
+[32m ----------  EXOTIC EVENT: Run, Event: 238457, 238457 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   341.203   174.468
+[34mobjind TightId      Et       eta
+[36m  g  0       0 28.3309 -0.712325
+[31mjet  0         138.404 -0.030897
+[0m
+ Entry # = 17319568
+[32m ----------  EXOTIC EVENT: Run, Event: 238452, 238452 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1549.01   733.468
+[34mobjind TightId      Et       eta
+[36m  g  0       0 73.2408 -0.377407
+[31mjet  0         742.302-0.0489034
+[0m
+ Entry # = 17405912
+[32m ----------  EXOTIC EVENT: Run, Event: 238493, 238493 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   307.399   152.983
+[34mobjind TightId      Et       eta
+[36m  g  0       0 110.086 -0.451517
+[31mjet  0         44.3309 -0.210109
+[0m
+ Entry # = 17634546
+[32m ----------  EXOTIC EVENT: Run, Event: 239451, 239451 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   344.298   151.226
+[34mobjind TightId      Et       eta
+[36m  g  0       0 171.956 -0.655811
+[31mjet  0         21.1157  0.482671
+[0m
+ Entry # = 17644693
+[32m ----------  EXOTIC EVENT: Run, Event: 239230, 239230 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   402.504   202.886
+[34mobjind TightId      Et       eta
+[36m  g  0       0 159.964 -0.208043
+[31mjet  0         39.65430.00264829
+[0m
+ Entry # = 17661598
+[32m ----------  EXOTIC EVENT: Run, Event: 233656, 233656 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   496.647   198.769
+[34mobjind TightId      Et       eta
+[36m  g  0       0 209.378 -0.300222
+[31mjet  0         88.5006  -0.20501
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_11P13_1.root[0m
+ Entry # = 17773838
+[32m ----------  EXOTIC EVENT: Run, Event: 240872, 240872 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   372.086   173.108
+[34mobjind TightId      Et       eta
+[36m  g  0       0 181.528 -0.602103
+[31mjet  0         17.4505  0.156601
+[0m
+ Entry # = 18039304
+[32m ----------  EXOTIC EVENT: Run, Event: 242037, 242037 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       1[1/0]   4   664.972   172.999
+[34mobjind TightId      Et       eta
+[36m  g  0       0 19.2742    2.1453
+  e  0       0 93.0518  0.682893
+[31mjet  0         153.724  0.324845
+[31mjet  1         111.055  0.217092
+[31mjet  2         57.1523  0.323245
+[31mjet  3         38.4405  -1.38786
+[0m
+ Entry # = 18180902
+[32m ----------  EXOTIC EVENT: Run, Event: 242382, 242382 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   344.074   167.873
+[34mobjind TightId      Et       eta
+[36m  g  0       0 152.272   -0.1565
+[31mjet  0         23.9287-0.0471118
+[0m
+ Entry # = 18243410
+[32m ----------  EXOTIC EVENT: Run, Event: 234572, 234572 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   595.238   239.574
+[34mobjind TightId      Et       eta
+[36m  g  0       0 277.113 -0.193981
+[31mjet  0         78.5515  0.539164
+[0m
+ Entry # = 18474222
+[32m ----------  EXOTIC EVENT: Run, Event: 242734, 242734 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   438.219    210.37
+[34mobjind TightId      Et       eta
+[36m  g  0       0 210.811-0.0712775
+[31mjet  0         17.0378  0.666321
+[0m
+ Entry # = 18972422
+[32m ----------  EXOTIC EVENT: Run, Event: 243253, 243253 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   507.115   151.996
+[34mobjind TightId      Et       eta
+[36m  g  0       0  94.661  0.748188
+[31mjet  0         213.729  0.195526
+[31mjet  1         26.5263  0.245578
+[31mjet  2         20.2034  0.201921
+[0m
+ Entry # = 19070131
+[32m ----------  EXOTIC EVENT: Run, Event: 243521, 243521 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   367.835   167.884
+[34mobjind TightId      Et       eta
+[36m  g  0       0 17.0387  0.146886
+[31mjet  0         162.003 -0.395396
+[31mjet  1         20.9091 -0.839822
+[0m
+ Entry # = 19326774
+[32m ----------  EXOTIC EVENT: Run, Event: 243808, 243808 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   551.399   267.868
+[34mobjind TightId      Et       eta
+[36m  g  0       0 235.077  0.485481
+[31mjet  0         48.4537   1.14392
+[0m
+ Entry # = 19493833
+[32m ----------  EXOTIC EVENT: Run, Event: 244008, 244008 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   896.753   435.692
+[34mobjind TightId      Et       eta
+[36m  g  0       0 15.2937 -0.837714
+[31mjet  0         445.768 -0.745449
+[0m
+ Entry # = 19593573
+[32m ----------  EXOTIC EVENT: Run, Event: 244297, 244297 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       1[1/0]   2   514.848   164.132
+[34mobjind TightId      Et       eta
+[36m  g  0       0 15.7339 -0.251764
+  e  0       0 82.9018  0.285545
+[31mjet  0          232.94  0.195464
+[31mjet  1           19.14  0.644988
+[0m
+ Entry # = 19635039
+[32m ----------  EXOTIC EVENT: Run, Event: 244008, 244008 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   468.265   203.572
+[34mobjind TightId      Et       eta
+[36m  g  0       0 235.781  0.240687
+[31mjet  0         28.9122  0.757993
+[0m
+ Entry # = 19685609
+[32m ----------  EXOTIC EVENT: Run, Event: 244008, 244008 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   391.789   178.897
+[34mobjind TightId      Et       eta
+[36m  g  0       0 180.095  0.653418
+[31mjet  0         32.7969  0.284556
+[0m
+ Entry # = 19699639
+[32m ----------  EXOTIC EVENT: Run, Event: 244340, 244340 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   801.335   397.103
+[34mobjind TightId      Et       eta
+[36m  g  0       0 222.243 -0.484173
+[31mjet  0         133.582 0.0842009
+[31mjet  1         48.4074  -1.44429
+[0m
+19716840	 events processed [39%] looptimer : Real Time = 2191.33 seconds Cpu Time = 847.60 seconds
+ Entry # = 19819920
+[32m ----------  EXOTIC EVENT: Run, Event: 234481, 234481 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   396.371   183.109
+[34mobjind TightId      Et       eta
+[36m  g  0       0 176.383-0.0639632
+[31mjet  0          36.878 -0.140099
+[0m
+ Entry # = 19875633
+[32m ----------  EXOTIC EVENT: Run, Event: 234398, 234398 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   345.208   169.624
+[34mobjind TightId      Et       eta
+[36m  g  0       0 54.9652   0.49371
+[31mjet  0         120.619-0.0833096
+[0m
+ Entry # = 19899450
+[32m ----------  EXOTIC EVENT: Run, Event: 234318, 234318 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    596.66   300.759
+[34mobjind TightId      Et       eta
+[36m  g  0       0 259.919 -0.670036
+[31mjet  0          35.982 -0.532286
+[0m
+ Entry # = 20023929
+[32m ----------  EXOTIC EVENT: Run, Event: 244501, 244501 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   659.074   257.727
+[34mobjind TightId      Et       eta
+[36m  g  0       0 73.6654  0.726921
+[31mjet  0         327.682   1.07953
+[0m
+ Entry # = 20145585
+[32m ----------  EXOTIC EVENT: Run, Event: 244545, 244545 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   380.217    192.99
+[34mobjind TightId      Et       eta
+[36m  g  0       0 145.407 -0.192272
+[31mjet  0         41.8194 -0.429815
+[0m
+ Entry # = 20183645
+[32m ----------  EXOTIC EVENT: Run, Event: 244676, 244676 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   354.597   182.441
+[34mobjind TightId      Et       eta
+[36m  g  0       0 47.6466 -0.273594
+[31mjet  0         124.509  0.754499
+[0m
+ Entry # = 20372298
+[32m ----------  EXOTIC EVENT: Run, Event: 244996, 244996 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    378.98   172.307
+[34mobjind TightId      Et       eta
+[36m  g  0       0  159.75  0.583553
+[31mjet  0         46.9233   2.30129
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_11P13_2.root[0m
+ Entry # = 20758289
+[32m ----------  EXOTIC EVENT: Run, Event: 240130, 240130 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   436.608   199.891
+[34mobjind TightId      Et       eta
+[36m  g  0       0  190.71 -0.205228
+[31mjet  0         46.0061  0.190654
+[0m
+ Entry # = 20972970
+[32m ----------  EXOTIC EVENT: Run, Event: 240296, 240296 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   485.934   218.471
+[34mobjind TightId      Et       eta
+[36m  g  0       0  201.08 -0.105167
+[31mjet  0         38.4379   1.71491
+[31mjet  1         27.9446  0.223407
+[0m
+ Entry # = 21028004
+[32m ----------  EXOTIC EVENT: Run, Event: 240386, 240386 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   409.782   159.076
+[34mobjind TightId      Et       eta
+[36m  g  0       0  63.696  0.480713
+[31mjet  0          187.01  0.407439
+[0m
+ Entry # = 21032372
+[32m ----------  EXOTIC EVENT: Run, Event: 240449, 240449 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   329.239   153.211
+[34mobjind TightId      Et       eta
+[36m  g  0       0 157.679   0.49951
+[31mjet  0         18.3491 -0.326807
+[0m
+ Entry # = 21104639
+[32m ----------  EXOTIC EVENT: Run, Event: 240669, 240669 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   357.661   170.727
+[34mobjind TightId      Et       eta
+[36m  g  0       0 156.964  -0.49019
+[31mjet  0         29.9691 -0.708104
+[0m
+ Entry # = 21251360
+[32m ----------  EXOTIC EVENT: Run, Event: 240673, 240673 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   1027.82   504.831
+[34mobjind TightId      Et       eta
+[36m  g  0       0 15.7228 -0.729814
+[31mjet  0           408.6 -0.314744
+[31mjet  1           98.67  0.195207
+[0m
+ Entry # = 21388606
+[32m ----------  EXOTIC EVENT: Run, Event: 241271, 241271 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   400.455   189.239
+[34mobjind TightId      Et       eta
+[36m  g  0       0 181.131  0.292138
+[31mjet  0          15.048   1.89276
+[31mjet  1         15.0375   2.65624
+[0m
+ Entry # = 21451554
+[32m ----------  EXOTIC EVENT: Run, Event: 241038, 241038 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    661.53   294.203
+[34mobjind TightId      Et       eta
+[36m  g  0       0 59.6287 -0.451018
+[31mjet  0         307.698 -0.945002
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_11P13_3.root[0m
+ Entry # = 21702788
+[32m ----------  EXOTIC EVENT: Run, Event: 234269, 234269 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   304.353   158.554
+[34mobjind TightId      Et       eta
+[36m  g  0       0 125.177  0.916667
+[31mjet  0         20.6227  -2.70871
+[0m
+ Entry # = 21807450
+[32m ----------  EXOTIC EVENT: Run, Event: 245210, 245210 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   325.888   158.282
+[34mobjind TightId      Et       eta
+[36m  g  0       0 135.979  0.292778
+[31mjet  0         31.6275   2.47102
+[0m
+ Entry # = 21994675
+[32m ----------  EXOTIC EVENT: Run, Event: 245728, 245728 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       1[1/0]   1   634.036   202.029
+[34mobjind TightId      Et       eta
+[36m  g  0       0 51.4983 -0.138009
+  e  0       0 302.176 -0.340603
+[31mjet  0         78.3326  0.906144
+[0m
+ Entry # = 22090278
+[32m ----------  EXOTIC EVENT: Run, Event: 245865, 245865 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   631.752   304.631
+[34mobjind TightId      Et       eta
+[36m  g  0       0 288.712  0.229644
+[31mjet  0         22.1065 -0.208621
+[31mjet  1         16.3025  0.402178
+[0m
+ Entry # = 22298552
+[32m ----------  EXOTIC EVENT: Run, Event: 246078, 246078 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   365.734   157.867
+[34mobjind TightId      Et       eta
+[36m  g  0       0 174.454 -0.205652
+[31mjet  0         33.4134  0.157033
+[0m
+ Entry # = 22299260
+[32m ----------  EXOTIC EVENT: Run, Event: 246078, 246078 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   358.491   150.484
+[34mobjind TightId      Et       eta
+[36m  g  0       0 170.042  0.647542
+[31mjet  0         37.9643  0.248516
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_14P17_1.root[0m
+ Entry # = 22421409
+[32m ----------  EXOTIC EVENT: Run, Event: 253944, 253944 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   663.711   171.449
+[34mobjind TightId      Et       eta
+[36m  g  0       0 31.5994 -0.235152
+[31mjet  0         308.733 -0.207678
+[31mjet  1          151.93  0.781673
+[0m
+ Entry # = 22502445
+[32m ----------  EXOTIC EVENT: Run, Event: 253676, 253676 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   426.926   227.804
+[34mobjind TightId      Et       eta
+[36m  g  0       0 107.839  0.687944
+[31mjet  0         91.2829 -0.126737
+[0m
+ Entry # = 22543888
+[32m ----------  EXOTIC EVENT: Run, Event: 253725, 253725 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   355.442   164.283
+[34mobjind TightId      Et       eta
+[36m  g  0       0 167.476 -0.711132
+[31mjet  0         23.6828  -1.13264
+[0m
+ Entry # = 23102868
+[32m ----------  EXOTIC EVENT: Run, Event: 255194, 255194 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   4   524.959   186.592
+[34mobjind TightId      Et       eta
+[36m  g  0       0 61.1541 -0.797194
+[31mjet  0         208.155  0.440823
+[31mjet  1         29.6488  0.426368
+[31mjet  2         22.7392  0.416838
+[31mjet  3         16.6696  0.265864
+[0m
+ Entry # = 23136961
+[32m ----------  EXOTIC EVENT: Run, Event: 255202, 255202 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   319.534   164.306
+[34mobjind TightId      Et       eta
+[36m  g  0       0 127.303 -0.564143
+[31mjet  0         27.9252 -0.438397
+[0m
+ Entry # = 23168359
+[32m ----------  EXOTIC EVENT: Run, Event: 255146, 255146 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   793.444   411.976
+[34mobjind TightId      Et       eta
+[36m  g  0       0 213.078  0.883239
+[31mjet  0         96.2301  0.224311
+[31mjet  1         72.1596   1.36626
+[0m
+ Entry # = 23187884
+[32m ----------  EXOTIC EVENT: Run, Event: 255119, 255119 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2     445.4   172.062
+[34mobjind TightId      Et       eta
+[36m  g  0       0 46.2148  0.738942
+[31mjet  0         123.924 -0.443774
+[31mjet  1         103.199  0.759213
+[0m
+ Entry # = 23449521
+[32m ----------  EXOTIC EVENT: Run, Event: 255755, 255755 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   473.724   233.326
+[34mobjind TightId      Et       eta
+[36m  g  0       0  43.045  0.107678
+[31mjet  0         197.353 -0.455547
+[0m
+ Entry # = 23480276
+[32m ----------  EXOTIC EVENT: Run, Event: 255845, 255845 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   436.401   181.253
+[34mobjind TightId      Et       eta
+[36m  g  0       0 224.206  0.381611
+[31mjet  0         30.9415 -0.302331
+[0m
+ Entry # = 23510785
+[32m ----------  EXOTIC EVENT: Run, Event: 255935, 255935 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   541.985   188.668
+[34mobjind TightId      Et       eta
+[36m  g  0       0 84.2066  0.832319
+[31mjet  0         269.111  0.499312
+[0m
+ Entry # = 23556820
+[32m ----------  EXOTIC EVENT: Run, Event: 255701, 255701 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   541.785   263.807
+[34mobjind TightId      Et       eta
+[36m  g  0       0 261.676  0.186037
+[31mjet  0         16.30220.00862254
+[0m
+ Entry # = 24171654
+[32m ----------  EXOTIC EVENT: Run, Event: 256215, 256215 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   458.454   200.802
+[34mobjind TightId      Et       eta
+[36m  g  0       0 223.408 -0.121035
+[31mjet  0         34.2445-0.0739777
+[0m
+ Entry # = 24506913
+[32m ----------  EXOTIC EVENT: Run, Event: 256815, 256815 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   413.788   217.456
+[34mobjind TightId      Et       eta
+[36m  g  0       0  151.09  0.494696
+[31mjet  0         45.2416 -0.546847
+[0m
+24646050	 events processed [49%] looptimer : Real Time = 2663.65 seconds Cpu Time = 1063.45 seconds
+ Entry # = 24676810
+[32m ----------  EXOTIC EVENT: Run, Event: 257031, 257031 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   1123.92   551.731
+[34mobjind TightId      Et       eta
+[36m  g  0       0 27.0081  0.483347
+[31mjet  0         527.156 0.0521096
+[31mjet  1         18.0267   1.02178
+[0m
+ Entry # = 24712265
+[32m ----------  EXOTIC EVENT: Run, Event: 257031, 257031 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   362.737   186.397
+[34mobjind TightId      Et       eta
+[36m  g  0       0  140.36  0.697966
+[31mjet  0         35.9796  0.189845
+[0m
+ Entry # = 24837280
+[32m ----------  EXOTIC EVENT: Run, Event: 257247, 257247 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   379.346   195.944
+[34mobjind TightId      Et       eta
+[36m  g  0       0 126.566  0.739437
+[31mjet  0         56.8365   1.20421
+[0m
+ Entry # = 24899495
+[32m ----------  EXOTIC EVENT: Run, Event: 257375, 257375 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   331.197   156.104
+[34mobjind TightId      Et       eta
+[36m  g  0       0 146.473 -0.265575
+[31mjet  0         28.6203 -0.293058
+[0m
+ Entry # = 24957547
+[32m ----------  EXOTIC EVENT: Run, Event: 257356, 257356 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   376.809   179.471
+[34mobjind TightId      Et       eta
+[36m  g  0       0 130.123  0.183991
+[31mjet  0         46.6817  0.073623
+[31mjet  1         20.5336 -0.778027
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES2/StupleV7_DATA_Pho_NoJetVtxCuts_14P17_2.root[0m
+ Entry # = 25199199
+[32m ----------  EXOTIC EVENT: Run, Event: 257721, 257721 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   533.952   243.056
+[34mobjind TightId      Et       eta
+[36m  g  0       0 45.5509  -0.55003
+[31mjet  0         245.345  0.560823
+[0m
+ Entry # = 25231543
+[32m ----------  EXOTIC EVENT: Run, Event: 258688, 258688 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   318.915   162.035
+[34mobjind TightId      Et       eta
+[36m  g  0       0 49.8165 -0.485402
+[31mjet  0         107.063  0.212689
+[0m
+ Entry # = 25544689
+[32m ----------  EXOTIC EVENT: Run, Event: 258642, 258642 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       1[0/1]   3   408.831   171.164
+[34mobjind TightId      Et       eta
+[36m  g  0       0 151.952 -0.212189
+  e  0    1024 26.0178  0.740862
+[31mjet  0         25.7096   0.28269
+[31mjet  1         18.8325 -0.920248
+[31mjet  2         15.1549 -0.242194
+[0m
+ Entry # = 25689655
+[32m ----------  EXOTIC EVENT: Run, Event: 258686, 258686 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    1150.3   567.315
+[34mobjind TightId      Et       eta
+[36m  g  0       0 15.9855 -0.985711
+[31mjet  0         567.003-0.0339586
+[0m
+ Entry # = 26010931
+[32m ----------  EXOTIC EVENT: Run, Event: 258911, 258911 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   604.036   305.541
+[34mobjind TightId      Et       eta
+[36m  g  0       0 264.504 -0.418886
+[31mjet  0         33.9901  -0.42122
+[0m
+ Entry # = 26149324
+[32m ----------  EXOTIC EVENT: Run, Event: 259189, 259189 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   468.256   223.351
+[34mobjind TightId      Et       eta
+[36m  g  0       0 31.2361 -0.302773
+[31mjet  0         196.412  0.213182
+[31mjet  1         17.2568  -2.44917
+[0m
+ Entry # = 26154203
+[32m ----------  EXOTIC EVENT: Run, Event: 259541, 259541 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   343.461   151.077
+[34mobjind TightId      Et       eta
+[36m  g  0       0 105.525  0.551828
+[31mjet  0         57.6553  0.674359
+[31mjet  1         29.2033 -0.668564
+[0m
+ Entry # = 26158744
+[32m ----------  EXOTIC EVENT: Run, Event: 259427, 259427 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   528.896   262.224
+[34mobjind TightId      Et       eta
+[36m  g  0       0 41.0888   0.71868
+[31mjet  0         225.583   1.36332
+[0m
+ Entry # = 26288913
+[32m ----------  EXOTIC EVENT: Run, Event: 259538, 259538 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   701.418   335.763
+[34mobjind TightId      Et       eta
+[36m  g  0       0 16.6733 -0.255279
+[31mjet  0         348.982  0.666963
+[0m
+ Entry # = 26342672
+[32m ----------  EXOTIC EVENT: Run, Event: 259363, 259363 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   375.427   190.509
+[34mobjind TightId      Et       eta
+[36m  g  0       0 129.018  0.778438
+[31mjet  0         55.9009  0.631148
+[0m
+ Entry # = 26361484
+[32m ----------  EXOTIC EVENT: Run, Event: 259363, 259363 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   507.837   187.133
+[34mobjind TightId      Et       eta
+[36m  g  0       0 72.7609 -0.682859
+[31mjet  0         247.943  -0.15978
+[0m
+ Entry # = 26403254
+[32m ----------  EXOTIC EVENT: Run, Event: 259442, 259442 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   537.063   215.604
+[34mobjind TightId      Et       eta
+[36m  g  0       0 51.5783  0.489106
+[31mjet  0          269.88   0.57382
+[0m
+ Entry # = 26475763
+[32m ----------  EXOTIC EVENT: Run, Event: 259614, 259614 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   729.192   154.747
+[34mobjind TightId      Et       eta
+[36m  g  0       0  358.46-0.0795505
+[31mjet  0         215.985 -0.166848
+[0m
+ Entry # = 26527026
+[32m ----------  EXOTIC EVENT: Run, Event: 259673, 259673 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   334.502   166.194
+[34mobjind TightId      Et       eta
+[36m  g  0       0 32.5464  0.282038
+[31mjet  0         135.762 -0.455183
+[0m
+ Entry # = 26630627
+[32m ----------  EXOTIC EVENT: Run, Event: 259707, 259707 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   435.914   224.461
+[34mobjind TightId      Et       eta
+[36m  g  0       0 101.601 -0.386086
+[31mjet  0         109.852  0.434045
+[0m
+ Entry # = 26869484
+[32m ----------  EXOTIC EVENT: Run, Event: 260017, 260017 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1031.62   489.607
+[34mobjind TightId      Et       eta
+[36m  g  0       0 29.7701 -0.954111
+[31mjet  0         512.247 -0.562565
+[0m
+ Entry # = 26883244
+[32m ----------  EXOTIC EVENT: Run, Event: 259929, 259929 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   581.289   288.927
+[34mobjind TightId      Et       eta
+[36m  g  0       0 33.7031 -0.699777
+[31mjet  0         143.362  0.882772
+[31mjet  1         115.297   1.80283
+[0m
+ Entry # = 26890287
+[32m ----------  EXOTIC EVENT: Run, Event: 259975, 259975 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   397.734   156.456
+[34mobjind TightId      Et       eta
+[36m  g  0       0 44.3673  0.249058
+[31mjet  0         196.911  0.411683
+[0m
+ Entry # = 26947815
+[32m ----------  EXOTIC EVENT: Run, Event: 259929, 259929 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   388.936   196.534
+[34mobjind TightId      Et       eta
+[36m  g  0       0 146.716  0.296345
+[31mjet  0         45.6855-0.0641807
+[0m
+ Entry # = 26958893
+[32m ----------  EXOTIC EVENT: Run, Event: 259975, 259975 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   334.395   171.383
+[34mobjind TightId      Et       eta
+[36m  g  0       0 146.041  0.277401
+[31mjet  0         16.9713  0.147128
+[0m
+ Entry # = 27435215
+[32m ----------  EXOTIC EVENT: Run, Event: 260201, 260201 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   812.818   401.627
+[34mobjind TightId      Et       eta
+[36m  g  0       0 393.151 -0.314938
+[31mjet  0           18.04  -1.22673
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26.root[0m
+ Entry # = 27615718
+[32m ----------  EXOTIC EVENT: Run, Event: 261120, 261120 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   439.238   192.312
+[34mobjind TightId      Et       eta
+[36m  g  0       0 213.574  0.168147
+[31mjet  0         33.3515 -0.702914
+[0m
+ Entry # = 27808552
+[32m ----------  EXOTIC EVENT: Run, Event: 261185, 261185 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1148.71   1108.38
+[34mobjind TightId      Et       eta
+[36m  g  0       0 40.3304-0.0553851
+[31mjet  0         1126.52 -0.277668
+[0m
+ Entry # = 28050625
+[32m ----------  EXOTIC EVENT: Run, Event: 261421, 261421 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   366.952   153.155
+[34mobjind TightId      Et       eta
+[36m  g  0       0 34.5589 -0.346109
+[31mjet  0         179.238  -1.21883
+[0m
+ Entry # = 28123739
+[32m ----------  EXOTIC EVENT: Run, Event: 261518, 261518 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    701.03   355.036
+[34mobjind TightId      Et       eta
+[36m  g  0       0 329.909  0.341856
+[31mjet  0         16.0845  -1.42467
+[0m
+ Entry # = 28142951
+[32m ----------  EXOTIC EVENT: Run, Event: 261876, 261876 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   455.535   216.641
+[34mobjind TightId      Et       eta
+[36m  g  0       0 220.148  0.492191
+[31mjet  0         18.7464   1.27008
+[0m
+ Entry # = 28308750
+[32m ----------  EXOTIC EVENT: Run, Event: 261931, 261931 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+2[1/1]       0[0/0]   1   400.089   156.297
+[34mobjind TightId      Et       eta
+[36m  g  0       0 164.132  -1.30246
+[36m  g  1    1792 27.7292  -1.00096
+[31mjet  0         24.2011  -0.66996
+[0m
+ Entry # = 28313685
+[32m ----------  EXOTIC EVENT: Run, Event: 261928, 261928 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+2[1/1]       0[0/0]   1   377.448   160.759
+[34mobjind TightId      Et       eta
+[36m  g  0      20  170.63  -1.32696
+[36m  g  1       0 29.6109  0.347838
+[31mjet  0         16.4482  -0.20374
+[0m
+ Entry # = 28425499
+[32m ----------  EXOTIC EVENT: Run, Event: 262170, 262170 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   977.267   468.539
+[34mobjind TightId      Et       eta
+[36m  g  0       0 27.3187  0.594926
+[31mjet  0         481.409  0.392277
+[0m
+ Entry # = 28731289
+[32m ----------  EXOTIC EVENT: Run, Event: 262196, 262196 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1162.84   579.694
+[34mobjind TightId      Et       eta
+[36m  g  0       0 42.4347  -0.54025
+[31mjet  0         540.709   -1.3372
+[0m
+ Entry # = 29045512
+[32m ----------  EXOTIC EVENT: Run, Event: 262550, 262550 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   325.631   162.912
+[34mobjind TightId      Et       eta
+[36m  g  0       0 126.708  0.881684
+[31mjet  0         36.0106  0.746993
+[0m
+ Entry # = 29092935
+[32m ----------  EXOTIC EVENT: Run, Event: 262490, 262490 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   351.873   165.727
+[34mobjind TightId      Et       eta
+[36m  g  0       0 170.371 -0.462142
+[31mjet  0         15.7749  0.443748
+[0m
+ Entry # = 29354426
+[32m ----------  EXOTIC EVENT: Run, Event: 262565, 262565 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   506.108   241.484
+[34mobjind TightId      Et       eta
+[36m  g  0       0  245.98 -0.634701
+[31mjet  0         18.6439 -0.497932
+[0m
+ Entry # = 29473098
+[32m ----------  EXOTIC EVENT: Run, Event: 262687, 262687 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   915.218   426.156
+[34mobjind TightId      Et       eta
+[36m  g  0       0 461.735     1.035
+[31mjet  0         27.3258 -0.447686
+[0m
+29575260	 events processed [59%] looptimer : Real Time = 3047.91 seconds Cpu Time = 1283.04 seconds
+ Entry # = 29740796
+[32m ----------  EXOTIC EVENT: Run, Event: 262780, 262780 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   524.101   225.848
+[34mobjind TightId      Et       eta
+[36m  g  0       0 265.591 0.0880399
+[31mjet  0         32.6615  0.107746
+[0m
+ Entry # = 29981890
+[32m ----------  EXOTIC EVENT: Run, Event: 263057, 263057 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   405.559   174.301
+[34mobjind TightId      Et       eta
+[36m  g  0       0 190.678 -0.990586
+[31mjet  0         32.4353   1.14109
+[0m
+ Entry # = 30048816
+[32m ----------  EXOTIC EVENT: Run, Event: 262985, 262985 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   5   659.923    174.81
+[34mobjind TightId      Et       eta
+[36m  g  0       0 28.7211 -0.920133
+[31mjet  0         200.247   0.19436
+[31mjet  1         112.124 -0.575336
+[31mjet  2         102.037 0.0108671
+[31mjet  3         26.9362    1.5269
+[31mjet  4         15.0474   0.53134
+[0m
+ Entry # = 30099317
+[32m ----------  EXOTIC EVENT: Run, Event: 263373, 263373 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   458.887   175.678
+[34mobjind TightId      Et       eta
+[36m  g  0       0 37.8122   -1.0031
+[31mjet  0          149.23  0.536019
+[31mjet  1         96.1659  0.659385
+[0m
+ Entry # = 30147410
+[32m ----------  EXOTIC EVENT: Run, Event: 263058, 263058 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   343.475   157.989
+[34mobjind TightId      Et       eta
+[36m  g  0       0 156.263 -0.759592
+[31mjet  0         29.2222  0.187452
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_1.root[0m
+ Entry # = 30192830
+[32m ----------  EXOTIC EVENT: Run, Event: 263347, 263347 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   4   451.465   166.196
+[34mobjind TightId      Et       eta
+[36m  g  0       0 117.803  0.288502
+[31mjet  0         64.8601  0.640693
+[31mjet  1          37.061   1.83111
+[31mjet  2         33.6431  -2.38077
+[31mjet  3         31.9014   2.37248
+[0m
+ Entry # = 30497210
+[32m ----------  EXOTIC EVENT: Run, Event: 263597, 263597 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   481.115   213.959
+[34mobjind TightId      Et       eta
+[36m  g  0       0 31.1675 -0.794944
+[31mjet  0         235.988 -0.951647
+[0m
+ Entry # = 30644073
+[32m ----------  EXOTIC EVENT: Run, Event: 263672, 263672 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   389.014   163.845
+[34mobjind TightId      Et       eta
+[36m  g  0       0 30.2781  0.103641
+[31mjet  0         105.575    0.6729
+[31mjet  1         71.0568 -0.649097
+[31mjet  2         18.2603  -1.43451
+[0m
+ Entry # = 30660579
+[32m ----------  EXOTIC EVENT: Run, Event: 263746, 263746 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   402.326   159.558
+[34mobjind TightId      Et       eta
+[36m  g  0       0 196.045  0.761354
+[31mjet  0         46.7231   0.29748
+[0m
+ Entry # = 31268006
+[32m ----------  EXOTIC EVENT: Run, Event: 263963, 263963 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    333.25   150.543
+[34mobjind TightId      Et       eta
+[36m  g  0       0 161.395 0.0902577
+[31mjet  0         21.3124  0.431181
+[0m
+ Entry # = 31328157
+[32m ----------  EXOTIC EVENT: Run, Event: 264015, 264015 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   322.097   162.543
+[34mobjind TightId      Et       eta
+[36m  g  0       0 132.867 -0.532842
+[31mjet  0         26.6874  -1.27127
+[0m
+ Entry # = 31589079
+[32m ----------  EXOTIC EVENT: Run, Event: 264194, 264194 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   607.293   264.372
+[34mobjind TightId      Et       eta
+[36m  g  0       0 292.133  0.315618
+[31mjet  0         50.7876-0.0828303
+[0m
+ Entry # = 31674236
+[32m ----------  EXOTIC EVENT: Run, Event: 264224, 264224 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   495.137   247.902
+[34mobjind TightId      Et       eta
+[36m  g  0       0 225.907 -0.659958
+[31mjet  0         21.3277 -0.566726
+[0m
+ Entry # = 31709996
+[32m ----------  EXOTIC EVENT: Run, Event: 264194, 264194 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   389.757   174.858
+[34mobjind TightId      Et       eta
+[36m  g  0       0  193.95  0.749656
+[31mjet  0         20.9485  0.471082
+[0m
+ Entry # = 31759803
+[32m ----------  EXOTIC EVENT: Run, Event: 265146, 265146 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   386.323   155.798
+[34mobjind TightId      Et       eta
+[36m  g  0       0  20.713  0.659882
+[31mjet  0          192.04  0.153927
+[31mjet  1         17.7732   1.08448
+[0m
+ Entry # = 31919104
+[32m ----------  EXOTIC EVENT: Run, Event: 265122, 265122 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   313.544   161.239
+[34mobjind TightId      Et       eta
+[36m  g  0       0 116.234 -0.888542
+[31mjet  0         36.0705  -1.38178
+[0m
+ Entry # = 31935819
+[32m ----------  EXOTIC EVENT: Run, Event: 265375, 265375 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   1081.92   519.792
+[34mobjind TightId      Et       eta
+[36m  g  0       0 464.414  0.555507
+[31mjet  0         69.5313  0.690722
+[31mjet  1         28.1862  -1.59362
+[0m
+ Entry # = 32301801
+[32m ----------  EXOTIC EVENT: Run, Event: 265828, 265828 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   439.496   200.042
+[34mobjind TightId      Et       eta
+[36m  g  0       0 187.562 -0.545929
+[31mjet  0         32.9569 -0.516498
+[31mjet  1          18.936 -0.407472
+[0m
+ Entry # = 32301929
+[32m ----------  EXOTIC EVENT: Run, Event: 265828, 265828 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   397.659   198.475
+[34mobjind TightId      Et       eta
+[36m  g  0       0 179.591 -0.899004
+[31mjet  0         19.5933 -0.556973
+[0m
+ Entry # = 32426794
+[32m ----------  EXOTIC EVENT: Run, Event: 265865, 265865 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   533.213   230.437
+[34mobjind TightId      Et       eta
+[36m  g  0       0 39.1392 -0.333428
+[31mjet  0         263.636  0.530003
+[0m
+ Entry # = 32455491
+[32m ----------  EXOTIC EVENT: Run, Event: 265658, 265658 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   559.818   262.707
+[34mobjind TightId      Et       eta
+[36m  g  0       0 31.5326-0.0822653
+[31mjet  0         265.578  -0.44293
+[0m
+ Entry # = 32465488
+[32m ----------  EXOTIC EVENT: Run, Event: 265898, 265898 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   354.206   167.854
+[34mobjind TightId      Et       eta
+[36m  g  0       0 162.128 -0.783739
+[31mjet  0         24.2243  0.306775
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_2.root[0m
+ Entry # = 32872065
+[32m ----------  EXOTIC EVENT: Run, Event: 266070, 266070 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   594.148   289.431
+[34mobjind TightId      Et       eta
+[36m  g  0       0 284.957 -0.131164
+[31mjet  0         19.7596 0.0619234
+[0m
+ Entry # = 32916776
+[32m ----------  EXOTIC EVENT: Run, Event: 266070, 266070 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   420.977   187.226
+[34mobjind TightId      Et       eta
+[36m  g  0       0 178.811  0.511583
+[31mjet  0         38.6359 -0.699153
+[31mjet  1         16.3032  -2.05218
+[0m
+ Entry # = 33027043
+[32m ----------  EXOTIC EVENT: Run, Event: 266084, 266084 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   405.186   203.388
+[34mobjind TightId      Et       eta
+[36m  g  0       0 69.4475 -0.319801
+[31mjet  0         132.351  0.321162
+[0m
+ Entry # = 33108692
+[32m ----------  EXOTIC EVENT: Run, Event: 266070, 266070 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   365.224   185.199
+[34mobjind TightId      Et       eta
+[36m  g  0       0 162.504  0.880417
+[31mjet  0         17.5216  0.683428
+[0m
+ Entry # = 33213415
+[32m ----------  EXOTIC EVENT: Run, Event: 266267, 266267 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    593.61   287.496
+[34mobjind TightId      Et       eta
+[36m  g  0       0 288.852  0.364931
+[31mjet  0         17.2628   2.60433
+[0m
+ Entry # = 33230930
+[32m ----------  EXOTIC EVENT: Run, Event: 266210, 266210 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   342.429    172.84
+[34mobjind TightId      Et       eta
+[36m  g  0       0 127.771  0.876665
+[31mjet  0         41.8182  0.750603
+[0m
+ Entry # = 33368067
+[32m ----------  EXOTIC EVENT: Run, Event: 266270, 266270 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1007.55   473.431
+[34mobjind TightId      Et       eta
+[36m  g  0       0 28.8732 -0.468373
+[31mjet  0         505.242  -2.30922
+[0m
+ Entry # = 33386822
+[32m ----------  EXOTIC EVENT: Run, Event: 266302, 266302 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   485.711   242.219
+[34mobjind TightId      Et       eta
+[36m  g  0       0 34.4456 -0.222896
+[31mjet  0         209.046 0.0658609
+[0m
+ Entry # = 33452552
+[32m ----------  EXOTIC EVENT: Run, Event: 266398, 266398 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   338.509   168.074
+[34mobjind TightId      Et       eta
+[36m  g  0       0 153.061  0.520208
+[31mjet  0         17.3747  0.281836
+[0m
+ Entry # = 33577473
+[32m ----------  EXOTIC EVENT: Run, Event: 266544, 266544 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   452.566   217.274
+[34mobjind TightId      Et       eta
+[36m  g  0       0 216.037-0.0770939
+[31mjet  0         19.2546  0.321175
+[0m
+ Entry # = 33619034
+[32m ----------  EXOTIC EVENT: Run, Event: 266528, 266528 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    328.82    166.32
+[34mobjind TightId      Et       eta
+[36m  g  0       0 125.173  0.738798
+[31mjet  0         37.3279   1.18398
+[0m
+ Entry # = 33758679
+[32m ----------  EXOTIC EVENT: Run, Event: 266562, 266562 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   839.253   379.071
+[34mobjind TightId      Et       eta
+[36m  g  0       0 398.458 -0.129121
+[31mjet  0         27.3769   1.42217
+[31mjet  1         17.5972   1.53078
+[31mjet  2         16.7504  0.117195
+[0m
+ Entry # = 33770047
+[32m ----------  EXOTIC EVENT: Run, Event: 266575, 266575 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   640.148   316.726
+[34mobjind TightId      Et       eta
+[36m  g  0       0 307.321  -0.19891
+[31mjet  0         16.1015  0.445897
+[0m
+ Entry # = 33832750
+[32m ----------  EXOTIC EVENT: Run, Event: 266687, 266687 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   662.112   239.506
+[34mobjind TightId      Et       eta
+[36m  g  0       0 89.4108 -0.283434
+[31mjet  0         299.655 -0.321384
+[31mjet  1         33.5396 -0.323659
+[0m
+ Entry # = 34117218
+[32m ----------  EXOTIC EVENT: Run, Event: 266809, 266809 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   344.359   162.452
+[34mobjind TightId      Et       eta
+[36m  g  0       0 165.825  0.647331
+[31mjet  0         16.0825 -0.234429
+[0m
+ Entry # = 34153484
+[32m ----------  EXOTIC EVENT: Run, Event: 266917, 266917 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   369.267   186.157
+[34mobjind TightId      Et       eta
+[36m  g  0       0  164.29  0.575049
+[31mjet  0         18.8201  0.625575
+[0m
+ Entry # = 34255068
+[32m ----------  EXOTIC EVENT: Run, Event: 266810, 266810 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   8   804.665   381.158
+[34mobjind TightId      Et       eta
+[36m  g  0       0 53.0789 -0.156587
+[31mjet  0          118.33  0.198502
+[31mjet  1          62.858  -1.24583
+[31mjet  2         54.8928  0.188363
+[31mjet  3         39.4421-0.0228868
+[31mjet  4         30.3376  0.679645
+[31mjet  5         26.6286  0.466477
+[31mjet  6         20.4498 -0.513453
+[31mjet  7         17.4885  -0.31787
+[0m
+ Entry # = 34263286
+[32m ----------  EXOTIC EVENT: Run, Event: 266845, 266845 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   456.156   220.033
+[34mobjind TightId      Et       eta
+[36m  g  0       0 220.341-0.0629634
+[31mjet  0         15.7826  0.186969
+[0m
+ Entry # = 34324839
+[32m ----------  EXOTIC EVENT: Run, Event: 266995, 266995 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+2[1/1]       0[0/0]   4   934.161   382.762
+[34mobjind TightId      Et       eta
+[36m  g  0      32 60.9533   0.38394
+[36m  g  1       0 19.7614  -2.18232
+[31mjet  0         205.704 -0.481471
+[31mjet  1         121.141 -0.201211
+[31mjet  2         76.1585  0.467343
+[31mjet  3         47.9193  0.448137
+[0m
+ Entry # = 34376845
+[32m ----------  EXOTIC EVENT: Run, Event: 266853, 266853 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   419.078   212.428
+[34mobjind TightId      Et       eta
+[36m  g  0       0 187.057  0.692834
+[31mjet  0         19.5927  0.687142
+[0m
+ Entry # = 34481033
+[32m ----------  EXOTIC EVENT: Run, Event: 266893, 266893 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   285.271   150.899
+[34mobjind TightId      Et       eta
+[36m  g  0       0 116.284 -0.337977
+[31mjet  0          18.088 -0.215596
+[0m
+34504470	 events processed [69%] looptimer : Real Time = 3323.05 seconds Cpu Time = 1496.91 seconds
+ Entry # = 34731400
+[32m ----------  EXOTIC EVENT: Run, Event: 266995, 266995 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   548.211   261.216
+[34mobjind TightId      Et       eta
+[36m  g  0       0 270.478  0.802371
+[31mjet  0         16.5171  0.560107
+[0m
+ Entry # = 34760354
+[32m ----------  EXOTIC EVENT: Run, Event: 267025, 267025 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   411.464   196.632
+[34mobjind TightId      Et       eta
+[36m  g  0       0 43.3652 -0.573597
+[31mjet  0         171.467  -1.53127
+[0m
+ Entry # = 34788307
+[32m ----------  EXOTIC EVENT: Run, Event: 267025, 267025 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   537.287   272.763
+[34mobjind TightId      Et       eta
+[36m  g  0       0 219.467 -0.431635
+[31mjet  0         31.2727 -0.383593
+[0m
+ Entry # = 35050714
+[32m ----------  EXOTIC EVENT: Run, Event: 267228, 267228 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   372.705   188.376
+[34mobjind TightId      Et       eta
+[36m  g  0       0 156.686  0.281745
+[31mjet  0         27.6434 -0.436325
+[0m
+ Entry # = 35075764
+[32m ----------  EXOTIC EVENT: Run, Event: 267208, 267208 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   438.136   210.629
+[34mobjind TightId      Et       eta
+[36m  g  0       0 209.466  0.324782
+[31mjet  0         18.0407  -0.18346
+[0m
+ Entry # = 35090573
+[32m ----------  EXOTIC EVENT: Run, Event: 267191, 267191 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   1228.35   557.255
+[34mobjind TightId      Et       eta
+[36m  g  0       0 123.276 -0.400617
+[31mjet  0         470.857 0.0651607
+[31mjet  1         76.9618  -0.91215
+[0m
+ Entry # = 35243438
+[32m ----------  EXOTIC EVENT: Run, Event: 267258, 267258 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   5       459   194.353
+[34mobjind TightId      Et       eta
+[36m  g  0       0 173.119  0.290189
+[31mjet  0         28.5572  0.332324
+[31mjet  1         16.2088  0.176197
+[31mjet  2         15.7472  0.521485
+[31mjet  3         15.6953 -0.312438
+[31mjet  4         15.3195 -0.322758
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_3.root[0m
+ Entry # = 35377196
+[32m ----------  EXOTIC EVENT: Run, Event: 267419, 267419 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   355.866   167.275
+[34mobjind TightId      Et       eta
+[36m  g  0       0 166.868  0.347314
+[31mjet  0         21.7237  0.830638
+[0m
+ Entry # = 35792881
+[32m ----------  EXOTIC EVENT: Run, Event: 267555, 267555 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   371.405   192.146
+[34mobjind TightId      Et       eta
+[36m  g  0       0 81.4331 -0.562961
+[31mjet  0         97.8257  0.376847
+[0m
+ Entry # = 35883473
+[32m ----------  EXOTIC EVENT: Run, Event: 268278, 268278 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   377.697   162.832
+[34mobjind TightId      Et       eta
+[36m  g  0       0  28.351  0.577933
+[31mjet  0         170.929   1.67644
+[31mjet  1         15.5839  0.501327
+[0m
+ Entry # = 36085198
+[32m ----------  EXOTIC EVENT: Run, Event: 268395, 268395 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   1001.05   501.833
+[34mobjind TightId      Et       eta
+[36m  g  0       0  20.199 -0.560186
+[31mjet  0         458.999   -1.3229
+[31mjet  1         20.0227  0.147403
+[0m
+ Entry # = 36197588
+[32m ----------  EXOTIC EVENT: Run, Event: 268555, 268555 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   847.838   399.539
+[34mobjind TightId      Et       eta
+[36m  g  0       0 34.3839  0.334055
+[31mjet  0         359.545  0.260947
+[31mjet  1         29.4792   1.22787
+[31mjet  2         24.8913 -0.925466
+[0m
+ Entry # = 36328312
+[32m ----------  EXOTIC EVENT: Run, Event: 268497, 268497 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   426.863   196.681
+[34mobjind TightId      Et       eta
+[36m  g  0       0 212.992  0.125561
+[31mjet  0         17.1896  -0.68899
+[0m
+ Entry # = 36746747
+[32m ----------  EXOTIC EVENT: Run, Event: 270525, 270525 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   397.299   185.783
+[34mobjind TightId      Et       eta
+[36m  g  0       0 192.785 -0.229055
+[31mjet  0         18.7314  -1.10755
+[0m
+ Entry # = 36889285
+[32m ----------  EXOTIC EVENT: Run, Event: 268983, 268983 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   331.863   160.434
+[34mobjind TightId      Et       eta
+[36m  g  0       0 94.1727 0.0753891
+[31mjet  0         41.4565  -1.55584
+[31mjet  1         19.8793  0.386734
+[31mjet  2         15.9212  -0.76277
+[0m
+ Entry # = 36894521
+[32m ----------  EXOTIC EVENT: Run, Event: 268963, 268963 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   621.794   287.669
+[34mobjind TightId      Et       eta
+[36m  g  0       0 262.875 -0.727007
+[31mjet  0         29.8495 -0.950227
+[31mjet  1         21.1803  -1.36738
+[31mjet  2         20.2203  -0.34257
+[0m
+ Entry # = 37182004
+[32m ----------  EXOTIC EVENT: Run, Event: 269003, 269003 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   462.916   231.112
+[34mobjind TightId      Et       eta
+[36m  g  0       0 19.2028  0.396149
+[31mjet  0         185.775 -0.197923
+[31mjet  1         26.8264 -0.569041
+[0m
+ Entry # = 37288848
+[32m ----------  EXOTIC EVENT: Run, Event: 270561, 270561 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1714.56   779.064
+[34mobjind TightId      Et       eta
+[36m  g  0       0 94.7419 -0.473381
+[31mjet  0         840.752 -0.366963
+[0m
+ Entry # = 37598310
+[32m ----------  EXOTIC EVENT: Run, Event: 269746, 269746 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1     468.1    214.33
+[34mobjind TightId      Et       eta
+[36m  g  0       0 35.2896  -0.32642
+[31mjet  0         218.481  0.559761
+[0m
+ Entry # = 37811901
+[32m ----------  EXOTIC EVENT: Run, Event: 270684, 270684 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   984.175   476.458
+[34mobjind TightId      Et       eta
+[36m  g  0       0 489.554 0.0922827
+[31mjet  0         18.1631 -0.667654
+[0m
+ Entry # = 37903684
+[32m ----------  EXOTIC EVENT: Run, Event: 270000, 270000 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   341.718   163.771
+[34mobjind TightId      Et       eta
+[36m  g  0       0 151.097  0.932011
+[31mjet  0         26.8511 -0.352308
+[0m
+ Entry # = 37920936
+[32m ----------  EXOTIC EVENT: Run, Event: 270026, 270026 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   396.969   182.528
+[34mobjind TightId      Et       eta
+[36m  g  0       0 175.357 -0.566101
+[31mjet  0         39.0839 -0.199642
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_4.root[0m
+ Entry # = 38116713
+[32m ----------  EXOTIC EVENT: Run, Event: 270088, 270088 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   589.218   229.276
+[34mobjind TightId      Et       eta
+[36m  g  0       0 215.313 -0.396535
+[31mjet  0          129.45 -0.823911
+[31mjet  1         15.1786 -0.071121
+[0m
+ Entry # = 38137616
+[32m ----------  EXOTIC EVENT: Run, Event: 270085, 270085 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    386.23    174.94
+[34mobjind TightId      Et       eta
+[36m  g  0       0 187.905  0.481085
+[31mjet  0         23.3846-0.0291976
+[0m
+ Entry # = 38171238
+[32m ----------  EXOTIC EVENT: Run, Event: 270108, 270108 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   522.707   256.323
+[34mobjind TightId      Et       eta
+[36m  g  0       0 249.646  0.100713
+[31mjet  0          16.738   0.20102
+[0m
+ Entry # = 38248373
+[32m ----------  EXOTIC EVENT: Run, Event: 270116, 270116 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   399.584   167.937
+[34mobjind TightId      Et       eta
+[36m  g  0       0 147.002-0.0698057
+[31mjet  0         84.6451 -0.443107
+[0m
+ Entry # = 39187638
+[32m ----------  EXOTIC EVENT: Run, Event: 270769, 270769 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1365.07   619.952
+[34mobjind TightId      Et       eta
+[36m  g  0       0 64.2004  -0.70614
+[31mjet  0         680.916-0.0652979
+[0m
+ Entry # = 39194444
+[32m ----------  EXOTIC EVENT: Run, Event: 270784, 270784 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   367.898   173.528
+[34mobjind TightId      Et       eta
+[36m  g  0       0  179.32  0.283042
+[31mjet  0         15.0502  0.817474
+[0m
+ Entry # = 39379285
+[32m ----------  EXOTIC EVENT: Run, Event: 270844, 270844 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   486.974    194.37
+[34mobjind TightId      Et       eta
+[36m  g  0       0 221.393  0.380361
+[31mjet  0         54.6805-0.0160152
+[31mjet  1         16.5307 0.0678584
+[0m
+ Entry # = 39424506
+[32m ----------  EXOTIC EVENT: Run, Event: 270844, 270844 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       1[0/1]   2     536.1    249.37
+[34mobjind TightId      Et       eta
+[36m  g  0       0 225.767  -2.20663
+  e  0    9224  22.909-0.0783113
+[31mjet  0         21.1576  0.237262
+[31mjet  1         16.8964  -2.22381
+[0m
+ Entry # = 39424507
+[32m ----------  EXOTIC EVENT: Run, Event: 270844, 270844 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+2[2/0]       0[0/0]   1   624.601    299.22
+[34mobjind TightId      Et       eta
+[36m  g  0       0 271.461  -2.20061
+[36m  g  1       0 29.8762   -0.1238
+[31mjet  0         24.0448  0.777896
+[0m
+ Entry # = 39424508
+[32m ----------  EXOTIC EVENT: Run, Event: 270844, 270844 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+3[1/2]       0[0/0]   2   577.441   268.043
+[34mobjind TightId      Et       eta
+[36m  g  0       0 215.457  -2.20056
+[36m  g  1      16  37.735  -1.20857
+[36m  g  2    1056 24.3355-0.0862386
+[31mjet  0         16.8397  -2.29237
+[31mjet  1           15.03  0.489551
+[0m
+ Entry # = 39424509
+[32m ----------  EXOTIC EVENT: Run, Event: 270844, 270844 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+2[1/1]       1[0/1]   2   840.251   370.507
+[34mobjind TightId      Et       eta
+[36m  g  0       0 294.432  -2.20043
+[36m  g  1      16 47.7806  -1.20857
+  e  0    3112 56.4744 -0.326274
+[31mjet  0         55.0438 -0.718308
+[31mjet  1         16.0135  -0.24961
+[0m
+39433680	 events processed [79%] looptimer : Real Time = 3597.63 seconds Cpu Time = 1714.61 seconds
+ Entry # = 39511468
+[32m ----------  EXOTIC EVENT: Run, Event: 270863, 270863 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   558.229   272.058
+[34mobjind TightId      Et       eta
+[36m  g  0       0 222.372 -0.532175
+[31mjet  0         45.4417 -0.577534
+[31mjet  1         18.3577 -0.163427
+[0m
+ Entry # = 39614066
+[32m ----------  EXOTIC EVENT: Run, Event: 271039, 271039 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1     416.5   207.627
+[34mobjind TightId      Et       eta
+[36m  g  0       0 167.685  0.192589
+[31mjet  0         41.1884  0.659472
+[0m
+ Entry # = 40105516
+[32m ----------  EXOTIC EVENT: Run, Event: 271104, 271104 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   770.246   350.521
+[34mobjind TightId      Et       eta
+[36m  g  0       0 40.1935  0.253192
+[31mjet  0         355.569  -1.25654
+[31mjet  1         23.9619 -0.417607
+[0m
+ Entry # = 40120541
+[32m ----------  EXOTIC EVENT: Run, Event: 271104, 271104 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    1302.8   566.531
+[34mobjind TightId      Et       eta
+[36m  g  0       0 602.826  0.754164
+[31mjet  0         133.441  0.522654
+[0m
+ Entry # = 40122943
+[32m ----------  EXOTIC EVENT: Run, Event: 271104, 271104 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   340.364   173.514
+[34mobjind TightId      Et       eta
+[36m  g  0       0 142.713 -0.822706
+[31mjet  0         24.1362 -0.649257
+[0m
+ Entry # = 40279743
+[32m ----------  EXOTIC EVENT: Run, Event: 271124, 271124 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   410.394   197.184
+[34mobjind TightId      Et       eta
+[36m  g  0       0 194.906 -0.713508
+[31mjet  0         18.3047 -0.610394
+[0m
+ Entry # = 40343674
+[32m ----------  EXOTIC EVENT: Run, Event: 271267, 271267 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   403.621   171.588
+[34mobjind TightId      Et       eta
+[36m  g  0       0 161.965  0.766274
+[31mjet  0         70.0684   1.02038
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_5.root[0m
+ Entry # = 40590599
+[32m ----------  EXOTIC EVENT: Run, Event: 271296, 271296 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   416.979   187.678
+[34mobjind TightId      Et       eta
+[36m  g  0       0 199.367  0.131887
+[31mjet  0          29.934 0.0930322
+[0m
+ Entry # = 40663150
+[32m ----------  EXOTIC EVENT: Run, Event: 271361, 271361 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   392.837   165.556
+[34mobjind TightId      Et       eta
+[36m  g  0       0 192.619 -0.391821
+[31mjet  0         34.6619 -0.359842
+[0m
+ Entry # = 41101009
+[32m ----------  EXOTIC EVENT: Run, Event: 271586, 271586 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   573.906   288.679
+[34mobjind TightId      Et       eta
+[36m  g  0       0 25.6319 -0.359005
+[31mjet  0         259.596  0.235011
+[0m
+ Entry # = 41110317
+[32m ----------  EXOTIC EVENT: Run, Event: 271599, 271599 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   626.442    298.09
+[34mobjind TightId      Et       eta
+[36m  g  0       0 294.986  0.133451
+[31mjet  0         33.3664 -0.232763
+[0m
+ Entry # = 41179127
+[32m ----------  EXOTIC EVENT: Run, Event: 271700, 271700 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   630.914   301.734
+[34mobjind TightId      Et       eta
+[36m  g  0       0 307.564 -0.514303
+[31mjet  0         21.6154   1.96816
+[0m
+ Entry # = 41279992
+[32m ----------  EXOTIC EVENT: Run, Event: 271645, 271645 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   534.019   237.416
+[34mobjind TightId      Et       eta
+[36m  g  0       0 259.896  0.165293
+[31mjet  0         36.7064  0.845328
+[0m
+ Entry # = 41339747
+[32m ----------  EXOTIC EVENT: Run, Event: 271659, 271659 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   343.173   171.596
+[34mobjind TightId      Et       eta
+[36m  g  0       0 123.128  -0.98238
+[31mjet  0           48.45 -0.846389
+[0m
+ Entry # = 41644144
+[32m ----------  EXOTIC EVENT: Run, Event: 271828, 271828 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   344.789   155.796
+[34mobjind TightId      Et       eta
+[36m  g  0       0 155.797  0.131262
+[31mjet  0         17.9603  -1.86358
+[31mjet  1         15.2354  0.290333
+[0m
+ Entry # = 41853885
+[32m ----------  EXOTIC EVENT: Run, Event: 271856, 271856 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   395.001   201.552
+[34mobjind TightId      Et       eta
+[36m  g  0       0 156.548  0.445353
+[31mjet  0         36.9012  0.280331
+[0m
+ Entry # = 41854932
+[32m ----------  EXOTIC EVENT: Run, Event: 271856, 271856 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   387.711   184.601
+[34mobjind TightId      Et       eta
+[36m  g  0       0  179.86 -0.271134
+[31mjet  0         23.2496 -0.429371
+[0m
+ Entry # = 41937652
+[32m ----------  EXOTIC EVENT: Run, Event: 271919, 271919 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   455.158   195.336
+[34mobjind TightId      Et       eta
+[36m  g  0       0  205.42 0.0688801
+[31mjet  0         31.7916 -0.576859
+[31mjet  1         22.6105  0.151423
+[0m
+ Entry # = 42014661
+[32m ----------  EXOTIC EVENT: Run, Event: 271919, 271919 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   429.259   180.174
+[34mobjind TightId      Et       eta
+[36m  g  0       0 52.1985-0.0569514
+[31mjet  0         130.525  -1.47226
+[31mjet  1         36.3831  -1.70665
+[31mjet  2         29.9791   1.41964
+[0m
+ Entry # = 42106004
+[32m ----------  EXOTIC EVENT: Run, Event: 272030, 272030 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   4   885.272   270.051
+[34mobjind TightId      Et       eta
+[36m  g  0       0 20.7725  -0.83838
+[31mjet  0         404.988-0.0930779
+[31mjet  1         125.667-0.0425925
+[31mjet  2         46.7807   1.07883
+[31mjet  3         17.0119   1.05222
+[0m
+ Entry # = 42298629
+[32m ----------  EXOTIC EVENT: Run, Event: 272540, 272540 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   352.202   176.146
+[34mobjind TightId      Et       eta
+[36m  g  0       0 151.209  0.881474
+[31mjet  0         24.8456   0.91589
+[0m
+ Entry # = 42643871
+[32m ----------  EXOTIC EVENT: Run, Event: 272590, 272590 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+2[1/1]       1[0/1]   1    483.95    191.12
+[34mobjind TightId      Et       eta
+[36m  g  0      16 193.231   2.79369
+[36m  g  1       0 17.7732   2.81823
+  e  0    9288 41.7985 -0.978738
+[31mjet  0         40.0279  -1.93428
+[0m
+ Entry # = 42672812
+[32m ----------  EXOTIC EVENT: Run, Event: 274036, 274036 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   645.491   203.924
+[34mobjind TightId      Et       eta
+[36m  g  0       0 302.859 -0.506161
+[31mjet  0         138.708-0.0798208
+[0m
+ Entry # = 42710216
+[32m ----------  EXOTIC EVENT: Run, Event: 272716, 272716 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   792.844   391.275
+[34mobjind TightId      Et       eta
+[36m  g  0       0 383.984 -0.266613
+[31mjet  0         17.5846  0.965711
+[0m
+ Entry # = 42724034
+[32m ----------  EXOTIC EVENT: Run, Event: 272702, 272702 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   1423.79   575.006
+[34mobjind TightId      Et       eta
+[36m  g  0       0 310.407 -0.356793
+[31mjet  0         490.965  0.205641
+[31mjet  1         26.8733  0.322798
+[31mjet  2         20.5434   0.21135
+[0m
+ Entry # = 42916338
+[32m ----------  EXOTIC EVENT: Run, Event: 272891, 272891 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   422.628   214.829
+[34mobjind TightId      Et       eta
+[36m  g  0       0 136.812 -0.419334
+[31mjet  0         70.9868  0.162348
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_6.root[0m
+ Entry # = 43279881
+[32m ----------  EXOTIC EVENT: Run, Event: 273590, 273590 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   300.186   154.251
+[34mobjind TightId      Et       eta
+[36m  g  0       0  127.31 -0.887507
+[31mjet  0          18.625 -0.790652
+[0m
+ Entry # = 43374517
+[32m ----------  EXOTIC EVENT: Run, Event: 273285, 273285 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   322.353   155.386
+[34mobjind TightId      Et       eta
+[36m  g  0       0 150.536 -0.761638
+[31mjet  0         16.4322 -0.576425
+[0m
+ Entry # = 43374646
+[32m ----------  EXOTIC EVENT: Run, Event: 273285, 273285 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   419.283   208.494
+[34mobjind TightId      Et       eta
+[36m  g  0       0  178.86  0.709256
+[31mjet  0         31.9289   1.28114
+[0m
+ Entry # = 43478854
+[32m ----------  EXOTIC EVENT: Run, Event: 273590, 273590 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   452.341   219.374
+[34mobjind TightId      Et       eta
+[36m  g  0       0 53.2665  0.339785
+[31mjet  0         158.748 -0.219961
+[31mjet  1          20.952  0.049105
+[0m
+ Entry # = 43692770
+[32m ----------  EXOTIC EVENT: Run, Event: 273747, 273747 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   408.678   186.361
+[34mobjind TightId      Et       eta
+[36m  g  0       0 199.095-0.0620793
+[31mjet  0         23.2222 -0.559273
+[0m
+ Entry # = 43941592
+[32m ----------  EXOTIC EVENT: Run, Event: 273894, 273894 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   337.398   175.779
+[34mobjind TightId      Et       eta
+[36m  g  0       0 88.5079  0.348075
+[31mjet  0         73.1107    1.9528
+[0m
+44362890	 events processed [89%] looptimer : Real Time = 3871.76 seconds Cpu Time = 1930.05 seconds
+ Entry # = 44543548
+[32m ----------  EXOTIC EVENT: Run, Event: 274282, 274282 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   351.233   158.503
+[34mobjind TightId      Et       eta
+[36m  g  0       0 120.657  0.247804
+[31mjet  0          27.703   2.77416
+[31mjet  1         22.2858  0.909945
+[31mjet  2         22.0849   2.72334
+[0m
+ Entry # = 44652627
+[32m ----------  EXOTIC EVENT: Run, Event: 274282, 274282 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   609.102   228.924
+[34mobjind TightId      Et       eta
+[36m  g  0       0 193.371  -0.18541
+[31mjet  0         170.104-0.0851934
+[31mjet  1         16.7017 -0.939475
+[0m
+ Entry # = 44662077
+[32m ----------  EXOTIC EVENT: Run, Event: 274311, 274311 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   378.046   190.666
+[34mobjind TightId      Et       eta
+[36m  g  0       0 167.593  -0.19378
+[31mjet  0         19.7877 -0.278309
+[0m
+ Entry # = 44833868
+[32m ----------  EXOTIC EVENT: Run, Event: 274439, 274439 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   4   797.999   335.822
+[34mobjind TightId      Et       eta
+[36m  g  0       0 34.3987 -0.637947
+[31mjet  0         355.248  0.522498
+[31mjet  1         31.6412  0.586482
+[31mjet  2         23.8397  0.214497
+[31mjet  3         17.0489  0.617274
+[0m
+ Entry # = 44865236
+[32m ----------  EXOTIC EVENT: Run, Event: 274454, 274454 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   329.479   163.947
+[34mobjind TightId      Et       eta
+[36m  g  0       0 143.176  0.774218
+[31mjet  0         22.3551  0.651287
+[0m
+ Entry # = 45149127
+[32m ----------  EXOTIC EVENT: Run, Event: 274589, 274589 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   412.399   192.598
+[34mobjind TightId      Et       eta
+[36m  g  0       0 170.421  0.429347
+[31mjet  0         31.2026  0.129732
+[31mjet  1         18.1777 -0.537021
+[0m
+ Entry # = 45337584
+[32m ----------  EXOTIC EVENT: Run, Event: 274589, 274589 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   310.502   158.552
+[34mobjind TightId      Et       eta
+[36m  g  0       0 126.836  0.685204
+[31mjet  0         25.1138  -1.58351
+[0m
+ Entry # = 45344783
+[32m ----------  EXOTIC EVENT: Run, Event: 275062, 275062 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   565.862   280.794
+[34mobjind TightId      Et       eta
+[36m  g  0       0 268.341  0.453444
+[31mjet  0         16.7275  0.402418
+[0m
+ Entry # = 45429286
+[32m ----------  EXOTIC EVENT: Run, Event: 275002, 275002 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+2[1/1]       0[0/0]   1   365.293   180.734
+[34mobjind TightId      Et       eta
+[36m  g  0      80 105.362  -1.22328
+[36m  g  1       0 58.1227 -0.635995
+[31mjet  0          21.075-0.0892718
+[0m
+ Entry # = 45523887
+[32m ----------  EXOTIC EVENT: Run, Event: 275048, 275048 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   263.999   161.482
+[34mobjind TightId      Et       eta
+[36m  g  0       0 73.6363  0.465713
+[31mjet  0          28.881 -0.542064
+[0m
+ Entry # = 45613190
+[32m ----------  EXOTIC EVENT: Run, Event: 275062, 275062 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   445.124   151.897
+[34mobjind TightId      Et       eta
+[36m  g  0       0 216.604 -0.422097
+[31mjet  0         76.6239  0.553758
+[0m
+ Entry # = 45614800
+[32m ----------  EXOTIC EVENT: Run, Event: 275199, 275199 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   419.937   219.314
+[34mobjind TightId      Et       eta
+[36m  g  0       0 19.9338  0.510228
+[31mjet  0         180.689  0.187253
+[0m
+ Entry # = 45617860
+[32m ----------  EXOTIC EVENT: Run, Event: 275062, 275062 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   330.651   173.735
+[34mobjind TightId      Et       eta
+[36m  g  0       0 92.4436 -0.742909
+[31mjet  0         64.4725 0.0484437
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_7.root[0m
+ Entry # = 45819997
+[32m ----------  EXOTIC EVENT: Run, Event: 275199, 275199 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   458.727   222.907
+[34mobjind TightId      Et       eta
+[36m  g  0       0 211.686  0.600888
+[31mjet  0         24.1342   -1.5411
+[0m
+ Entry # = 45953019
+[32m ----------  EXOTIC EVENT: Run, Event: 275255, 275255 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   655.178   312.602
+[34mobjind TightId      Et       eta
+[36m  g  0       0 294.153 -0.372345
+[31mjet  0         48.4239 -0.562669
+[0m
+ Entry # = 46123030
+[32m ----------  EXOTIC EVENT: Run, Event: 275267, 275267 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   484.336   217.365
+[34mobjind TightId      Et       eta
+[36m  g  0       0 215.353  0.309041
+[31mjet  0         20.6475 -0.198192
+[31mjet  1         15.8055   2.78708
+[31mjet  2         15.1649 -0.820626
+[0m
+ Entry # = 46241182
+[32m ----------  EXOTIC EVENT: Run, Event: 275345, 275345 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   370.687   195.111
+[34mobjind TightId      Et       eta
+[36m  g  0       0 28.0089 -0.582828
+[31mjet  0         147.567  -1.60174
+[0m
+ Entry # = 46276657
+[32m ----------  EXOTIC EVENT: Run, Event: 275361, 275361 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   343.837   165.702
+[34mobjind TightId      Et       eta
+[36m  g  0       0 157.025  0.120835
+[31mjet  0         21.1099-0.0387209
+[0m
+ Entry # = 46402845
+[32m ----------  EXOTIC EVENT: Run, Event: 275385, 275385 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   353.645   163.652
+[34mobjind TightId      Et       eta
+[36m  g  0       0 141.848  -1.02909
+[31mjet  0          24.591 -0.962358
+[31mjet  1         23.5548  0.762648
+[0m
+ Entry # = 46408256
+[32m ----------  EXOTIC EVENT: Run, Event: 275422, 275422 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   400.697   168.038
+[34mobjind TightId      Et       eta
+[36m  g  0       0 200.404 -0.831994
+[31mjet  0         32.2543  0.100436
+[0m
+ Entry # = 46615042
+[32m ----------  EXOTIC EVENT: Run, Event: 275741, 275741 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   794.923    154.74
+[34mobjind TightId      Et       eta
+[36m  g  0       0 27.7067  0.828807
+[31mjet  0         350.157  0.207047
+[31mjet  1         237.066-0.0346873
+[31mjet  2         25.2534   2.14931
+[0m
+ Entry # = 46623817
+[32m ----------  EXOTIC EVENT: Run, Event: 275709, 275709 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   340.074   164.293
+[34mobjind TightId      Et       eta
+[36m  g  0       0 157.617-0.0682645
+[31mjet  0         18.1641 -0.320884
+[0m
+ Entry # = 46738263
+[32m ----------  EXOTIC EVENT: Run, Event: 275629, 275629 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   704.969   162.327
+[34mobjind TightId      Et       eta
+[36m  g  0       0 307.295 -0.176692
+[31mjet  0         158.356-0.0507297
+[31mjet  1         76.9911  0.234924
+[0m
+ Entry # = 46922612
+[32m ----------  EXOTIC EVENT: Run, Event: 275741, 275741 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   451.049   220.981
+[34mobjind TightId      Et       eta
+[36m  g  0       0 211.638  0.195067
+[31mjet  0         18.4309-0.00572739
+[0m
+ Entry # = 46990314
+[32m ----------  EXOTIC EVENT: Run, Event: 275804, 275804 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   368.213   163.433
+[34mobjind TightId      Et       eta
+[36m  g  0       0 188.316 -0.237195
+[31mjet  0         16.4638 -0.381529
+[0m
+ Entry # = 47060191
+[32m ----------  EXOTIC EVENT: Run, Event: 275986, 275986 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   926.598    439.59
+[34mobjind TightId      Et       eta
+[36m  g  0       0 28.1752  0.722471
+[31mjet  0         458.833  0.548035
+[0m
+ Entry # = 47105639
+[32m ----------  EXOTIC EVENT: Run, Event: 275873, 275873 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   362.042   167.943
+[34mobjind TightId      Et       eta
+[36m  g  0       0 178.332  0.265812
+[31mjet  0         15.7673 -0.949967
+[0m
+ Entry # = 47360531
+[32m ----------  EXOTIC EVENT: Run, Event: 275986, 275986 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   344.086    166.09
+[34mobjind TightId      Et       eta
+[36m  g  0       0 158.201  0.297068
+[31mjet  0         19.7943 -0.550784
+[0m
+ Entry # = 47466780
+[32m ----------  EXOTIC EVENT: Run, Event: 275986, 275986 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   417.693   192.666
+[34mobjind TightId      Et       eta
+[36m  g  0       0  206.22 -0.622034
+[31mjet  0         18.8077 -0.357026
+[0m
+ Entry # = 47733901
+[32m ----------  EXOTIC EVENT: Run, Event: 276120, 276120 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   3   415.486     167.8
+[34mobjind TightId      Et       eta
+[36m  g  0       0 172.765 -0.459723
+[31mjet  0         38.1432    1.0638
+[31mjet  1           18.45-0.0728647
+[31mjet  2         18.3274 -0.482237
+[0m
+ Entry # = 47770283
+[32m ----------  EXOTIC EVENT: Run, Event: 276154, 276154 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   446.151   215.581
+[34mobjind TightId      Et       eta
+[36m  g  0       0 34.6055  -0.54355
+[31mjet  0         179.822 -0.331868
+[31mjet  1         16.1421 -0.555922
+[0m
+ Entry # = 47780217
+[32m ----------  EXOTIC EVENT: Run, Event: 276119, 276119 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2    1187.5   511.557
+[34mobjind TightId      Et       eta
+[36m  g  0       0 199.876  0.660142
+[31mjet  0         445.776  0.650043
+[31mjet  1         30.2914  0.652661
+[0m
+ Entry # = 47975522
+[32m ----------  EXOTIC EVENT: Run, Event: 276597, 276597 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   459.655   222.045
+[34mobjind TightId      Et       eta
+[36m  g  0       0 219.508 -0.144611
+[31mjet  0         18.1014 -0.952131
+[0m
+ Entry # = 48039107
+[32m ----------  EXOTIC EVENT: Run, Event: 276602, 276602 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   408.617   212.443
+[34mobjind TightId      Et       eta
+[36m  g  0       0 169.428  0.969585
+[31mjet  0         26.7459  0.898568
+[0m
+ Entry # = 48087095
+[32m ----------  EXOTIC EVENT: Run, Event: 276680, 276680 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   548.337   258.973
+[34mobjind TightId      Et       eta
+[36m  g  0       0 255.497  0.202048
+[31mjet  0         33.8669  0.284001
+[0m
+[32mOpening file /cdf/home/samantha/STUPLES3/StupleV7DATA_Pho_NoJetVtxCuts_18P26_8.root[0m
+ Entry # = 48382809
+[32m ----------  EXOTIC EVENT: Run, Event: 277505, 277505 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   479.364   235.779
+[34mobjind TightId      Et       eta
+[36m  g  0       0 216.849  0.510512
+[31mjet  0         26.7356    1.4007
+[0m
+ Entry # = 48401331
+[32m ----------  EXOTIC EVENT: Run, Event: 276695, 276695 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   498.855   248.908
+[34mobjind TightId      Et       eta
+[36m  g  0       0 225.462 -0.512938
+[31mjet  0         24.4847 -0.727811
+[0m
+ Entry # = 48428444
+[32m ----------  EXOTIC EVENT: Run, Event: 277105, 277105 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   833.761   390.451
+[34mobjind TightId      Et       eta
+[36m  g  0       0 378.812  0.231063
+[31mjet  0         32.7017 -0.977019
+[31mjet  1         31.7966  -2.16657
+[0m
+ Entry # = 48442269
+[32m ----------  EXOTIC EVENT: Run, Event: 276680, 276680 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   343.763   154.278
+[34mobjind TightId      Et       eta
+[36m  g  0       0 169.326 -0.418947
+[31mjet  0         20.1593 -0.492581
+[0m
+ Entry # = 48514965
+[32m ----------  EXOTIC EVENT: Run, Event: 276769, 276769 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   375.434   177.442
+[34mobjind TightId      Et       eta
+[36m  g  0       0 163.696 -0.543546
+[31mjet  0         19.0442 -0.609598
+[31mjet  1         15.2522 -0.207611
+[0m
+ Entry # = 48642335
+[32m ----------  EXOTIC EVENT: Run, Event: 276783, 276783 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   1682.36   826.423
+[34mobjind TightId      Et       eta
+[36m  g  0       0 60.1685   0.80391
+[31mjet  0         795.766  0.647036
+[0m
+ Entry # = 48946911
+[32m ----------  EXOTIC EVENT: Run, Event: 277196, 277196 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   479.285   168.931
+[34mobjind TightId      Et       eta
+[36m  g  0       0 216.316   0.30372
+[31mjet  0         94.0386 -0.437118
+[0m
+ Entry # = 49001401
+[32m ----------  EXOTIC EVENT: Run, Event: 277288, 277288 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   339.349   165.265
+[34mobjind TightId      Et       eta
+[36m  g  0       0 152.837  0.737307
+[31mjet  0         21.2467  0.640688
+[0m
+ Entry # = 49135126
+[32m ----------  EXOTIC EVENT: Run, Event: 277196, 277196 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1   436.557   201.098
+[34mobjind TightId      Et       eta
+[36m  g  0       0 205.399  0.725229
+[31mjet  0         30.0602 -0.672628
+[0m
+ Entry # = 49167586
+[32m ----------  EXOTIC EVENT: Run, Event: 277321, 277321 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   1    324.65   171.448
+[34mobjind TightId      Et       eta
+[36m  g  0       0 128.477 -0.432902
+[31mjet  0         24.7253  -1.41701
+[0m
+ Entry # = 49242120
+[32m ----------  EXOTIC EVENT: Run, Event: 277318, 277318 ------------------ 
+npho[T/L]nele[T/L]  Njet        Ht       Met
+1[1/0]       0[0/0]   2   665.587   174.427
+[34mobjind TightId      Et       eta
+[36m  g  0       0 306.419  0.945628
+[31mjet  0         163.789  0.135482
+[31mjet  1         20.9513  -1.30081
+[0m
+49292100	 events processed [99%] looptimer : Real Time = 4144.37 seconds Cpu Time = 2145.12 seconds
+[35m======== PhotonJets =======================
+Entries found    = 49292109
+Entries request  = 0 (0%)
+Events Processed = 49292109 (100%)
+Ele./Pho Events  = 0
+[31m__________________________________________
+======= END PhotonJets ====================
+phoana_time: Real Time = 4144.42 seconds Cpu Time = 2145.17 seconds

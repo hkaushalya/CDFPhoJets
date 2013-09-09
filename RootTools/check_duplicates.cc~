@@ -1,0 +1,38 @@
+//
+// includes
+//
+
+#include <set>
+#include <TFile.h>
+#include <TTree.h>
+
+//
+// checking duplicates
+//
+
+void check_duplicates ()
+{
+  std::set<std::pair<unsigned,unsigned> > found;
+
+  TFile file ("/mnt/autofs/misc/nbay03.a/samantha/RESULTS/STUPLES/StupleV2_MC_Wen.root","READ");
+  TTree *tree = dynamic_cast<TTree*>(file.Get("Stuple"));
+
+  unsigned runnr, eventnr;
+
+  tree->SetBranchStatus ("*", 0);
+  tree->SetBranchStatus ("evt_RunNumber", 1);
+  tree->SetBranchAddress ("evt_RunNumber", &runnr);
+  tree->SetBranchStatus ("evt_EventNumber", 1);
+  tree->SetBranchAddress ("evt_EventNumber", &eventnr);
+
+  unsigned event = 0;
+
+  while (tree->GetEvent (event))
+  {
+    ++ event;
+    if (event % 100000) std::cout << "Event: " << event << std::endl;
+    std::pair<unsigned,unsigned> id (runnr, eventnr);
+    found.insert (id);
+  };
+  std::cout << found.size() << "/" << event << std::endl;
+};

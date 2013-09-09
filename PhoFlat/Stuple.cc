@@ -1,0 +1,1 @@
+../obj/Stuple.cc

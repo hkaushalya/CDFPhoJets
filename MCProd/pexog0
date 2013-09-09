@@ -1,0 +1,26 @@
+#------------------------------------------------------------------------------
+#never ever comment and keep copies of these variables. the scripts grep
+#this file for info. so keeping multiple lines can make u go crazy! trying
+#to figure out the problem! comment using simple letter may help too.
+#------------------------------------------------------------------------------
+#this is for base sample 
+#------------------------------------------------------------------------------
+<mcprod.parameters>
+DSID                   pexog0
+BOOK                   cdfpexo
+DSNAME                 Pythia_photon_jets
+GENERATION_MODE        0
+MC_PROCESS_TCL         mc_Pythia_photon_sam.tcl
+FILTER_TCL             mc_postgenHepgFilter_photon.tcl
+MINBIAS_TCL            
+NEV_PER_INV_NB         20
+NEV_PER_SECTION        1000
+FIRST_RUN              202736
+LAST_RUN               204116 
+RUN_LIST               goodrunlistV23_bits_0000_100
+N_SECTIONS             1175
+#Concatenation on the fly
+EVENT_SIZE             10
+SEGMENT_SIZE           1000
+FILTER_EFF             70
+</mcprod.parameters>

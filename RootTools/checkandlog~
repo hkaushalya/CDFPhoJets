@@ -1,0 +1,35 @@
+#!/bin/sh
+# This is to extract job summary from log files.
+
+if [ $# -lt 1 ]
+then 
+	echo "require file name. exiting!"
+	exit -1
+else
+	filelist=""
+	
+	if [ $# -eq 2 ]		# if a dir is specfied get files from their
+	then
+		cd $2
+	fi
+
+			evts=0				#otherwise, when evts does not get any values from next step, there will be an error
+			evts=`grep FST:01 $file | cut -d " " -f6` 
+			newfile=${file:8}
+			
+			if [ "$evts" ]			#this tests if evts is defined and initialized, works without the quotes, but good practice
+			then
+				if [ $evts -gt 0 ]
+				then
+					echo -n "$file GOOD. summary-> "
+					grep -v Warn $file | grep -v Hello | grep -v Init | grep -v Open | grep -v Run > $newfile
+					echo "$newfile"
+				else
+					echo "$file is BAD!"
+				fi
+			else 
+				echo "$file is BAD!"
+			fi
+
+	done
+fi

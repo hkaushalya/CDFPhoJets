@@ -1,0 +1,248 @@
+#include "PhoFlat/JetList.hh"
+#include <iostream>
+#include "../RootTools/IOColors.hh"
+#include <iomanip>
+#include <memory>
+
+JetList::JetList()
+{
+	jet_num = 0;
+	jet_NJet15 = 0;
+	jet_raw_num = 0;
+}
+
+void JetList::Dump() const
+{
+	std::cout << green << "============== JetList ==================" << clearatt << std::endl;
+	std::cout << red << "jet_num = " << jet_num << ", jet_NJet15 = " << jet_NJet15 << clearatt << std::endl;
+	if (jet_num > 0)
+	{
+		std::cout << std::setiosflags(std::ios::fixed) << std::setprecision(2) 
+					<< std::setw(7) << "idx"
+					<< std::setw(7) << "Pt"
+					<< std::setw(7) << "E"
+					<< std::setw(7) << "Eta"
+					<< std::setw(9) << "JetBlkInd"
+					//<< std::setw(7) << "Phi"
+					<< std::endl;
+		for (int i=0; i < jet_num; ++i)
+		{
+
+		//	if ( fabs(jet_Px[i]) > 1500 || 
+		//		  fabs(jet_Py[i]) > 1500 || 
+		//		  fabs(jet_Pz[i]) > 1500 || 
+		//		  fabs(jet_E[i]) > 1500)
+		//	{
+		std::cout << std::setw(7) << i
+					<< std::setw(7) << jet_Pt.at(i)
+					<< std::setw(7) << jet_E.at(i)
+					<< std::setw(7) << jet_DetEta.at(i)
+					<< std::setw(9) << jet_Index.at(i)
+					//<< std::setw(7) << jet_DetPhi.at(i)
+					<< std::endl;
+/*				std::cout <<    "jet_NJet15                = " << jet_NJet15 << std::endl;
+				std::cout << "jet_Index    [" << i <<"] = " << jet_Index[i] << std::endl;
+				std::cout << "jet_Pt       [" << i <<"] = " << jet_Pt[i] << std::endl;
+				std::cout << "jet_E        [" << i <<"] = " << jet_E[i] << std::endl;
+				std::cout << "jet_Px       [" << i <<"] = " << jet_Px[i] << std::endl;
+				std::cout << "jet_Py       [" << i <<"] = " << jet_Py[i] << std::endl;
+				std::cout << "jet_Pz       [" << i <<"] = " << jet_Pz[i] << std::endl;
+				std::cout << "jet_DetEta   [" << i <<"] = " << jet_DetEta[i] << std::endl;
+				std::cout << "jet_DetPhi   [" << i <<"] = " << jet_DetPhi[i] << std::endl;
+				std::cout << "jet_HadEm    [" << i <<"] = " << jet_HadEm[i] << std::endl;
+				std::cout << "jet_Emfr     [" << i <<"] = " << jet_Emfr[i] << std::endl;
+				std::cout << "jet_Ntowers  [" << i <<"] = " << jet_Ntowers[i] << std::endl;
+				std::cout << "jet_Ntracks  [" << i <<"] = " << jet_Ntracks[i] << std::endl;
+				std::cout << "jet_SeedIPhi [" << i <<"] = " << jet_SeedIPhi[i] << std::endl;
+				std::cout << "jet_SeedIEta [" << i <<"] = " << jet_SeedIEta[i] << std::endl;
+*/
+		//	exit(1);
+			//}
+		}
+	}
+	std::cout << green << "=========================================" << clearatt <<std::endl;
+}
+void JetList::DumpAll() const
+{
+	std::cout << green << "============== JetList ==================" << clearatt << std::endl;
+	std::cout << red << "jet_num = " << jet_num << ", jet_NJet15 = " << jet_NJet15 << clearatt << std::endl;
+	if (jet_num > 0)
+	{
+		std::cout << std::setiosflags(std::ios::fixed) << std::setprecision(2) 
+					<< std::setw(7) << "idx"
+					<< std::setw(7) << "Pt"
+					<< std::setw(7) << "E"
+					<< std::setw(7) << "Eta"
+					<< std::setw(9) << "JetBlkInd"
+					<< std::setw(7) << "Px"
+					<< std::setw(7) << "Py"
+					<< std::setw(7) << "Pz"
+					<< std::setw(7) << "DetEta"
+					<< std::setw(7) << "DetPhi"
+					<< std::setw(7) << "HadEm"
+					<< std::setw(7) << "Emfr"
+					<< std::setw(7) << "Ntowers"
+					<< std::setw(7) << "Ntracks"
+					<< std::setw(7) << "SeedIPhi"
+					<< std::setw(7) << "SeedIEta"
+					<< std::endl;
+
+		for (int i=0; i < jet_num; ++i)
+		{
+			std::cout << std::setw(7) << i
+				<< std::setw(7) << jet_Pt.at(i)
+				<< std::setw(7) << jet_E.at(i)
+				<< std::setw(7) << jet_DetEta.at(i)
+				<< std::setw(9) << jet_Index.at(i)
+				<< std::setw(7) << jet_Px.at(i)
+				<< std::setw(7) << jet_Py.at(i)
+				<< std::setw(7) << jet_Pz.at(i)
+				<< std::setw(7) << jet_DetEta.at(i)
+				<< std::setw(7) << jet_DetPhi.at(i)
+				<< std::setw(7) << jet_HadEm.at(i)
+				<< std::setw(7) << jet_Emfr.at(i)
+				<< std::setw(7) << jet_Ntowers.at(i)
+				<< std::setw(7) << jet_Ntracks.at(i)
+				<< std::setw(7) << jet_SeedIPhi.at(i)
+				<< std::setw(7) << jet_SeedIEta.at(i)
+				<< std::endl;
+		}
+	}
+	std::cout << green << "=========================================" << clearatt <<std::endl;
+}
+
+
+void JetList::DumpRawJets() const
+{
+	std::cout << green << "============== RawJetList ==================" << clearatt << std::endl;
+	std::cout << red << "jet_raw_num = " << jet_raw_num << clearatt << std::endl;
+	if (jet_raw_num > 0)
+	{
+		std::cout << std::setiosflags(std::ios::fixed) << std::setprecision(2) 
+					<< std::setw(7) << "idx"
+					<< std::setw(7) << "Pt"
+					<< std::setw(7) << "E"
+					<< std::setw(9) << "JetBlkInd"
+					<< std::endl;
+		for (int i=0; i < jet_raw_num; ++i)
+		{
+			std::cout << std::setw(7) << i
+					<< std::setw(7) << jet_raw_Pt.at(i)
+					<< std::setw(7) << jet_raw_E.at(i)
+					<< std::setw(9) << jet_raw_Index.at(i)
+					<< std::endl;
+		}
+	}
+}
+
+void JetList::Clear()
+{
+	jet_num = 0;
+	jet_NJet15 = 0;
+	jet_Index.clear();
+	jet_Pt.clear();
+	jet_E.clear();
+	jet_Px.clear();
+	jet_Py.clear();
+	jet_Pz.clear();
+	jet_DetEta.clear();
+	jet_DetPhi.clear();
+	jet_HadEm.clear();
+	jet_Emfr.clear();
+	jet_Ntowers.clear();
+	jet_Ntracks.clear();
+	jet_SeedIPhi.clear();
+	jet_SeedIEta.clear();
+	jet_EmTime.clear();
+	jet_SecVtxTag.clear();
+	jet_SecVtxppb.clear();
+	jet_SecVtxnpb.clear();
+	jet_SecVtxTrkmass.clear();
+	jet_raw_Index.clear();
+	jet_raw_Pt.clear();	
+	jet_raw_E.clear();
+	jet_raw_Px.clear();
+	jet_raw_Py.clear();
+	jet_raw_Pz.clear();
+}
+
+void JetList::ApplyEtEtaCuts(const float fMinPt, const float fMaxPt,
+									const float fMinEta, const float fMaxEta)
+{
+	if (jet_num<1) return;
+
+	unsigned int  j_num  	= 0;
+	unsigned int  j_NJet15 	= 0;
+	std::vector<int>   j_Index;
+	std::vector<float> j_Pt;
+	std::vector<float> j_E;
+	std::vector<float> j_Px;
+	std::vector<float> j_Py;
+	std::vector<float> j_Pz;
+	std::vector<float> j_DetEta;
+	std::vector<float> j_DetPhi;
+	std::vector<float> j_HadEm;
+	std::vector<float> j_Emfr;
+	std::vector<int>   j_Ntowers;
+	std::vector<int>   j_Ntracks;
+	std::vector<int>   j_SeedIPhi;
+	std::vector<int>   j_SeedIEta;
+	std::vector<int>   j_EmTime;
+	std::vector<int>	 j_SecVtxTag;
+	std::vector<float> j_SecVtxppb;
+	std::vector<float> j_SecVtxnpb;
+	std::vector<float> j_SecVtxTrkmass;
+
+	for (int i=0; i<jet_num; ++i)
+	{
+		if (jet_Pt.at(i) <fMinPt || jet_Pt.at(i)>fMaxPt) continue;
+		if (jet_DetEta.at(i) <fMinEta || jet_DetEta.at(i) >fMaxEta) continue;
+
+		++j_num;
+		if (jet_Pt.at(i) > 15.) ++j_NJet15;
+		j_Index.push_back(jet_Index.at(i));
+		j_Pt.push_back(jet_Pt.at(i));
+		j_E.push_back(jet_E.at(i));
+		j_Px.push_back(jet_Px.at(i));
+		j_Py.push_back(jet_Py.at(i));
+		j_Pz.push_back(jet_Pz.at(i));
+		j_DetEta.push_back(jet_DetEta.at(i));
+		j_DetPhi.push_back(jet_DetPhi.at(i));
+		j_HadEm.push_back(jet_HadEm.at(i));
+		j_Emfr.push_back(jet_Emfr.at(i));
+		j_Ntowers.push_back(jet_Ntowers.at(i));
+		j_Ntracks.push_back(jet_Ntracks.at(i));
+		j_SeedIPhi.push_back(jet_SeedIPhi.at(i));
+		j_SeedIEta.push_back(jet_SeedIEta.at(i));
+		j_EmTime.push_back(jet_EmTime.at(i));
+		j_SecVtxTag.push_back(jet_SecVtxTag.at(i));
+		j_SecVtxppb.push_back(jet_SecVtxppb.at(i));
+		j_SecVtxnpb.push_back(jet_SecVtxnpb.at(i));
+		j_SecVtxTrkmass.push_back(jet_SecVtxTrkmass.at(i));
+	}
+
+	Clear();
+
+	jet_num    = j_num;
+	jet_NJet15 = j_NJet15;
+	jet_Index  = j_Index;
+	jet_Pt 	  = j_Pt;
+	jet_E      = j_E;
+	jet_Px     = j_Px;
+	jet_Py     = j_Py;
+	jet_Pz     = j_Pz;
+	jet_DetEta   = j_DetEta;
+	jet_DetPhi   = j_DetPhi;
+	jet_HadEm    = j_HadEm;
+	jet_Emfr     = j_Emfr;
+	jet_Ntowers  = j_Ntowers;
+	jet_Ntracks  = j_Ntracks;
+	jet_SeedIPhi = j_SeedIPhi;
+	jet_SeedIEta = j_SeedIEta;
+	jet_EmTime    = j_EmTime;
+	jet_SecVtxTag = j_SecVtxTag;
+	jet_SecVtxppb = j_SecVtxppb;
+	jet_SecVtxnpb = j_SecVtxnpb;
+	jet_SecVtxTrkmass = j_SecVtxTrkmass;
+
+}

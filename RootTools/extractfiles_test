@@ -1,0 +1,48 @@
+#!/bin/sh
+if [ $# -lt 1 ]
+then 
+	echo "require file type filter and move option. exiting!"
+	echo "usage: 1. extractfiles 'file_name'  -- to extract a certain file type"
+	echo "       2. extractfiles 'file_name' new_file_name -- to extract a certain file type and rename them."
+	exit -1
+else
+   echo "STARTING..."
+	echo "TYPE $1"
+	type="$1"
+	currdir=`pwd`
+	#echo "currdir = $currdir"
+	`cd $pwd` || exit -1
+	#`cd $currdir` || exit -1
+	#echo $?
+	#echo `pwd`
+	#rm -f HaloStudy.root >& /dev/null
+	n=0	
+	for file in `ls -1| grep tgz$`
+	do
+		echo "TARBALL FILE $file"
+   	#dir="`pwd`/$1"files""
+    	#mkdir -p $dir
+    	#echo $dir
+	 	#tar xvzf $file 'Pho*' ##working do not change 
+	 	#tar xvzf $file 'HaloStudy*' ##working do not change 
+	 	#tar xvzf $file "$type"
+		#echo $type
+	 	tar xvzf $file "$type"
+    	if [ $? -ne 0 ]
+#	if [ ! -e HaloStudy.root ]
+    	then
+      	echo '>>> file not found <<<'
+		else
+			if [ $# -eq 2 ]
+			then
+				if test $2 -eq 0  #if you want to rename file or not
+				then n=`expr $n + 1`
+			#echo "n=$n"
+				#FILE='HaloSkim.root'
+				#mv -v $FILE "OneTenTest_$n.root"
+				mv -v $type '$type_$n'
+				fi
+			fi
+    	fi
+	done 
+fi

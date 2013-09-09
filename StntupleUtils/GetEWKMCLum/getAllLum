@@ -1,0 +1,173 @@
+mkdir zmm
+mkdir zmm/p0
+mkdir zmm/p1_7
+mkdir zmm/p8
+mkdir zmm/p9
+mkdir zmm/p10
+mkdir zmm/p11
+mkdir zmm/p12
+mkdir zmm/p13
+
+cp SAMLumi.ksh goodrun_qcd_nosi.list  zmm/p0
+cp SAMLumi.ksh goodrun_qcd_nosi.list  zmm/p1_7
+cp SAMLumi.ksh goodrun_qcd_nosi.list  zmm/p8
+cp SAMLumi.ksh goodrun_qcd_nosi.list  zmm/p9
+cp SAMLumi.ksh goodrun_qcd_nosi.list  zmm/p10
+cp SAMLumi.ksh goodrun_qcd_nosi.list  zmm/p11
+cp SAMLumi.ksh goodrun_qcd_nosi.list  zmm/p12
+cp SAMLumi.ksh goodrun_qcd_nosi.list  zmm/p13
+
+mkdir ztt
+mkdir ztt/p0
+mkdir ztt/p1_7
+
+cp SAMLumi.ksh goodrun_qcd_nosi.list  ztt/p0
+cp SAMLumi.ksh goodrun_qcd_nosi.list  ztt/p1_7
+
+
+
+
+mkdir wen
+mkdir wen/p0
+mkdir wen/p1_7
+mkdir wen/p8_9
+mkdir wen/p10_11
+mkdir wen/p12
+mkdir wen/p13
+
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wen/p0
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wen/p1_7
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wen/p8_9
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wen/p10_11
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wen/p12
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wen/p13
+
+
+
+mkdir wmn
+mkdir wmn/p0
+mkdir wmn/p1_7
+mkdir wmn/p8_9
+mkdir wmn/p10_11
+mkdir wmn/p12
+mkdir wmn/p13
+
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wmn/p0
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wmn/p1_7
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wmn/p8_9
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wmn/p10_11
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wmn/p12
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wmn/p13
+
+mkdir wtn
+mkdir wtn/p0
+mkdir wtn/p1_7
+
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wtn/p0
+cp SAMLumi.ksh goodrun_qcd_nosi.list  wtn/p1_7
+
+cd zmm/p0
+./SAMLumi.ksh goodrun_qcd_nosi.list ze1s6m > ze1s6m & 
+cd ..
+cd ..
+cd zmm/p1_7
+./SAMLumi.ksh goodrun_qcd_nosi.list ze1s9m > ze1s9m  &
+cd ..
+cd ..
+cd zmm/p8
+./SAMLumi.ksh goodrun_qcd_nosi.list ze0sbm > ze0sbm  &
+cd ..
+cd ..
+cd zmm/p9
+./SAMLumi.ksh goodrun_qcd_nosi.list ze0scm > ze0scm  &
+cd ..
+cd ..
+cd zmm/p10
+./SAMLumi.ksh goodrun_qcd_nosi.list ze0sdm > ze0sdm  &
+cd ..
+cd ..
+cd zmm/p11
+./SAMLumi.ksh goodrun_qcd_nosi.list ze0sem > ze0sem  &
+cd ..
+cd ..
+cd zmm/p12
+./SAMLumi.ksh goodrun_qcd_nosi.list ze0sfm > ze0sfm  &
+cd ..
+cd ..
+cd zmm/p13
+./SAMLumi.ksh goodrun_qcd_nosi.list ze0sgm > ze0sgm  &
+cd ..
+cd ..
+
+
+cd ztt/p0
+./SAMLumi.ksh goodrun_qcd_nosi.list ze0s8t > ze0s8t  &
+cd ..
+cd ..
+cd ztt/p1_7
+./SAMLumi.ksh goodrun_qcd_nosi.list ze0sat > ze0sat  &
+cd ..
+cd ..
+
+
+cd wen/p0
+./SAMLumi.ksh goodrun_qcd_nosi.list we0sfe  >   we0sfe &
+cd ..
+cd ..
+cd wen/p1_7
+./SAMLumi.ksh goodrun_qcd_nosi.list we0sge > we0sge  &
+cd ..
+cd ..
+cd wen/p8_9
+./SAMLumi.ksh goodrun_qcd_nosi.list we0she > we0she  &
+cd ..
+cd ..
+cd wen/p10_11
+./SAMLumi.ksh goodrun_qcd_nosi.list we0sie  > we0sie  &
+cd ..
+cd ..
+cd wen/p12
+./SAMLumi.ksh goodrun_qcd_nosi.list we0seh > we0seh  &
+cd ..
+cd ..
+cd wen/p13
+./SAMLumi.ksh goodrun_qcd_nosi.list we0sej > we0sej  &
+cd ..
+cd ..
+
+
+cd wmn/p0
+./SAMLumi.ksh goodrun_qcd_nosi.list we0s7m > we0s7m  &
+cd ..
+cd ..
+cd wmn/p1_7
+./SAMLumi.ksh goodrun_qcd_nosi.list we0s8m > we0s8m  &
+cd ..
+cd ..
+cd wmn/p8_9
+./SAMLumi.ksh goodrun_qcd_nosi.list we0s9m > we0s9m  &
+cd ..
+cd ..
+cd wmn/p10_11
+./SAMLumi.ksh goodrun_qcd_nosi.list we0sam > we0sam  &
+cd ..
+cd ..
+cd wmn/p12
+./SAMLumi.ksh goodrun_qcd_nosi.list we0sbm > we0sbm  &
+cd ..
+cd ..
+cd wmn/p13
+./SAMLumi.ksh goodrun_qcd_nosi.list we0sgm > we0sgm  &
+cd ..
+cd ..
+
+
+
+cd wtn/p0
+./SAMLumi.ksh goodrun_qcd_nosi.list we0s9t > we0s9t  &
+cd ..
+cd ..
+cd wtn/p1_7
+./SAMLumi.ksh goodrun_qcd_nosi.list we0sat >  we0sat &
+cd ..
+cd ..

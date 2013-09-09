@@ -1,0 +1,9 @@
+*.d
+*.so
+*.root
+*.ps
+*.gif
+*.eps
+*.txt
+*.C_*
+*.C~*

@@ -1,0 +1,28 @@
+#!/bin/sh
+######
+# This will extract the CP2 HV off events from the gaincheck.C log file.
+# Redirect output of gaincheck.C to a file and give it as the input argument to this.
+######
+if [ $# -ne 1 ]
+then
+	echo "input file needed!."
+	exit -1
+else
+	echo "Scanning for zeros in file " $1
+	INFILE="$1"
+	DOT=`expr index $1 .`
+	DOT_1=`expr $DOT - 1`
+	if [ $DOT > 0 ]
+	then
+		BASE=`expr substr $1 1 $DOT_1`
+	else
+		BASE=$INFILE
+	fi
+
+	OUTFILE="$BASE.ZEROS"
+	
+	#`grep -v Run $INFILE | grep '::0$' > $OUTFILE`
+	#`grep -v Run $INFILE | grep '  ' > $OUTFILE`
+	`grep '::0$' $INFILE > $OUTFILE`
+	echo "Zeros written to $OUTFILE"
+fi

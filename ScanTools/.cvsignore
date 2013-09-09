@@ -1,0 +1,10 @@
+*.d
+*.so
+*.root
+*.ps
+*.pdf
+*.gif
+*.eps
+*.txt
+*.C_*
+*.C~*

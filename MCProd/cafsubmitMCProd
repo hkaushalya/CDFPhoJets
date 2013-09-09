@@ -1,0 +1,75 @@
+#this is to the MCProd command to submit my MC generation to CAF
+#./mcProduction/scripts/submit_MCProd -f remotecaf -b cdfpewk -d tewk9t -g MCprod -s 12:27 -q long\
+# -o username@fcdfdata003.fnal.gov:/export/scratch/username/ -t ../MCProd_vX_X_X.tar.gz -x USE_TIKI=1
+
+#########################
+#CHECK AND CHANGE THESE #
+#########################
+#dataset name
+#tarball name
+#output directory name
+#caf sections -s 1:xx  = xx must be determined by runnig DSdef2SegmentList.
+#                           The last number in the 3rd column of the output.
+#echo "cleaning up directory by removing test job stuff .."
+#source sourceme2clean_pexo
+#echo "Removing ../MCProd_ProdExe_v616_q_strip_pexog0.tar.gz"
+#rm -rf ../MCProd_ProdExe_v616_q_strip_pexog0.tar.gz
+#echo "tarring $PWD/. ->  ../MCProd_ProdExe_v616_q_strip_pexog0.tar.gz"
+#tar czf ../MCProd_ProdExe_v616_q_strip_pexog0.tar.gz .
+
+#source ~cdfsoft/cdf2.shrc
+source ~cdfsoft/cdf2.cshrc
+setup cdfsoft2 development
+
+setenv DATASETID pexog0
+setenv USER_GENMODE 1
+setenv ISR 0  
+setenv FSR 0 
+setenv Q2scale -1 
+setenv minPtHat 22
+setenv minPhoPt 24
+setenv CAFOUTLOCATION samantha@gadolinium.fnal.gov:/cdf/scratch/samantha/MCSamples/Take12_PtHat22_40M/Q2down/
+#setenv CAFOUTLOCATION samantha@nbay02.fnal.gov:/data/nbay02/b/samantha/MCSamples/Take10_PtHat210/base/
+#setenv CAFOUTLOCATION samantha@nbay01.fnal.gov:/mnt/autofs/misc/nbay03.b/samantha/MCSamples/Take11_PtHat250/moreISR/
+#setenv CAFOUTLOCATION samantha@nbay01.fnal.gov:/mnt/autofs/misc/nbay03.b/samantha/MCSamples/Take11_PtHat250/lessISR/
+# setenv CAFOUTLOCATION samantha@nbay01.fnal.gov:/mnt/autofs/misc/nbay03.b/samantha/MCSamples/Take11_PtHat250/moreFSR/
+#setenv CAFOUTLOCATION samantha@nbay01.fnal.gov:/mnt/autofs/misc/nbay03.b/samantha/MCSamples/Take11_PtHat250/lessFSR/
+#setenv CAFOUTLOCATION samantha@nbay01.fnal.gov:/mnt/autofs/misc/nbay03.b/samantha/MCSamples/Take11_PtHat250/Q2up/
+#setenv CAFOUTLOCATION samantha@nbay01.fnal.gov:/mnt/autofs/misc/nbay03.b/samantha/MCSamples/Take11_PtHat250/Q2down/
+setenv CAF cdfgrid
+setenv QUEUE long
+setenv BEGIN_SEC 401
+setenv END_SEC 501
+
+echo "===== CAF SUBMIT PARAMETERS ======================================== "
+echo "CAFOUTLOCATION = $CAFOUTLOCATION"
+echo "USER_GENMODE   = $USER_GENMODE"
+echo "DATASETID      = $DATASETID"
+echo "ISR            = $ISR"
+echo "FSR            = $FSR"
+echo "Q2scale        = $Q2scale (0== not modified using PYTHIA default)"
+echo "minPtHat       = $minPtHat"
+echo "FilterminPhoEt = $minPhoPt"
+echo "CAF            = $CAF"
+echo "CAF SECTIONS   = $BEGIN_SEC - $END_SEC"
+echo "QUEUE          = $QUEUE"
+
+CafSubmit --tarFile=../MCProd_ProdExe_v616_q_strip_pexog0.tar.gz \
+--outLocation=$CAFOUTLOCATION/\$.tgz \
+--procType=$QUEUE \
+--start=$BEGIN_SEC \
+--end=$END_SEC \
+--email=samantha@fnal.gov \
+--dhaccess=none \
+--dataset=none \
+--farm=$CAF \
+./simple.sh \$ $DATASETID $CAFOUTLOCATION $USER_GENMODE $ISR $FSR $Q2scale $minPtHat $minPhoPt
+echo "==================================================================== "
+
+
+#./mcProduction/scripts/submit_MCProd -f cdfgrid -b cdfpexo -d pexog0 -g common -s 9:12 -q medium\
+# -o samantha@praseodymium.fnal.gov:/cdf/scratch/samantha/PhoJetStn/Take5_pthat20/Q2down/ \
+# -t ../MCProd_ProdExe_v616_q_strip_pexog0.tar.gz  -x USER_GENMODE=1
+#./mcProduction/scripts/submit_MCProd -f cdfgrid -b cdfpexo -d pexog0 -g common -s 1:8 -q medium\
+# -o samantha@nbay02.fnal.gov:/data/nbay02/b/samantha/MCSamples/Take3_PtHat50/Q2up/ \
+# -t ../MCProd_ProdExe_v616_q_strip_pexog0.tar.gz  -x USER_GENMODE=1

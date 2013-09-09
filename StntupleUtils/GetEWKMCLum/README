@@ -1,0 +1,6 @@
+these scripts can give a run dependent Luminosity estimate.
+The instructions are in DQM page under GoodRun page.
+(http://www-cdf.fnal.gov/internal/dqm/dqm.html)
+Varsha showed me how to do this. But for me, this is not needed.
+A good run lists can be picked from the list and just runthe script.
+All the instruction are in the above web page.

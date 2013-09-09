@@ -1,0 +1,116 @@
+#include "samantha/Pho/NewModule.hh"
+#include <iostream>
+
+ClassImp(NewModule)
+
+//_____________________________________________________________________________
+NewModule::NewModule(const char* name, const char* title):
+  TStnModule(name,title), qMc(false)
+{
+	std::cout << "Hello I am NewModule module" << std::endl;
+}
+
+//_____________________________________________________________________________
+NewModule::~NewModule() {
+}
+
+//_____________________________________________________________________________
+void NewModule::SaveHistograms() {
+}
+
+//_____________________________________________________________________________
+void NewModule::BookHistograms()
+{
+	DeleteHistograms();
+}
+
+
+//_____________________________________________________________________________
+int NewModule::BeginJob()
+{
+				// register the data blocks
+
+	BookHistograms();
+
+	// initialize vars
+	counter.evtsRunOver 			= 0;
+	counter.evtsPassModule 		= 0;
+
+	return 0;
+}
+
+//_____________________________________________________________________________
+int NewModule::BeginRun()
+{
+
+	int currRun =  fHeaderBlock->RunNumber();
+	std::cout << " BEGINING RUN# " << currRun << std::endl;
+	
+	if (fHeaderBlock->McFlag()) 
+   	qMc = true;
+	else
+   	qMc = false;
+  
+	return 0;
+
+} //BeginRun
+
+/*-------------------------------------------------------------------*/
+// EVENT LOOP
+/*-------------------------------------------------------------------*/
+int NewModule::Event(int ientry)
+{
+	SetPassed(0);
+	counter.evtsRunOver++;
+  
+
+	return 0;
+
+} // Event
+
+
+/*-------------------------------------------------------------------*/
+// clean and clear things for the run
+/*-------------------------------------------------------------------*/
+void NewModule::Cleanup()
+{
+
+} //Cleanup
+
+
+/*-------------------------------------------------------------------*/
+void NewModule::FillDataBlocks(int ientry)
+{
+	//fPhotonBlock->GetEntry(ientry);
+}
+
+/*===================================================================*/
+//	Create a folder in"Hist" 
+/*===================================================================*/
+TFolder* NewModule::GetHistoFolder(char *name, char* title)
+{
+	char folder_name[200];
+	char folder_title[200];
+	TFolder* hist_folder = (TFolder*) GetFolder()->FindObject("Hist");
+	sprintf(folder_name,name);
+	sprintf(folder_title,title);
+	TFolder* new_folder = (TFolder*) hist_folder->FindObject(folder_name);
+	if (! new_folder) new_folder = hist_folder->AddFolder(folder_name,folder_title,NULL);
+	return new_folder;
+}
+
+
+//_____________________________________________________________________________
+//  END JOB SUMMARY
+//_____________________________________________________________________________
+int NewModule::EndJob() {
+
+	printf("----- end job: ---- %s\n",GetName());
+	if (qMc)	std::cout << "RUN IS ON MC SAMPLE" << std::endl;
+	else	std::cout << "RUN IS ON DATA SAMPLE" << std::endl;
+	std::cout << "Events Run Over ------------ = " << counter.evtsRunOver << std::endl;
+	std::cout << "Events Pass this module ---- = " << counter.evtsPassModule << std::endl;
+
+	printf("---------------------------------------------------\n");
+	return 0;
+}

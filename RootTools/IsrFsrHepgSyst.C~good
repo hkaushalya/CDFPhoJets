@@ -1,0 +1,188 @@
+/*This is to study the ISR/FSR effects.
+ *A quick test using only the hepg informantion
+ *Oct 1, 2009
+ */
+
+/* $Id$
+ * $Log$
+ */
+
+#include <iostream>
+#include "TCanvas.h"
+#include "TH1F.h"
+#include "TStyle.h"
+#include "TLegend.h"
+#include <sstream>
+#include "TMath.h"
+#include <iomanip>
+#include "TFile.h"
+#include "TH1.h"
+
+
+//=================================================================//
+void FindXrange(const TH1* h1, const TH1* h2, float& xmin, float& xmax)
+{
+	for (int bin=0; bin<=h1->GetNbinsX()+1; ++bin)
+	{
+		if (h1->GetBinContent(bin)>0 || h2->GetBinContent(bin)>0)
+		{
+			xmin = h1->GetXaxis()->GetBinLowEdge(bin);
+			break;
+		}
+	}
+	for (int bin=h1->GetNbinsX()+1; bin>=0; --bin)
+	{
+		if (h1->GetBinContent(bin)>0 || h2->GetBinContent(bin)>0)
+		{
+			xmax = h1->GetXaxis()->GetBinUpEdge(bin);
+			break;
+		}
+	}
+}
+
+//=================================================================//
+//finds the bin number corresponding to a value
+//=================================================================//
+int GetBin(const TH1* hist, const double val)
+{
+	assert (hist != NULL && "GetBin::Hist is null!");
+	for (int bin = 1; bin <= hist->GetNbinsX(); ++bin)
+	{
+		if (val > hist->GetXaxis()->GetBinLowEdge(bin) 
+			  && val <= hist->GetXaxis()->GetBinUpEdge(bin)) return bin;
+	}
+	std::cout << __FUNCTION__ << "::WARNING! Did not find a bin for Value =" << val
+		<< ". Hist bounds are [" << hist->GetXaxis()->GetBinLowEdge(1)
+		<< ", " << hist->GetXaxis()->GetBinUpEdge(hist->GetNbinsX()) 
+		<< "] ! returning -1" << std::endl;
+	return -1;
+}
+
+//=================================================================//
+//// main function
+//=================================================================//
+void IsrFsrHepgSyst(const std::string histpath, const std::string title, const int rebin)
+{
+
+	TFile *fileBase = new TFile("/data/nbay02/b/samantha/MCSamples/Take2/Results/IsrFsrPythiaBaseResults.root");
+	TFile *fileMISR = new TFile("/data/nbay02/b/samantha/MCSamples/Take2/Results/IsrFsrPythiaMoreISRResults.root");
+	TFile *fileLISR = new TFile("/data/nbay02/b/samantha/MCSamples/Take2/Results/IsrFsrPythiaLessISRResults.root");
+	TFile *fileMFSR = new TFile("/data/nbay02/b/samantha/MCSamples/Take2/Results/IsrFsrPythiaMoreFSRResults.root");
+	TFile *fileLFSR = new TFile("/data/nbay02/b/samantha/MCSamples/Take2/Results/IsrFsrPythiaLessFSRResults.root");
+
+	const int nHists = 5;
+	TH1* phoEt[nHists];
+	phoEt[0] = dynamic_cast<TH1*> (fileBase->Get(histpath.c_str()));
+	phoEt[1] = dynamic_cast<TH1*> (fileMISR->Get(histpath.c_str()));
+	phoEt[2] = dynamic_cast<TH1*> (fileLISR->Get(histpath.c_str()));
+	phoEt[3] = dynamic_cast<TH1*> (fileMFSR->Get(histpath.c_str()));
+	phoEt[4] = dynamic_cast<TH1*> (fileLFSR->Get(histpath.c_str()));
+	assert( phoEt[0] != NULL && "base hist is null ");
+	assert( phoEt[1] != NULL && "MISR hist is null ");
+	assert( phoEt[2] != NULL && "LISR hist is null ");
+	assert( phoEt[3] != NULL && "MFSR hist is null ");
+	assert( phoEt[4] != NULL && "LFSR hist is null ");
+
+	for (int i=0; i< nHists; ++i) 
+	{
+		phoEt[i]->Sumw2();
+		phoEt[i]->Rebin(rebin);
+	}
+
+	//now scale everything to base
+
+	for (int i=1; i< nHists; ++i)
+	{ 
+		phoEt[i]->Scale(phoEt[0]->Integral()/(1.0 * phoEt[i]->Integral()));
+	}
+
+
+	phoEt[0]->SetLineColor(2);
+	phoEt[1]->SetLineColor(4);
+	phoEt[2]->SetLineColor(6);
+	phoEt[3]->SetLineColor(8);
+	phoEt[4]->SetLineColor(28);
+
+	phoEt[0]->SetMarkerColor(2);
+	phoEt[1]->SetMarkerColor(4);
+	phoEt[2]->SetMarkerColor(6);
+	phoEt[3]->SetMarkerColor(8);
+	phoEt[4]->SetMarkerColor(28);
+
+	phoEt[0]->SetMarkerStyle(20);
+	phoEt[1]->SetMarkerStyle(22);
+	phoEt[2]->SetMarkerStyle(23);
+	phoEt[3]->SetMarkerStyle(22);
+	phoEt[4]->SetMarkerStyle(23);
+
+
+
+	for (int i=0; i< nHists; ++i) phoEt[i]->SetLineWidth(1);
+
+
+
+	TH1* phoEtClone[nHists];
+	for (int i=0; i < nHists; ++i)
+	{
+		std::stringstream name;
+		name << phoEt[i]->GetName() << "_copy";
+		phoEtClone[i] = dynamic_cast<TH1*> (phoEt[i]->Clone(name.str().c_str()));
+	}
+				
+	TLegend *leg = new TLegend (0.8,0.7,0.99,.99);
+	leg->SetTextFont(42);
+	leg->SetTextSize(0.03);
+
+	gStyle->SetOptStat(0);
+	TCanvas *c = new TCanvas("HIST","HiST",1200,600);
+	c->Divide(2,1);
+
+
+	c->cd(1);
+	gPad->SetGridx();
+	gPad->SetGridy();
+	gPad->SetLogy();
+	phoEt[0]->SetTitle(title.c_str());
+	phoEt[0]->Draw("PE");
+	phoEt[1]->Draw("PE same");
+	phoEt[2]->Draw("PE same");
+	phoEt[3]->Draw("PE same");
+	phoEt[4]->Draw("PE same");
+
+	leg->AddEntry(phoEt[0],"Base Sample");
+	leg->AddEntry(phoEt[1],"More ISR");
+	leg->AddEntry(phoEt[2],"Less ISR");
+	leg->AddEntry(phoEt[3],"More FSR");
+	leg->AddEntry(phoEt[4],"Less FSR");
+	leg->Draw();
+
+	c->cd(2);
+	gPad->SetGridx();
+	gPad->SetGridy();
+	phoEtClone[1]->Divide(phoEtClone[0]);
+	phoEtClone[2]->Divide(phoEtClone[0]);
+	phoEtClone[3]->Divide(phoEtClone[0]);
+	phoEtClone[4]->Divide(phoEtClone[0]);
+
+	phoEtClone[1]->SetTitle(title.c_str());
+	phoEtClone[1]->SetMinimum(0);
+	phoEtClone[1]->SetMaximum(2);
+	phoEtClone[1]->Draw("PE");
+	phoEtClone[2]->Draw("PE same");
+	phoEtClone[3]->Draw("PE same");
+	phoEtClone[4]->Draw("PE same");
+	c->cd();
+
+}
+
+void IsrFsrHepgSyst()
+{	
+	//IsrFsrHepgSyst("Ana/PhoJetsHepgSyst/Hist/1Jet/Photon/EtCorr", 
+	//		"#gamma ^{E_{T}>30GeV} + >=1 Jets^{E_{T}>=15GeV}: E_{T}^{#gamma} Normalized to Base sample;E_{T}^{#gamma};", 10);
+	//IsrFsrHepgSyst("Ana/PhoJetsHepgSyst/Hist/1Jet/LeadJet/EtCorr", 
+	///		"#gamma ^{E_{T}>30GeV} + >=1 Jets^{E_{T}>=15GeV}: E_{T}^{Lead jet}: Normalized to Base sample;E_{T}^{lead jet};", 10);
+	IsrFsrHepgSyst("Ana/PhoJetsHepgSyst/Hist/1Jet/PhotonLeadJet/InvMass", 
+			"#gamma ^{E_{T}>30GeV} + >=1 Jets^{E_{T}>=15GeV}: Inv. Mass(#gamma, lead jet): Normalized to Base sample; Inv. Mass(#gamma,lead jet);", 20);
+ 
+}
+

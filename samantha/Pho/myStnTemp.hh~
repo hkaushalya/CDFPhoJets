@@ -1,0 +1,57 @@
+#ifndef NewModule_HH
+#define NewModule_HH
+
+#if !defined (__CINT__) || defined (__MAKECINT__)
+
+
+#endif
+
+class NewModule: public TStnModule {
+
+	protected:
+					// pointers to the data blocks used, header block is always
+					// available via TStnModule::GetHeaderBlock()
+
+		TStnHeaderBlock*    fHeaderBlock;
+
+
+	public:
+		NewModule(const char* name="NewModule", const char* title="NewModule");
+		~NewModule();
+
+		// ****** accessors
+		TStnHeaderBlock*   GetHeaderBlock()  { return fHeaderBlock;  }
+
+
+				/************** abstract objects *************************/
+
+
+		struct Global_Counters_t {
+			unsigned int evtsRunOver;		//___number of evts we ran over
+			unsigned int evtsPassModule;	//___number of evts pass this module
+		};
+
+
+		// all the histograms
+
+
+		// ****** over ridden methods of TStnModule
+		int BeginJob();
+		int BeginRun();
+		int Event   (int ientry);
+		int EndJob  ();
+
+		// ****** other methods
+		void 	BookHistograms();
+		void 	SaveHistograms();
+		void 	Cleanup();
+
+	private:
+		bool 	qMc;  				// true if MonteCarlo data
+		Global_Counters_t counter;
+
+	
+	ClassDef(NewModule,1)
+};
+
+#endif

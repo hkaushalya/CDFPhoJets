@@ -1,0 +1,48 @@
+
+These are the instructions to run the PDF uncertainties in a very simple 
+way, although not very efficient, using StNtuples and PDFTOOLS.
+
+All the credit to the simplify running must go to Alon Attal, although
+the current version, for 6.1.4 was done for Eunsin Lee.
+
+These instructions are good as of today, October 15, 2008.
+
+/////////////////////////////////////////////////////////////////////////
+
+Setup of the directories and files (suggested strategy):
+
+   The main directory to run is the StNtuple directory, that is used for running
+   the code:
+
+   In that directory:
+                mkdir pfdtools
+              
+   and copy in the created directory the following files:
+
+                TPDFReweight.cc
+                TPDFReweight.hh
+
+                pdf_syst.C
+                pdf_syst.csh
+
+                libpdftools.so
+
+    and the directory
+
+                tables/
+
+
+Edit the file pdf_syst.C to set the proper configuration and ntuple files
+
+The job must be run using two StNtuples: The first one contains the events of the sample
+(that is indicated in line 14) and the second contains the events that pass the 
+selection cuts (these are a subsample the previous one).
+
+Running the code
+
+         pdftools/pdf_syst.csh
+
+One should get the appropriate output containing the relative uncertainty
+in the acceptance.
+
+/////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,1270 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <TCanvas.h>
+#include <TFile.h>
+#include <TH1.h>
+#include <THStack.h>
+#include <TLegend.h>
+#include <TStyle.h>
+#include <vector>
+#include <TF1.h>
+#include <TPaveLabel.h>
+
+using namespace std;
+
+
+float GetMax(const float def, const float up, const float down)
+{
+	//this is written for JES syst.	
+	float m1 = fabs(def - up);
+	float m2 = fabs(def - down);
+	if (m1>m2) return m1;
+	else return m2;
+}
+
+
+
+void GetJESerrors(std::vector<float>& vErr, TH1* hDef, TH1* hJesUp, TH1* hJesDown)
+{
+	//call this to get JES syst. make sure all hists have same bin size and normalized properly 
+	// and overflow bin is moved in to visible region before calculating systs.
+	//for all backgrounds, call this and get the JES error and add in quadrature
+
+	for (int i=1; i< hDef->GetNbinsX(); i++)
+		vErr.push_back(GetMax(hDef->GetBinContent(i),
+									 hJesUp->GetBinContent(i),
+									 hJesDown->GetBinContent(i)));   //________________ dummy value
+
+}
+
+
+
+TH1 *move_overflow (TH1 *hist, float lolimit, float hilimit, bool use_errors)
+{
+	gStyle->SetCanvasColor (10);
+	gStyle->SetCanvasBorderSize (0);
+	gStyle->SetCanvasBorderMode (0);
+				 
+	gStyle->SetPadColor (10);
+	gStyle->SetFillColor (10);
+	gStyle->SetTitleFillColor (10);
+	gStyle->SetTitleBorderSize (1);
+	gStyle->SetStatColor (10);
+	gStyle->SetStatBorderSize (1);
+
+
+	TH1 *result = new TH1F ((std::string (hist->GetName())+"_tmp").c_str(),hist->GetTitle(),(int)((hilimit - lolimit)/hist->GetBinWidth(1)),lolimit, hilimit);
+	result->SetDirectory (NULL);
+
+	if (use_errors)
+		result->Sumw2();
+	for (unsigned bin = 1; bin <= unsigned (hist->GetNbinsX()); ++ bin)
+	{
+		unsigned target = bin;
+		if (hist->GetXaxis()->GetBinCenter (bin) > hilimit)
+			target = result->GetNbinsX();
+		
+		float val0 = result->GetBinContent (target);
+		float val1 = hist->GetBinContent (bin);
+		
+		result->SetBinContent (target, val0 + val1);
+		
+		if (use_errors)
+		{
+			float err0 = result->GetBinError (target);
+			float err1 = hist->GetBinError (bin);
+			result->SetBinError (target, sqrt (err0*err0 + err1*err1));
+		};
+	};
+
+	return result;
+};
+
+void correct_errors (TH1 *hist, bool use_last = false)
+{
+	const float fudge = 0.99;
+	const unsigned first = 2;
+	const unsigned last = hist->GetNbinsX() - 1 - !use_last;
+	bool changed = true;
+
+	while (changed)
+	{
+		changed = false;
+		if (hist->GetBinContent (first-1) > 0)
+		{
+			const float eb = hist->GetBinError (first-1);
+			const float ec = hist->GetBinError (first);
+			if (eb < fudge * ec)
+			{
+				hist->SetBinError (first-1, ec);
+				changed = true;
+			};
+		};
+		if (hist->GetBinContent (last+1) > 0 || !use_last)
+		{
+			const float ea = hist->GetBinError (last);
+			const float eb = hist->GetBinError (last+1);
+			if (eb < fudge * ea)
+			{
+				hist->SetBinError (last+1, ea);
+				changed = true;
+			};
+		};
+		for (unsigned bin = first; bin <= last; ++ bin)
+		{
+			const float ea = hist->GetBinError (bin-1);
+			const float eb = hist->GetBinError (bin);
+			const float ec = hist->GetBinError (bin+1);
+			if (eb < ea * fudge && eb < ec * fudge)
+			{
+				hist->SetBinError (bin, ea < ec ? ea : ec);
+				changed = true;
+			};
+		};
+	};
+};
+
+
+
+void GetCosmicErr(std::vector<float>& ErrVec, const TH1 *hist)
+{
+	for (int i=1; i <= hist->GetNbinsX(); i++) {
+		float bin = hist->GetBinContent(i);
+		float err = 0;
+		if (bin) err = 1 / sqrt(bin);		//take stat error as the syst
+		ErrVec.push_back(err);
+	}
+}
+
+void GetHaloErr(std::vector<float>& ErrVec, const TH1 *hist)
+{
+	for (int i=1; i <= hist->GetNbinsX(); i++) {
+		float bin = hist->GetBinContent(i);
+		float err = bin * 0.5;		//take 50% to be the syst
+		ErrVec.push_back(err);
+	}
+}
+
+
+
+
+
+float GetMax(const float x1, const float x2, const float x3, const float x4)
+{
+	float max1 = 0, max2 =0;
+	
+	if (x1>x2) max1 = x1;
+	else max1 = x2;
+	
+	if (x3>x4) max2 = x3;
+	else max2 = x4;
+
+	if (max1 > max2) return max1;
+	else return max2;
+	
+}
+
+
+void GetQCD100Err(std::vector<float>& ErrVec, const TH1* qcdhist, const std::string name,
+						const std::string abspath, const int rebin)
+{
+	std::string hademfile("Systematics_TightHadEm.root");
+	std::string isofile("Systematics_TightIso.root");
+	std::string trkptfile("Systematics_TightTrkPt.root");
+	std::string trkisofile("Systematics_TightTrkIso.root");
+	
+	TFile* fhadem = new TFile(hademfile.c_str());
+	TFile* fiso = new TFile(isofile.c_str());
+	TFile* ftrkpt = new TFile(trkptfile.c_str());
+	TFile* ftrkiso = new TFile(trkisofile.c_str());
+	
+	if (fhadem->IsZombie()) { std::cout  << hademfile << "file not found" <<std::endl; return;}
+	if (fiso->IsZombie()) { std::cout  << isofile << "file not found" <<std::endl; return;}
+	if (ftrkpt->IsZombie()) { std::cout  << trkptfile << "file not found" <<std::endl; return;}
+	if (ftrkiso->IsZombie()) { std::cout  << trkisofile << "file not found" <<std::endl; return;}
+
+
+			std::cout << abspath << std::endl;
+			
+	fhadem->cd();
+		if (! gDirectory->cd(abspath.c_str())) {
+			std::cout << "path not found :" << abspath <<std::endl;
+			return;
+		}
+	
+		TH1F* hademhist = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+		if (! hademhist){
+			std::cout << __LINE__ << " ::hist not found in the dir" <<std::endl;
+			return;
+		}
+
+	fiso->cd();
+			gDirectory->cd(abspath.c_str());
+			TH1F* isohist = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	ftrkpt->cd();
+			gDirectory->cd(abspath.c_str());
+			TH1F* trkpthist = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	ftrkiso->cd();
+			gDirectory->cd(abspath.c_str());
+			TH1F* trkisohist = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+
+
+	//make sure the bin sizes are same as the QCD hist
+	hademhist->Rebin(rebin);
+	isohist->Rebin(rebin);
+	trkpthist->Rebin(rebin);
+	trkisohist->Rebin(rebin);
+
+	float lolimit = qcdhist->GetBinLowEdge(1);
+	float hilimit = qcdhist->GetXaxis()->GetBinUpEdge(qcdhist->GetNbinsX());
+
+	hademhist  = (TH1F*) move_overflow (hademhist, lolimit,  hilimit,false);
+	isohist    = (TH1F*) move_overflow (isohist, lolimit,  hilimit,false);
+	trkpthist  = (TH1F*) move_overflow (trkpthist, lolimit,  hilimit,false);
+	trkisohist     = (TH1F*) move_overflow (trkisohist, lolimit,  hilimit,false);
+
+	hademhist->Scale(qcdhist->Integral()/hademhist->Integral());
+	isohist->Scale(qcdhist->Integral()/isohist->Integral());
+	trkpthist->Scale(qcdhist->Integral()/trkpthist->Integral());
+	trkisohist->Scale(qcdhist->Integral()/trkisohist->Integral());
+
+	hademhist->Divide(qcdhist);
+	isohist->Divide(qcdhist);
+	trkpthist->Divide(qcdhist);
+	trkisohist->Divide(qcdhist);
+
+	//new TCanvas();
+	//hademhist->Draw();
+	hademhist->SetMinimum(0);
+	hademhist->SetMaximum(10);
+	isohist->SetLineColor(kRed);
+	//isohist->Draw("same");
+	trkpthist->SetLineColor(kBlue);
+	//trkpthist->Draw("same");
+	trkisohist->SetLineColor(kGreen);
+	//trkisohist->Draw("same");
+
+
+	//now find the max for each bin
+	for (int i=1; i <= qcdhist->GetNbinsX(); i++) {
+		// i do not need to worry about values below 1, as there will be none.
+		// each additional cut will give you always equal or lesser number of events.
+		// hence all hist values will be above 1.
+		float max = GetMax(hademhist->GetBinContent(i),
+									isohist->GetBinContent(i),
+									trkpthist->GetBinContent(i),
+									trkisohist->GetBinContent(i));
+		float err = fabs(max -1) * qcdhist->GetBinContent(i);
+		//std::cout << "i, max, err=" << i << "\t" << max << "\t" << qcdhist->GetBinContent(i)  << "\t" << err <<std::endl;
+		ErrVec.push_back(err);
+	}
+
+}
+
+std::auto_ptr<TF1> get_error_function (unsigned jets, const std::string& name, const std::string& sign = "+")
+{
+	float val0 = 0, val1 = 0, width = 0, power = 2;
+
+	if ((jets==1) && (name=="InvMass")) {
+		val0 = 0.15;
+		val1 = 0.6;
+		width = 700;
+	}
+	if ((jets==2) && (name=="InvMass")) {
+		val0 = 0.05;
+		val1 = 1.0;
+		width = 800;
+		power = 4.5;
+	}
+
+	if ((jets==1) && (name=="EtCorr")) {
+		val0 = 0.15;
+		val1 = 0.8;
+		width = 300;
+		power = 2;
+	}
+
+	if ((jets==2) && (name=="EtCorr")) {
+		val0 = 0.15;
+		val1 = 0.8;
+		width = 300;
+		power = 2;
+	}
+
+
+	if ((jets==1) && (name=="NJet15")) {
+		val0 = 0.1;
+		val1 = 0.1;
+		width = 15;
+		power = 2;
+	}
+
+	if ((jets==2) && (name=="NJet15")) {
+		val0 = 0.1;
+		val1 = 0.1;
+		width = 15;
+		power = 2;
+	}
+
+	if (width > 0)
+	{
+		std::ostringstream myname, func;
+		myname << "eq_" << jets << name;
+		func << val0 << " + " << (val1 - val0) / pow (width, power) << " *pow(x," << power << ")";
+		return std::auto_ptr<TF1>(new TF1 (myname.str().c_str(), func.str().c_str(), 0, width));
+	};
+	std::cout << "couldn't find errors for " << name << " " << jets << " jets" << std::endl;
+	assert (false);
+	return std::auto_ptr<TF1>();
+};
+
+
+
+void MakeHistFinal (const int jets, const std::string& name, const std::string& title,
+				 const float lolimit, const float hilimit, const int rebin,
+				 const std::string& path, const int qcd_opt, const int QCDerrMtd)
+{
+  const unsigned canvas_width = 800;
+  const unsigned canvas_height = 800;
+
+  std::string phofile("PhoJets_data.root");
+  std::string mcphofile("PhoJets_phomc.root");
+  std::string zeefile("PhoJets_zeemc.root");
+  std::string zmmfile("PhoJets_zmmmc.root");
+  std::string zttfile("PhoJets_zttmc.root");
+  std::string wenfile("PhoJets_wenmc.root");
+  std::string wmnfile("PhoJets_wmnmc.root");
+  std::string wtnfile("PhoJets_wtnmc.root");
+ 
+ 
+  TFile* fpho = new TFile(phofile.c_str());
+  TFile* fmcpho = new TFile(mcphofile.c_str());
+  TFile* fzee = new TFile(zeefile.c_str());
+  TFile* fzmm = new TFile(zmmfile.c_str());
+  TFile* fztt = new TFile(zttfile.c_str());
+  TFile* fwen = new TFile(wenfile.c_str());
+  TFile* fwmn = new TFile(wmnfile.c_str());
+  TFile* fwtn = new TFile(wtnfile.c_str());
+
+
+  if (fpho->IsZombie() ||fmcpho->IsZombie() ||
+      fzee->IsZombie() ||fzmm->IsZombie() ||
+      fztt->IsZombie() ||fwen->IsZombie() ||
+      fwmn->IsZombie() ||fwtn->IsZombie() ) 
+	{
+		std::cout  << "a file not found. pl check" <<std::endl; return;
+	}
+
+	// ok path :1Jet/Photon/
+	std::string sHaloDir("Hist/HALO/"+path), sCosmicDir("Hist/COSMIC/"+path), sQcdDir("Hist/SIDEBAND/"+path), sSigDir("Hist/SIGNAL/"+path);
+	std::string sMcCentralDir("Hist/CENTRAL/"+path), sMcUpDir("Hist/EMJESUP/"+path), sMcDownDir("Hist/EMJESDOWN/"+path);
+
+
+
+	fpho->cd();
+	std::cout << "path="<<path<< std::endl;
+	std::cout << "dir="<<sSigDir<< std::endl;
+
+	if (! gDirectory->cd(sSigDir.c_str())) {
+	 std::cout << "path not found "<< std::endl;
+	 return;
+	}
+	
+	TH1F* phojet = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	if (! phojet){
+	 std::cout << "hist not found in the dir" <<std::endl;
+	 return;
+	}
+			
+	gDirectory->pwd();
+	fpho->cd();
+	gDirectory->cd(sHaloDir.c_str());
+	gDirectory->pwd();
+	TH1F* halojet = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+
+	fpho->cd();
+	gDirectory->cd(sCosmicDir.c_str());
+	gDirectory->pwd();
+	TH1F* cosmicjet = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+
+	fpho->cd();
+	gDirectory->cd(sQcdDir.c_str());
+	gDirectory->pwd();
+	TH1F* qcdjet = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	TH1F* qcdjet_100 = (TH1F*) qcdjet->Clone("qcdjet_100");
+
+	fmcpho->cd();
+	gDirectory->cd(sMcCentralDir.c_str());
+	TH1F* mcphojet = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fmcpho->cd();
+	gDirectory->cd(sMcUpDir.c_str());
+	TH1F* mcphojetJESUP = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fmcpho->cd();
+	gDirectory->cd(sMcDownDir.c_str());
+	TH1F* mcphojetJESDOWN = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+			
+
+	fzee->cd();		
+	gDirectory->cd(sMcCentralDir.c_str());
+	TH1F* zeejet = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fzee->cd();		
+	gDirectory->cd(sMcUpDir.c_str());
+	TH1F* zeejetJESUP = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fzee->cd();		
+	gDirectory->cd(sMcDownDir.c_str());
+	TH1F* zeejetJESDOWN = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+			
+	fzmm->cd();		
+	gDirectory->cd(sMcCentralDir.c_str());
+	TH1F* zmmjet = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fzmm->cd();		
+	gDirectory->cd(sMcUpDir.c_str());
+	TH1F* zmmjetJESUP = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fzmm->cd();		
+	gDirectory->cd(sMcDownDir.c_str());
+	TH1F* zmmjetJESDOWN = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+			
+	fztt->cd();		
+	gDirectory->cd(sMcCentralDir.c_str());
+	TH1F* zttjet = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fztt->cd();		
+	gDirectory->cd(sMcUpDir.c_str());
+	TH1F* zttjetJESUP = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fztt->cd();		
+	gDirectory->cd(sMcDownDir.c_str());
+	TH1F* zttjetJESDOWN = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+			
+	fwen->cd();		
+	gDirectory->cd(sMcCentralDir.c_str());
+	TH1F* wenjet = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fwen->cd();		
+	gDirectory->cd(sMcUpDir.c_str());
+	TH1F* wenjetJESUP = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fwen->cd();		
+	gDirectory->cd(sMcDownDir.c_str());
+	TH1F* wenjetJESDOWN = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+			
+	fwmn->cd();		
+	gDirectory->cd(sMcCentralDir.c_str());
+	TH1F* wmnjet = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fwmn->cd();		
+	gDirectory->cd(sMcUpDir.c_str());
+	TH1F* wmnjetJESUP = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fwmn->cd();		
+	gDirectory->cd(sMcDownDir.c_str());
+	TH1F* wmnjetJESDOWN = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+			
+	fwtn->cd();		
+	gDirectory->cd(sMcCentralDir.c_str());
+	TH1F* wtnjet = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fwtn->cd();		
+	gDirectory->cd(sMcUpDir.c_str());
+	TH1F* wtnjetJESUP = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+	fwtn->cd();		
+	gDirectory->cd(sMcDownDir.c_str());
+	TH1F* wtnjetJESDOWN = (TH1F*) gDirectory->FindObjectAny(name.c_str());
+			
+			
+  gStyle->SetOptStat(0);
+
+
+  //REBIN IF NEEDED ------------------------
+  phojet->Rebin(rebin);
+  halojet->Rebin(rebin);
+  zeejet->Rebin(rebin);
+  zmmjet->Rebin(rebin);
+  zttjet->Rebin(rebin);
+  wenjet->Rebin(rebin);
+  wmnjet->Rebin(rebin);
+  wtnjet->Rebin(rebin);
+  cosmicjet->Rebin(rebin);
+  qcdjet->Rebin(rebin);
+  mcphojet->Rebin(rebin);
+  qcdjet_100->Rebin(rebin);
+
+	// JES plots
+  zeejetJESUP->Rebin(rebin);
+  zmmjetJESUP->Rebin(rebin);
+  zttjetJESUP->Rebin(rebin);
+  wenjetJESUP->Rebin(rebin);
+  wmnjetJESUP->Rebin(rebin);
+  wtnjetJESUP->Rebin(rebin);
+  mcphojetJESUP->Rebin(rebin);
+ 
+  zeejetJESDOWN->Rebin(rebin);
+  zmmjetJESDOWN->Rebin(rebin);
+  zttjetJESDOWN->Rebin(rebin);
+  wenjetJESDOWN->Rebin(rebin);
+  wmnjetJESDOWN->Rebin(rebin);
+  wtnjetJESDOWN->Rebin(rebin);
+  mcphojetJESDOWN->Rebin(rebin);
+
+
+
+
+  //adjust X scale and move overflow to last bin
+  phojet    = (TH1F*) move_overflow (phojet, lolimit, hilimit, true);
+  halojet   = (TH1F*) move_overflow (halojet, lolimit,  hilimit,false);
+  zeejet    = (TH1F*) move_overflow (zeejet, lolimit, hilimit, false);
+  zmmjet    = (TH1F*) move_overflow (zmmjet, lolimit, hilimit, false);
+  zttjet    = (TH1F*) move_overflow (zttjet, lolimit, hilimit, false);
+  wenjet    = (TH1F*) move_overflow (wenjet, lolimit, hilimit, false);
+  wmnjet    = (TH1F*) move_overflow (wmnjet, lolimit, hilimit, false);
+  wtnjet    = (TH1F*) move_overflow (wtnjet, lolimit, hilimit, false);
+  cosmicjet = (TH1F*) move_overflow (cosmicjet, lolimit, hilimit, false);
+  qcdjet    = (TH1F*) move_overflow (qcdjet, lolimit, hilimit, false);
+  mcphojet  = (TH1F*) move_overflow (mcphojet, lolimit, hilimit, false);
+  qcdjet_100= (TH1F*) move_overflow (qcdjet_100, lolimit, hilimit, false);
+  //qcdjet_100ErrBand= (TH1F*) move_overflow (qcdjet_100ErrBand, lolimit, hilimit, false);
+					 
+					 
+	//JES plots
+  zeejetJESUP    = (TH1F*) move_overflow (zeejetJESUP, lolimit, hilimit, false);
+  zmmjetJESUP    = (TH1F*) move_overflow (zmmjetJESUP, lolimit, hilimit, false);
+  zttjetJESUP    = (TH1F*) move_overflow (zttjetJESUP, lolimit, hilimit, false);
+  wenjetJESUP    = (TH1F*) move_overflow (wenjetJESUP, lolimit, hilimit, false);
+  wmnjetJESUP    = (TH1F*) move_overflow (wmnjetJESUP, lolimit, hilimit, false);
+  wtnjetJESUP    = (TH1F*) move_overflow (wtnjetJESUP, lolimit, hilimit, false);
+  mcphojetJESUP  = (TH1F*) move_overflow (mcphojetJESUP, lolimit, hilimit, false);
+ 
+  zeejetJESDOWN    = (TH1F*) move_overflow (zeejetJESDOWN, lolimit, hilimit, false);
+  zmmjetJESDOWN    = (TH1F*) move_overflow (zmmjetJESDOWN, lolimit, hilimit, false);
+  zttjetJESDOWN    = (TH1F*) move_overflow (zttjetJESDOWN, lolimit, hilimit, false);
+  wenjetJESDOWN    = (TH1F*) move_overflow (wenjetJESDOWN, lolimit, hilimit, false);
+  wmnjetJESDOWN    = (TH1F*) move_overflow (wmnjetJESDOWN, lolimit, hilimit, false);
+  wtnjetJESDOWN    = (TH1F*) move_overflow (wtnjetJESDOWN, lolimit, hilimit, false);
+  mcphojetJESDOWN  = (TH1F*) move_overflow (mcphojetJESDOWN, lolimit, hilimit, false);
+	
+
+
+
+
+
+  /***********************************************************************/
+
+  //QCD Scaling options ---------------------
+  //fake photon fraction = 0.319+/-0.068(syst)
+  float qcd_d = 0.319;
+  float qcd_m = 0.251;
+  float qcd_p = 0.387;
+  float mc_d = 1 - qcd_d;	//.681	//real pho + qcd fake pho = 1
+  float mc_p = 1 - qcd_p; //.749
+  float mc_m = 1 - qcd_m; //.613
+
+  std::string qcd_str, qcd_title, mc_str;
+
+  float qcd_scale = qcd_d;
+  float mc_scale  = mc_d;
+
+  qcd_str = "QCD (#gamma sideband, 0.319(def) of signal)";
+  //qcd_str = "QCD (#gamma sideband)";
+  mc_str = "MC (0.681(def) of signal)";
+  if (qcd_opt == 1) {
+    qcd_scale = qcd_p;		//one goes up and other goes down
+    mc_scale  = mc_m;
+    qcd_str = "QCD (#gamma sideband, 0.387(def+) of signal)";
+    mc_str = "#gamma MC (0.613 (def-) of signal)";
+  }
+  if (qcd_opt == -1) {
+    qcd_scale = qcd_m;
+    mc_scale  = mc_p;
+    qcd_str = "QCD (#gamma sideband, 0.251(def-) of signal)";
+    mc_str = "MC (0.749 (def+) of signal)";
+  }
+
+  std::ostringstream qcdnum, mcnum;
+  qcdnum << "QCD (#gamma sideband, " << qcd_scale<< " of signal)";
+  mcnum << "#gamma MC (" << mc_scale << " of signal)";
+  qcd_str = qcdnum.str();
+  mc_str = mcnum.str();
+
+
+
+
+  // NORMALIZING ---------------------------
+  float haloEst 		= 0;
+  float cosmicEst 	= 0;
+
+  float haloNorm    = 0;
+  float cosmicNorm  = 0;
+  float qcdNorm     = 0; 
+  float mcphoNorm 	= 0;
+
+  float qcd100Norm     = 1;
+
+
+  if (jets ==1 ) {
+    haloEst = 9;				//these estimates are for the full dataset
+    cosmicEst = 110;
+  }
+  if (jets ==2 ) {
+    haloEst = 1 ;
+    cosmicEst = 7 ;
+  }
+
+
+  haloNorm    = haloEst / halojet->Integral();
+  cosmicNorm  = cosmicEst / cosmicjet->Integral();
+  qcdNorm     = ((phojet->Integral()) * qcd_scale)/qcdjet->Integral();
+  qcd100Norm     = ((phojet->Integral()))/qcdjet_100->Integral(); 
+  mcphoNorm = ((phojet->Integral()) * mc_scale)/mcphojet->Integral();
+
+  //JES PHO MC
+  float mcphoJESUPNorm = ((phojet->Integral()) * mc_scale)/mcphojetJESUP->Integral();
+  float mcphoJESDOWNNorm = ((phojet->Integral()) * mc_scale)/mcphojetJESDOWN->Integral();
+
+  float kFac = 1.4;
+//  float zeenorm = (2043./47605)*kFac;                   // for EWK mc see. log book#2 pp.72
+//  float zmmnorm = (2043./49577)*kFac;                   // for EWK mc see. log book#2 pp.72
+//  float zttnorm = (2043./28991)*kFac;                   // for EWK mc see. log book#2 pp.72
+//  float wennorm = (2043./15408)*kFac;                   // for EWK mc see. log book#2 pp.72
+//  float wmnnorm = (2043./7704)*kFac;                   // for EWK mc see. log book#2 pp.72
+//  float wtnnorm = (2043./7704)*kFac;                   // for EWK mc see. log book#2 pp.72
+
+  float zeenorm = (2043./34056)*kFac;                   // for EWK mc see. log book#2 pp.72
+  float zmmnorm = (2043./38732)*kFac;                   // for EWK mc see. log book#2 pp.72
+  float zttnorm = (2043./27755)*kFac;                   // for EWK mc see. log book#2 pp.72
+  float wennorm = (2043./9438)*kFac;                   // for EWK mc see. log book#2 pp.72
+  float wmnnorm = (2043./5183)*kFac;                   // for EWK mc see. log book#2 pp.72
+  float wtnnorm = (2043./3520)*kFac;                   // for EWK mc see. log book#2 pp.72
+
+  halojet->Scale (haloNorm);
+  cosmicjet->Scale (cosmicNorm);
+  qcdjet->Scale (qcdNorm);
+  qcdjet_100->Scale (qcd100Norm);
+  mcphojet->Scale (mcphoNorm);
+  zeejet->Scale (zeenorm);
+  zmmjet->Scale (zmmnorm);
+  zttjet->Scale (zttnorm);
+  wenjet->Scale (wennorm);
+  wmnjet->Scale (wmnnorm);
+  wtnjet->Scale (wtnnorm);
+
+	// JES 
+  mcphojetJESUP->Scale (mcphoJESUPNorm);
+  zeejetJESUP->Scale (zeenorm);
+  zmmjetJESUP->Scale (zmmnorm);
+  zttjetJESUP->Scale (zttnorm);
+  wenjetJESUP->Scale (wennorm);
+  wmnjetJESUP->Scale (wmnnorm);
+  wtnjetJESUP->Scale (wtnnorm);
+
+  mcphojetJESDOWN->Scale (mcphoJESDOWNNorm);
+  zeejetJESDOWN->Scale (zeenorm);
+  zmmjetJESDOWN->Scale (zmmnorm);
+  zttjetJESDOWN->Scale (zttnorm);
+  wenjetJESDOWN->Scale (wennorm);
+  wmnjetJESDOWN->Scale (wmnnorm);
+  wtnjetJESDOWN->Scale (wtnnorm);
+
+	//need this to subtract halo/cosmic/wek for JES up/down plots
+	TH1F* qcdjet_jesup = (TH1F*) qcdjet->Clone("qcdjet_jesup");
+	TH1F* qcdjet_jesdown = (TH1F*) qcdjet->Clone("qcdjet_jesdown");
+	TH1F* qcdjet_100_jesup = (TH1F*) qcdjet->Clone("qcdjet_100_jesup");
+	TH1F* qcdjet_100_jesdown = (TH1F*) qcdjet->Clone("qcdjet_100_jesdown");
+
+  // subtract the halo? and cosmic from the qcd background. so we are not 
+  // double counting them in the MET plot
+  // the expections are not very different. see elog#512
+  // so did not bother to renormalize them
+  qcdjet->Add(cosmicjet, -1);
+  qcdjet->Add(halojet, -1);
+  qcdjet_100->Add(halojet, -1);
+  qcdjet_100->Add(cosmicjet, -1);
+					 
+  qcdjet_jesup->Add(cosmicjet, -1);
+  qcdjet_jesup->Add(halojet, -1);
+  qcdjet_100_jesup->Add(halojet, -1);
+  qcdjet_100_jesup->Add(cosmicjet, -1);
+
+  qcdjet_jesdown->Add(cosmicjet, -1);
+  qcdjet_jesdown->Add(halojet, -1);
+  qcdjet_100_jesdown->Add(halojet, -1);
+  qcdjet_100_jesdown->Add(cosmicjet, -1);
+
+	//now subtract EWK background. this is wrong need to fix this	
+  qcdjet->Add(zeejet, -1);
+  qcdjet->Add(zttjet, -1);
+  qcdjet->Add(wenjet, -1);
+  qcdjet->Add(wtnjet, -1);
+  qcdjet_100->Add(zeejet, -1);
+  qcdjet_100->Add(zttjet, -1);
+  qcdjet_100->Add(wenjet, -1);
+  qcdjet_100->Add(wtnjet, -1);
+
+  qcdjet_100->Add(zttjet, -1);
+  qcdjet_100->Add(wenjet, -1);
+  qcdjet_100->Add(wtnjet, -1);
+
+  qcdjet_jesup->Add(zeejetJESUP, -1);
+  qcdjet_jesup->Add(zttjetJESUP, -1);
+  qcdjet_jesup->Add(wenjetJESUP, -1);
+  qcdjet_jesup->Add(wtnjetJESUP, -1);
+  qcdjet_100_jesup->Add(zeejetJESUP, -1);
+  qcdjet_100_jesup->Add(zttjetJESUP, -1);
+  qcdjet_100_jesup->Add(wenjetJESUP, -1);
+  qcdjet_100_jesup->Add(wtnjetJESUP, -1);
+
+  qcdjet_jesdown->Add(zeejetJESDOWN, -1);
+  qcdjet_jesdown->Add(zttjetJESDOWN, -1);
+  qcdjet_jesdown->Add(wenjetJESDOWN, -1);
+  qcdjet_jesdown->Add(wtnjetJESDOWN, -1);
+  qcdjet_100_jesdown->Add(zeejetJESDOWN, -1);
+  qcdjet_100_jesdown->Add(zttjetJESDOWN, -1);
+  qcdjet_100_jesdown->Add(wenjetJESDOWN, -1);
+  qcdjet_100_jesdown->Add(wtnjetJESDOWN, -1);
+
+
+  mcphojet->SetLineColor(6);
+  mcphojet->SetFillColor(6);
+  //qcdjet->SetLineColor(6);
+  //qcdjet->SetFillColor(6);
+  qcdjet->SetLineColor(42);
+  qcdjet->SetFillColor(42);
+  cosmicjet->SetLineColor(1);
+  cosmicjet->SetFillColor(kGreen);
+  //halojet->SetLineColor(kGreen);
+  //halojet->SetFillColor(8);
+  halojet->SetLineColor(1);
+  halojet->SetFillColor(12);
+  /*
+    zeejet->SetLineColor(1);
+    zeejet->SetFillColor(50);
+    zmmjet->SetLineColor(1);
+    zmmjet->SetFillColor(16);
+    zttjet->SetLineColor(1);
+    zttjet->SetFillColor(19);
+    wenjet->SetLineColor(1);
+    wenjet->SetFillColor(41);
+    wmnjet->SetLineColor(1);
+    wmnjet->SetFillColor(42);
+    wtnjet->SetLineColor(1);
+    wtnjet->SetFillColor(38);
+  */
+  int ewkColor = 29;
+  zeejet->SetLineColor(16);
+  zeejet->SetFillColor(ewkColor);
+  zmmjet->SetLineColor(ewkColor);
+  zmmjet->SetFillColor(ewkColor);
+  zttjet->SetLineColor(ewkColor);
+  zttjet->SetFillColor(ewkColor);
+  wenjet->SetLineColor(ewkColor);
+  wenjet->SetFillColor(ewkColor);
+  wmnjet->SetLineColor(ewkColor);
+  wmnjet->SetFillColor(ewkColor);
+  wtnjet->SetLineColor(ewkColor);
+  wtnjet->SetFillColor(ewkColor);
+
+
+  phojet->SetLineColor(kBlack);
+  phojet->SetMarkerStyle (8);
+
+  //this is the line histo showing 100% of QCD 0% MC pho
+  qcdjet_100->SetLineColor(kRed);
+  qcdjet_100->SetFillColor(kYellow);
+
+  std::cout << "Ewk: " << (wtnjet->Integral()+zttjet->Integral()+wenjet->Integral()+zeejet->Integral()) << std::endl;
+  std::cout << "Ewk JESUP: " << (wtnjetJESUP->Integral()+zttjetJESUP->Integral()+wenjetJESUP->Integral()+zeejetJESUP->Integral()) << std::endl;
+  std::cout << "Ewk JESDOWN: " << (wtnjetJESDOWN->Integral()+zttjetJESDOWN->Integral()+wenjetJESDOWN->Integral()+zeejetJESDOWN->Integral()) << std::endl;
+
+
+
+  /************************** GET INFO FOR ERROR BAND ********************/
+
+  std::vector<float> cosmicErr;   //relative error for each bin is stored here
+  std::vector<float> haloErr;
+
+  std::vector<float> qcdmcErr;   // use only one of these at a time.
+
+  GetCosmicErr(cosmicErr, cosmicjet);
+  GetHaloErr(haloErr, halojet);
+
+  //clones to be used in the syst calculations. need this before normalizing them
+  TH1F* qcdjet_syst = (TH1F*) qcdjet->Clone("qcdjet_syst");
+  TH1F* mcphojet_syst = (TH1F*) mcphojet->Clone("mcphojet_syst");
+
+
+  //sort of hist that uses the following two methods
+  if (QCDerrMtd == 1) {//plots that use 100% qcd
+    std::string histname = name;
+//    std::string abspath = newpath.str();
+    std::string abspath("Hist/"+path);
+    int rebin_temp = rebin;
+	   GetQCD100Err(qcdmcErr, qcdjet_syst, histname, abspath, rebin_temp);
+		//std::cout << "not used .. returning.." << std::endl;
+  } else if (QCDerrMtd == 2) {											// plots that use the 70%/30% mixture
+    //no need for new fucntion
+    //just use the info to make new plot with the given mixture
+    // and store in the array
+
+    //here i am using some dummy mixture for now. change them wisely!
+    float mcphojet_systNorm = ((phojet->Integral()) * 0.419)/mcphojet_syst->Integral();
+    mcphojet_syst->Scale(mcphojet_systNorm);
+    float qcdjet_systNorm = ((phojet->Integral()) * 0.581)/qcdjet_syst->Integral();
+    qcdjet_syst->Scale(qcdjet_systNorm);
+
+    //now create 2 temp hists.
+    // one with default qcd/mc values
+    //other with varied qcd/mc values them subtract them to get the error
+    TH1F *hist_temp1 = (TH1F*) halojet->Clone("hist_temp1");
+    TH1F *hist_temp2 = (TH1F*) halojet->Clone("hist_temp2");
+
+    hist_temp1->Add(halojet);
+    hist_temp1->Add(wtnjet);
+    hist_temp1->Add(zttjet);
+    hist_temp1->Add(wenjet);
+    hist_temp1->Add(zeejet);
+    hist_temp1->Add(cosmicjet);
+    hist_temp1->Add(qcdjet_syst);
+    hist_temp1->Add(mcphojet_syst);
+
+    hist_temp1->SetLineColor(kRed);
+    hist_temp1->SetMarkerColor(kRed);
+
+    hist_temp2->Add(halojet);
+    hist_temp2->Add(wtnjet);
+    hist_temp2->Add(zttjet);
+    hist_temp2->Add(wenjet);
+    hist_temp2->Add(zeejet);
+    hist_temp2->Add(cosmicjet);
+    hist_temp2->Add(qcdjet);
+    hist_temp2->Add(mcphojet);
+    hist_temp2->SetLineColor(kBlue);
+    hist_temp2->SetMarkerColor(kBlue);
+
+    for (int i=1; i <= hist_temp1->GetNbinsX(); i++) {
+      float err = fabs(hist_temp1->GetBinContent(i) - hist_temp2->GetBinContent(i));
+      qcdmcErr.push_back(err);
+    }
+  }
+
+
+  //now get the EWK systematics
+  float LumErr = 106/100.; //move up the Lum err by 10%
+  //float zeeLumUp = (2043./ (47605 * LumErr))*kFac;                   // for EWK mc see. log book#2 pp.72
+  //float zmmLumUp = (2043./(49577 * LumErr))*kFac;                   // for EWK mc see. log book#2 pp.72
+  //float zttLumUp = (2043./(28991 * LumErr))*kFac;                   // for EWK mc see. log book#2 pp.72
+  //float wenLumUp = (2043./(15408 * LumErr))*kFac;                   // for EWK mc see. log book#2 pp.72
+  //float wmnLumUp = (2043./(7704 * LumErr))*kFac;                   // for EWK mc see. log book#2 pp.72
+  //float wtnLumUp = (2043./(7704 * LumErr))*kFac;                   // for EWK mc see. log book#2 pp.72
+
+  float zeeLumUp = (2043./ (34056 * LumErr))*kFac;  
+  float zmmLumUp = (2043./(38732 * LumErr))*kFac;  
+  float zttLumUp = (2043./(27755 * LumErr))*kFac; 
+  float wenLumUp = (2043./(9438 * LumErr))*kFac; 
+  float wmnLumUp = (2043./(5183 * LumErr))*kFac;
+  float wtnLumUp = (2043./(3520 * LumErr))*kFac;
+
+  float zeeErr = fabs(zeeLumUp - zeenorm);
+  float zmmErr = fabs(zmmLumUp - zmmnorm);
+  float zttErr = fabs(zttLumUp - zttnorm);
+  float wenErr = fabs(wenLumUp - wennorm);
+  float wmnErr = fabs(wmnLumUp - wmnnorm);
+  float wtnErr = fabs(wtnLumUp - wtnnorm);
+
+
+
+	// NOW GET JES SYSTEMATICS
+
+  TH1F *hist_err_jesup = (TH1F*) halojet->Clone("hist_err_jesup");
+  TH1F *hist_err_jesdown = (TH1F*) halojet->Clone("hist_err_jesdown");
+  if (QCDerrMtd == 1) {//plots that use 100% qcd
+    //hist_err_jesup->Add(zmmjet_jesup);
+    hist_err_jesup->Add(wtnjetJESUP);
+    hist_err_jesup->Add(zttjetJESUP);
+    //hist_err_jesup->Add(wmnjetJESUP);
+    hist_err_jesup->Add(wenjetJESUP);
+    hist_err_jesup->Add(zeejetJESUP);
+    hist_err_jesup->Add(cosmicjet);
+    hist_err_jesup->Add(qcdjet_100);
+ 
+    //hist_err_jesdown->Add(zmmjetJESDOWN);
+    hist_err_jesdown->Add(wtnjetJESDOWN);
+    hist_err_jesdown->Add(zttjetJESDOWN);
+    //hist_err_jesdown->Add(wmnjetJESDOWN);
+    hist_err_jesdown->Add(wenjetJESDOWN);
+    hist_err_jesdown->Add(zeejetJESDOWN);
+    hist_err_jesdown->Add(cosmicjet);
+    hist_err_jesdown->Add(qcdjet_100_jesdown);
+ 
+  } else if (QCDerrMtd == 2) {//plots that use 30%70%
+
+    //hist_err_jesup->Add(zmmjet_jesup);
+    hist_err_jesup->Add(wtnjetJESUP);
+    hist_err_jesup->Add(zttjetJESUP);
+    //hist_err_jesup->Add(wmnjetJESUP);
+    hist_err_jesup->Add(wenjetJESUP);
+    hist_err_jesup->Add(zeejetJESUP);
+    hist_err_jesup->Add(cosmicjet);
+    hist_err_jesup->Add(qcdjet_100_jesup);
+    hist_err_jesup->Add(mcphojetJESUP);
+ 
+    //hist_err_jesdown->Add(zmmjetJESDOWN);
+    hist_err_jesdown->Add(wtnjetJESDOWN);
+    hist_err_jesdown->Add(zttjetJESDOWN);
+    //hist_err_jesdown->Add(wmnjetJESDOWN);
+    hist_err_jesdown->Add(wenjetJESDOWN);
+    hist_err_jesdown->Add(zeejetJESDOWN);
+    hist_err_jesdown->Add(cosmicjet);
+    hist_err_jesdown->Add(qcdjet_100_jesdown);
+    hist_err_jesdown->Add(mcphojetJESDOWN);
+ 
+	 
+  	} else {
+      std::cerr << "bad value: QCDerrMtd=" << QCDerrMtd << std::endl;
+      return;
+	};
+
+
+
+
+
+
+	//THIS IS THE HISTOGRAM TO SHOW THE ERROR BAND. IT IS SAME AS THE SUM OF BACKGROUNDS HIST
+
+  TH1F *hist_err = (TH1F*) halojet->Clone("hist_err");
+
+  if (QCDerrMtd == 1) {//plots that use 100% qcd
+    hist_err->Add(cosmicjet);
+    //hist_err->Add(zmmjet);
+    hist_err->Add(wtnjet);
+    hist_err->Add(zttjet);
+    //hist_err->Add(wmnjet);
+    hist_err->Add(wenjet);
+    hist_err->Add(zeejet);
+    hist_err->Add(qcdjet_100);
+
+  } else if (QCDerrMtd == 2) {//plots that use 30%70%
+    hist_err->Add(cosmicjet);
+    hist_err->Add(halojet);
+	 
+    hist_err->Add(cosmicjet);
+    //hist_err->Add(zmmjet);
+    hist_err->Add(wtnjet);
+    hist_err->Add(wtnjet);
+    hist_err->Add(zttjet);
+    hist_err->Add(zttjet);
+    //hist_err->Add(wmnjet);
+    hist_err->Add(wenjet);
+    hist_err->Add(zeejet);
+    hist_err->Add(qcdjet);
+    hist_err->Add(mcphojet);
+
+  } else
+    {
+      std::cerr << "bad value: QCDerrMtd=" << QCDerrMtd << std::endl;
+      return;
+    };
+
+	hist_err_jesup->SetLineColor(kBlue);
+	hist_err_jesup->SetFillColor(10);
+	hist_err_jesdown->SetLineColor(kBlack);
+	hist_err_jesdown->SetFillColor(0);
+
+
+	// NOW GET THE SYSTEMATICS FROM JES BY comparing central values with the JES UP/DOWN
+	// USE THE HIST USED TO PUT THE ERROR BAND AS THE CENTRAL VALUE
+  std::vector<float> JESerr;
+	for (unsigned int i=1; i <= hist_err_jesup->GetNbinsX(); i++) {
+			JESerr.push_back(GetMax(hist_err->GetBinContent(i),
+											hist_err_jesup->GetBinContent(i),
+											hist_err_jesdown->GetBinContent(i)));
+											
+			
+	}
+
+
+
+	
+
+  // NOW COLLECT ALL ERRORS AND PUT THEM TOGETHER FOR ONE FINAL NUMBER
+  std::vector<float> ERRORS;
+
+  for (unsigned int i=0; i < qcdmcErr.size(); i++) {
+    float sum = pow(cosmicErr[i],2) + pow(haloErr[i],2) + pow(zeeErr,2) + pow(zmmErr,2)
+      + pow(zttErr,2) + pow(wenErr,2) + pow(wmnErr,2) + pow(wtnErr,2) + pow(qcdmcErr[i],2)
+		+ pow(JESerr[i],2);
+		
+    float err = sqrt(sum);
+    ERRORS.push_back(err);
+  }
+
+
+
+
+  for (int i=1; i <= hist_err->GetNbinsX(); i++) {
+    hist_err->SetBinError(i, ERRORS[i-1]);
+    //std::cout << "i=" << i << "\t"  << ERRORS[i-1] << std::endl;
+  }
+	
+  //correct_errors(hist_err);
+
+  //	new TCanvas();
+  hist_err->SetFillStyle(3001);
+  hist_err->SetFillColor(13);
+  hist_err->SetLineColor(10);
+  //hist_err->Draw("E2");
+
+
+  //std::auto_ptr<TF1> func = get_error_function (jets, name);
+ // for (int bin = 1; bin <= hist_err->GetNbinsX(); ++ bin)
+  //{
+	// hist_err->SetBinError (bin, func->Eval (hist_err->GetXaxis()->GetBinCenter (bin)) * hist_err->GetBinContent (bin));
+ // };
+
+  /************************* end error bars stuff **********************/
+
+
+
+  THStack *hs = new THStack ("hs", NULL);
+  //cosmicjet->SetXTitle (title.c_str());
+  //halojet->SetXTitle (title.c_str());
+
+
+  if (QCDerrMtd == 1) {//plots that use 100% qcd
+    //hs->Add(zmmjet);
+    hs->Add(halojet);
+    hs->Add(cosmicjet);
+    hs->Add(wtnjet);
+    hs->Add(zttjet);
+    //hs->Add(wmnjet);
+    hs->Add(wenjet);
+    hs->Add(zeejet);
+    hs->Add(qcdjet_100);
+
+  } else if (QCDerrMtd == 2) {//plots that use 30%70%
+    //hs->Add(zmmjet);
+    hs->Add(halojet);
+    hs->Add(cosmicjet);
+    hs->Add(wtnjet);
+    hs->Add(zttjet);
+    //hs->Add(wmnjet);
+    hs->Add(wenjet);
+    hs->Add(zeejet);
+    hs->Add(qcdjet);
+    hs->Add(mcphojet);
+  } else {
+    std::cerr << "bad value: QCDerrMtd=" << QCDerrMtd << std::endl;
+    return;
+  };
+
+  TLegend *leg = new TLegend (0.5,0.6,0.9,0.9);
+  std::string str_pho,str_cosmic,str_halo,str_zee,str_zmm,str_ztt,str_wen,str_wmn,str_wtn;
+
+  if (jets==1) {
+    str_pho = "#gamma + >=1 Jet";	
+    str_cosmic = "#gamma^{cosmic} + >=1 Jet";
+    str_zee = "Z->ee MC (e + >=1 Jet)";
+    str_wen = "W->e#nu MC (e + >=1 Jet)";
+    str_ztt = "Z->#tau#tau MC (e + >=1 Jet)";
+    str_wtn = "W->#tau#nu MC (e + >=1 Jet)";
+    str_wmn = "W->#mu#nu MC (e + >=1 Jet)";
+    str_zmm = "Z->#mu#mu MC (e + >=1 Jet)";
+    str_halo = "#gamma^{halo} + >=1 Jet";
+  }
+  if (jets==2) {
+    str_pho = "#gamma + >=2 Jet";	
+    str_cosmic = "#gamma^{cosmic} + >=2 Jet";
+    str_zee = "Z->ee MC (e + >=2 Jet)";
+    str_wen = "W->e#nu MC (e + >=2 Jet)";
+    str_ztt = "Z->#tau#tau MC (e + >=2 Jet)";
+    str_wtn = "W->#tau#nu MC (e + >=2 Jet)";
+    str_wmn = "W->#mu#nu MC (e + >=2 Jet)";
+    str_zmm = "Z->#mu#mu MC (e + >=2 Jet)";
+    str_halo = "#gamma^{halo} + >=2 Jet";
+  }
+	
+
+  if (QCDerrMtd == 1) {//plots that use 100% qcd
+    leg->AddEntry(phojet,str_pho.c_str());
+    leg->AddEntry(qcdjet_100, "QCD (100% #gamma sideband)");
+    //leg->AddEntry(zeejet,str_zee.c_str());
+    //leg->AddEntry(wenjet,str_wen.c_str());
+    //leg->AddEntry(zttjet,str_ztt.c_str());
+    //leg->AddEntry(wtnjet,str_wtn.c_str());
+    //leg->AddEntry(wmnjet,str_wmn.c_str());
+    //leg->AddEntry(zmmjet,str_zmm.c_str()");
+    leg->AddEntry(wtnjet,"EWK MC");
+    leg->AddEntry(cosmicjet,str_cosmic.c_str());
+    leg->AddEntry(halojet,str_halo.c_str());
+    leg->AddEntry(hist_err,"Systematics");
+
+  } else if (QCDerrMtd == 2) {//plots that use 30%70%
+    leg->AddEntry(phojet,str_pho.c_str());
+    leg->AddEntry(mcphojet,mc_str.c_str());
+    //leg->AddEntry(qcdjet,"QCD (#gamma sideband+MC)");
+    leg->AddEntry(qcdjet,"QCD (#gamma sideband)");
+    //leg->AddEntry(zeejet,str_zee.c_str());
+    //leg->AddEntry(wenjet,str_wen.c_str());
+    //leg->AddEntry(zttjet,str_ztt.c_str());
+    //leg->AddEntry(wtnjet,str_wtn.c_str());
+    leg->AddEntry(wtnjet,"EWK MC");
+    //leg->AddEntry(wmnjet,str_wmn.c_str());
+    //leg->AddEntry(zmmjet,str_zmm.c_str()");
+    leg->AddEntry(cosmicjet,str_cosmic.c_str());
+    leg->AddEntry(halojet,str_halo.c_str());
+    leg->AddEntry(hist_err,"Systematics");
+  } else {
+    std::cerr << "bad value: QCDerrMtd=" << QCDerrMtd << std::endl;
+    return;
+  };
+
+
+
+  leg->SetBorderSize (1);
+
+  new TCanvas();
+  hs->SetMinimum(0.5);
+  hs->SetMaximum(0.5e7);
+  hs->SetTitle("CDF Run II Preliminary 2.0 fb^{-1}");
+  gPad->SetLogy();
+  gPad->SetTickx();
+  gPad->SetTicky();
+  hs->Draw();
+
+  hs->GetXaxis()->SetTitle (title.c_str());
+  std::ostringstream ytitle;
+  if (name=="EtCorr") ytitle << "Events/ 10 GeV";
+  if (name=="InvMass") ytitle << "Events/ 25 GeV/c^{2}";
+  if (name=="NJet15") ytitle << "Events";
+  hs->GetYaxis()->SetTitle(ytitle.str().c_str());
+  hist_err->Draw("sameE2");
+  phojet->Draw("same");
+  leg->Draw ();
+
+	//new TCanvas();
+	TPaveLabel *tp = new TPaveLabel(0.5,0.9,0.9,0.95,"CDF Run II Preliminary 2.0 fb^{-1}");
+	tp->SetLineColor(10);
+	tp->Draw();
+
+
+
+};
+
+void MakeHistFinal (int jets,std::string name,  std::string opt = "")
+{
+  const bool opt_qcdup = (opt.find ("QCDUP") != std::string::npos);
+  const bool opt_qcddown = (opt.find ("QCDDOWN") != std::string::npos);
+
+
+  int qcd_scale = 0;
+  TVirtualPad *pad_old = gPad;	
+
+	
+  if (opt_qcdup) qcd_scale = 1;
+  if (opt_qcddown) qcd_scale = -1;
+
+  if (jets == 1) {
+    if (name == "InvMass") 	MakeHistFinal (jets, "InvMass","Invariant Mass (#gamma,Lead Jet) (GeV/c^{2})",0,700,5,"1Jet/PhotonLeadJet", qcd_scale, 2);
+    else if (name == "pet") 	MakeHistFinal (jets, "EtCorr","E_{T}^{#gamma} (GeV)",0,300,5,"1Jet/Photon", qcd_scale,2);
+    //else if (name == "met")	MakeHistFinal (jets, "Met","MET",0,200,1,"1Jet/Event", qcd_scale,1);
+    else if (name == "met")	MakeHistFinal (jets, "Met","MET",0,200,1,"1Jet/Event", qcd_scale,2);
+    //else if (name == "njet") 	MakeHistFinal (jets, "NJet15","Jet Multiplicity (E_{T}>15GeV)",0,15,1,"1Jet/Event", qcd_scale,1);
+    else if (name == "njet") 	MakeHistFinal (jets, "NJet15","Jet Multiplicity (E_{T}>15GeV)",0,15,1,"1Jet/Event", qcd_scale,2);
+    else if (name == "ht")  	MakeHistFinal (jets, "Ht","H_{T}",0,700,4,"1Jet/Event", qcd_scale,2);
+    else if (name == "jet") 	MakeHistFinal (jets, "EtCorr","E_{T}^{lead Jet}",0,300,5,"1Jet/LeadJet", qcd_scale,2);
+    else if (name == "etratio") MakeHistFinal (jets, "EtRatio","E_{T} ratio (lead Jet/ #gamma)",0,10,2,"1Jet/PhotonLeadJet", qcd_scale,2);
+    else if (name == "delphi") 	MakeHistFinal (jets, "DelPhi","#Delta #phi^{#gamma,lead jet}",0,5,1,"1Jet/PhotonLeadJet", qcd_scale,2);
+    else if (name == "delr") MakeHistFinal (jets, "DelR", "#Delta R^{#gamma, lead Jet}",0,7,1,"1Jet/PhotonLeadJet", qcd_scale,2);
+  }
+  if (jets == 2) {
+    if (name == "InvMass") 	MakeHistFinal (jets, "InvMass","Invariant Mass (#gamma,Two Lead Jets) (GeV/c^{2})",0,800,5,"2Jet/Photon2Jets", qcd_scale,2);
+    //else if (name == "Met")	MakeHistFinal (jets, "Met","MET",0,125,1,"2Jet/Event", qcd_scale,1);
+    else if (name == "Met")	MakeHistFinal (jets, "Met","MET",0,125,1,"2Jet/Event", qcd_scale,2);
+    else if (name == "jetsInvMass") 	MakeHistFinal (jets, "InvMass","Invariant Mass(Lead two Lead Jets)",0,700,5,"2Jet/2Jets", qcd_scale,2);
+    //else if (name == "NJet15") 	MakeHistFinal (jets, "NJet15","NJet15",0,15,1,"2Jet/Event", qcd_scale,1);
+    //else if (name == "NJet15") 	MakeHistFinal (jets, "NJet15","NJet15",0,15,1,"2Jet/Event", qcd_scale,2);
+    else if (name == "PhoEt") 	MakeHistFinal (jets, "EtCorr","E_{T}^{#gamma} (GeV)",0,300,5,"2Jet/Photon", qcd_scale,2);
+    else if (name == "pj1DelPhi") 	MakeHistFinal (jets, "DelPhi","#Delta #phi^{#gamma,lead jet}",0,4,1,"2Jet/PhotonLeadJet", qcd_scale,2);
+    else if (name == "pj2DelPhi") 	MakeHistFinal (jets, "DelPhi","#Delta #phi^{#gamma,2nd lead jet}",0,4,1,"2Jet/Photon2ndLeadJet", qcd_scale,2);
+    else if (name == "j1j2DelPhi") 	MakeHistFinal (jets, "DelPhi","#Delta #phi^{lead jet,2nd lead jet}",0,4,1,"2Jet/2Jets", qcd_scale,2);
+    else if (name == "Ht")  	MakeHistFinal (jets, "Ht","H_{T}",0,700,4,"2Jet/Event", qcd_scale,2);
+    else if (name == "j1Et") 	MakeHistFinal (jets, "EtCorr","E_{T}^{lead Jet}",0,300,5,"2Jet/LeadJet", qcd_scale,2);
+    else if (name == "j2Et") 	MakeHistFinal (jets, "EtCorr","E_{T}^{2nd lead Jet}",0,300,5,"2Jet/SecondLeadJet", qcd_scale,2);
+    else if (name == "pj1Etratio") MakeHistFinal (jets, "EtRatio","E_{T} ratio (lead Jet/ #gamma)",0,10,1,"2Jet/PhotonLeadJet", qcd_scale,2);
+    else if (name == "pj2Etratio") MakeHistFinal (jets, "EtRatio","E_{T} ratio (2nd lead Jet/ #gamma)",0,10,1,"2Jet/Photon2ndLeadJet", qcd_scale,2);
+    else if (name == "j1j2Etratio") MakeHistFinal (jets, "EtRatio","E_{T} ratio (2nd lead Jet/lead Jet)",0,2.5,3,"2Jet/2Jets", qcd_scale,2);
+  }
+	
+/*
+	// to make full scale plots
+  if (jets == 1) {
+    if (name == "InvMass") 	MakeHistFinal (jets, "InvMass","Invariant Mass (#gamma,Lead Jet) (GeV/c^{2})",0,1500,5,"1Jet/PhotonLeadJet", qcd_scale, 2);
+    else if (name == "pet") 	MakeHistFinal (jets, "EtCorr","E_{T}^{#gamma} (GeV)",0,1000,5,"1Jet/Photon", qcd_scale,2);
+    //else if (name == "met")	MakeHistFinal (jets, "Met","MET",0,1000,1,"1Jet/Event", qcd_scale,1);
+    else if (name == "met")	MakeHistFinal (jets, "Met","MET",0,1000,1,"1Jet/Event", qcd_scale,2);
+    //else if (name == "njet") 	MakeHistFinal (jets, "NJet15","Jet Multiplicity (E_{T}>15GeV)",0,15,1,"1Jet/Event", qcd_scale,1);
+    else if (name == "njet") 	MakeHistFinal (jets, "NJet15","Jet Multiplicity (E_{T}>15GeV)",0,15,1,"1Jet/Event", qcd_scale,1);
+    else if (name == "ht")  	MakeHistFinal (jets, "Ht","H_{T}",0,1500,4,"1Jet/Event", qcd_scale,1);
+    else if (name == "jet") 	MakeHistFinal (jets, "EtCorr","E_{T}^{lead Jet}",0,1000,5,"1Jet/LeadJet", qcd_scale,2);
+    else if (name == "etratio") MakeHistFinal (jets, "EtRatio","E_{T} ratio (lead Jet/ #gamma)",0,10,2,"1Jet/PhotonLeadJet", qcd_scale,2);
+    else if (name == "delphi") 	MakeHistFinal (jets, "DelPhi","#Delta #phi^{#gamma,lead jet}",0,5,1,"1Jet/PhotonLeadJet", qcd_scale,2);
+    else if (name == "delr") MakeHistFinal (jets, "DelR", "#Delta R^{#gamma, lead Jet}",0,7,1,"1Jet/PhotonLeadJet", qcd_scale,2);
+  }
+  if (jets == 2) {
+    if (name == "InvMass") 	MakeHistFinal (jets, "InvMass","Invariant Mass (#gamma,Two Lead Jets) (GeV/c^{2})",0,1500,5,"2Jet/Photon2Jets", qcd_scale,2);
+    //else if (name == "Met")	MakeHistFinal (jets, "Met","MET",0,1000,1,"2Jet/Event", qcd_scale,1);
+    else if (name == "Met")	MakeHistFinal (jets, "Met","MET",0,1000,1,"2Jet/Event", qcd_scale,2);
+    else if (name == "jetsInvMass") 	MakeHistFinal (jets, "InvMass","Invariant Mass(Lead two Lead Jets)",0,1500,5,"2Jet/2Jets", qcd_scale,2);
+    //else if (name == "NJet15") 	MakeHistFinal (jets, "NJet15","NJet15",0,15,1,"2Jet/Event", qcd_scale,1);
+    //else if (name == "NJet15") 	MakeHistFinal (jets, "NJet15","NJet15",0,15,1,"2Jet/Event", qcd_scale,2);
+    else if (name == "PhoEt") 	MakeHistFinal (jets, "EtCorr","E_{T}^{#gamma} (GeV)",0,1000,5,"2Jet/Photon", qcd_scale,2);
+    else if (name == "pj1DelPhi") 	MakeHistFinal (jets, "DelPhi","#Delta #phi^{#gamma,lead jet}",0,4,1,"2Jet/PhotonLeadJet", qcd_scale,2);
+    else if (name == "pj2DelPhi") 	MakeHistFinal (jets, "DelPhi","#Delta #phi^{#gamma,2nd lead jet}",0,4,1,"2Jet/Photon2ndLeadJet", qcd_scale,2);
+    else if (name == "j1j2DelPhi") 	MakeHistFinal (jets, "DelPhi","#Delta #phi^{lead jet,2nd lead jet}",0,4,1,"2Jet/2Jets", qcd_scale,2);
+    else if (name == "Ht")  	MakeHistFinal (jets, "Ht","H_{T}",0,1500,4,"2Jet/Event", qcd_scale,2);
+    else if (name == "j1Et") 	MakeHistFinal (jets, "EtCorr","E_{T}^{lead Jet}",0,1000,5,"2Jet/LeadJet", qcd_scale,2);
+    else if (name == "j2Et") 	MakeHistFinal (jets, "EtCorr","E_{T}^{2nd lead Jet}",0,1000,5,"2Jet/SecondLeadJet", qcd_scale,2);
+    else if (name == "pj1Etratio") MakeHistFinal (jets, "EtRatio","E_{T} ratio (lead Jet/ #gamma)",0,10,1,"2Jet/PhotonLeadJet", qcd_scale,2);
+    else if (name == "pj2Etratio") MakeHistFinal (jets, "EtRatio","E_{T} ratio (2nd lead Jet/ #gamma)",0,10,1,"2Jet/Photon2ndLeadJet", qcd_scale,2);
+    else if (name == "j1j2Etratio") MakeHistFinal (jets, "EtRatio","E_{T} ratio (2nd lead Jet/lead Jet)",0,2.5,3,"2Jet/2Jets", qcd_scale,2);
+  }
+	
+*/
+
+	if (gPad != pad_old)
+	{
+		TCanvas *c = dynamic_cast<TCanvas*>(gPad);
+      if (c)
+		{
+			std::ostringstream str,str1;
+			str << "plot" << jets << "_" << name << ".gif";
+			c->Print (str.str().c_str());
+			//str1 << "plot" << jets << "_" << name << ".pdf";
+			//c->Print (str1.str().c_str(),"pdf");
+		};
+	};
+
+	
+};
+
+
+
+
+void MakeHistFinal ()
+{
+	MakeHistFinal (1, "InvMass");
+	//MakeHistFinal (1, "pet");
+	//MakeHistFinal (1, "met");
+	//MakeHistFinal (1, "njet");
+	MakeHistFinal (1, "ht");
+	//MakeHistFinal (1, "jet");
+	//MakeHistFinal (1, "etratio");
+	//MakeHistFinal (1, "delphi");
+	//MakeHistFinal (1, "delr");
+	//MakeHistFinal (2, "InvMass");
+	//MakeHistFinal (2, "Met");
+	//MakeHistFinal (2, "jetsInvMass");
+	//MakeHistFinal (2, "NJet15");
+	//MakeHistFinal (2, "PhoEt");
+	//MakeHistFinal (2, "pj1DelPhi");
+	//MakeHistFinal (2, "pj2DelPhi");
+	//MakeHistFinal (2, "j1j2DelPhi");
+	//MakeHistFinal (2, "Ht");
+	//MakeHistFinal (2, "j1Et");
+	//MakeHistFinal (2, "j2Et");
+	//MakeHistFinal (2, "pj1Etratio");
+	//MakeHistFinal (2, "pj2Etratio");
+	//MakeHistFinal (2, "j1j2Etratio");
+};

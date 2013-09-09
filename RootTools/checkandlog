@@ -1,0 +1,35 @@
+#!/bin/sh
+# This is to extract job summary from log files and tell me if job has finished properly or not.
+
+if [ $# -lt 1 ]
+then 
+	echo "require file name. exiting!"
+	exit -1
+else
+	good=0
+	bad=0
+	for file in $*
+	do
+			#tail -500 $file | grep "FST:01"
+			evts=0													#otherwise, when evts does not get any values from next step, there will be an error
+			evts=`tail -500 $file |grep "FST:01" | cut -d " " -f6`		# now get the number of evets processed by the final module 
+			
+			newfile=${file:8}										# create new log file
+			
+			if [ "$evts" ]											#this tests if evts is defined and initialized, works without the quotes, but good practice
+			then
+				if [ $evts -gt 0 ]
+				then
+					#echo -n "$file GOOD. summary-> "
+					echo "$file GOOD"
+					#grep -v Warn $file | grep -v Hello | grep -v Init | grep -v "\<Run\>" > $newfile
+					#echo "$newfile"
+				else
+					echo "$file is BAD!"
+				fi
+			else 
+				echo "$file is BAD!"
+			fi
+
+	done
+fi

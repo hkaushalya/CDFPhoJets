@@ -1,0 +1,39 @@
+Unix.*.Root.MacroPath:.:~/root_macros:$(PWD)/Stntuple/ana:$(ROOTSYS)/tutorials
+Unix*.Root.DynamicPath:.:~/rootlibs:$(LD_LIBRARY_PATH)
+Root.Html.OutputDir:$(HOME)/www/pkg_samantha
+Root.Html.SourceDir:$(HOME)/samantha/src/
+#Root.Html.SourceDir:.:$(ROOTSYS)/src
+#
+#  next line tells ROOT to use rootlogon.C macro from the 
+#  current directory and not any of the default ones
+#
+Rint.Logon:          $(PWD)/rootlogon.C
+Rint.Logoff:
+
+# Root.MemStat:  1
+Root.ObjectStat:  1
+#
+Gui.IconPath:  $(PWD)/Stntuple/icons
+# Record session commands, set to "-" to turn off command recording
+Rint.History:            $(PWD)/.root_hist
+#------------------------------------------------------------------------------
+# plugin handlers
+#------------------------------------------------------------------------------
++Plugin.TFile: ^dcache: TDCacheFile DCache  "TDCacheFile(const char*,Option_t*,const char*,Int_t)"
++Plugin.TFile: ^dcap:   TDCacheFile DCache  "TDCacheFile(const char*,Option_t*,const char*,Int_t)"
+#------------------------------------------------------------------------------
+# STNTUPLE good run list (TStnRunSummaries extracted from DB, all the runs)
+#------------------------------------------------------------------------------
+Stntuple.RunSummary root://fcdfdata122.fnal.gov//export/data2/ewk/run_summary/rs-138425-186598.2005-04-27.root
+#------------------------------------------------------------------------------
+# STNTUPLE catalog servers (FCDFLNX9 is a fallback for FCDFLNX8, same disk)
+#------------------------------------------------------------------------------
+Stntuple.Catalog http://www-cdf.fnal.gov/~cdfopr/Stntuple/cafdfc
+#Stntuple.Catalog    txt://fcdflnx8.fnal.gov/cdf/home/cdfopr/cafdfc  
+#+Stntuple.Catalog   txt://fcdflnx9.fnal.gov/cdf/home/cdfopr/cafdfc
+#+Stntuple.Catalog    txt://fcdflnx3.fnal.gov/cdf/home/cdfopr/www/Stntuple/cafdfc
+#------------------------------------------------------------------------------
+# name of the oracle server (used by TStnCatalogServer)
+#------------------------------------------------------------------------------
+Stntuple.OracleServer          cdfofprd
+#-------------------------------------------------------------------------------

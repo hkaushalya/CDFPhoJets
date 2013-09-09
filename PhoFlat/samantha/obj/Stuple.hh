@@ -1,0 +1,1 @@
+../../../samantha/obj/Stuple.hh

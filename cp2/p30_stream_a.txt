@@ -1,0 +1,161 @@
+Setting up cdfsoft2 6.1.4
+=========== CREATING SAM DATA SET WITH ==============================
+PERIOD  = 30
+STREAM  = aphysr
+LOWRUN  = 291294
+HIRUN   = 293800
+DEFNAME = 'cp2p'30'_'aphysr'_raw'
+GROUP   = test
+DESC    = P30_CP2_Calibration_datastream_aphysr_291294_293800
+DIM     = CDF.DATASET aphysr and RUN_NUMBER >= 291294 and RUN_NUMBER <= 293800
+Command Description:
+
+Create a new dataset definition.  Later, this definition may be used
+to take a snapshot of files matchine the definition constraints
+(aka "dimensions").
+
+
+Usage:
+       sam create definition <--requiredOptions> [--options] [-flags]
+       sam create dataset definition <--requiredOptions> [--options] [-flags]
+
+Where:
+
+  --requiredOptions:
+	      --definitionName=<value> # name to be assigned to this definition
+	          --dimensions=<value> # string specifying the dimensional quantities of interest
+	               --group=<value> # work group to which this definition should be assigned for bookkeeping
+
+  --options:
+	    --corbaCallTimeout=<value> # time in seconds for CORBA method calls to return before timing out (default: 0; zero implies no timeout)
+	         --description=<value> # description to be associated with this definition
+	            --keywords=<value> # comma-separated list of keywords to be associated with this definition
+	       --retryInterval=<value> # retry interval base in seconds; will multiply this base times retryCount (default: 5)
+	         --retryJitter=<value> # retry jitter, random jitter added to base retry interval times retryCount (default: 5)
+	       --retryMaxCount=<value> # number of times to retry CORBA calls for retriable exceptions (default: 25; zero implies no retries)
+
+   -flags:
+	                            -c # automatically close all servants after each method call
+	                            -d # debug mode
+	                            -s # retrySilently mode (do not issue messages to stderr on proxy retries)
+	                            -t # time-it mode (print additional info on timings)
+	                            -v # verbose mode
+
+Synonymous Options:
+	             --defName=<value> # synonym for --definitionName=<value>
+	             --defdesc=<value> # synonym for --description=<value>
+	                --desc=<value> # synonym for --description=<value>
+	                 --dim=<value> # synonym for --dimensions=<value>
+	           --dimension=<value> # synonym for --dimensions=<value>
+	                --dims=<value> # synonym for --dimensions=<value>
+
+Required Data Types:
+	              corbaCallTimeout : int 
+	                definitionName : string 
+	                   description : string 
+	                    dimensions : string 
+	                         group : string 
+	                      keywords : SamStringList 
+	                 retryInterval : int 
+	                   retryJitter : int 
+	                 retryMaxCount : int 
+
+You may omit "-c" if the $SAM_PYAPI_AUTO_CLOSE_SERVANTS environmental variable is set.
+You may omit "--corbaCallTimeout=<value>" if the $SAM_PYAPI_CORBA_CALL_TIMEOUT environmental variable is set.
+You may omit "--group=<value>" if the $SAM_GROUP environmental variable is set.
+You may omit "--retryInterval=<value>" if the $SAM_PYAPI_RETRY_INTERVAL environmental variable is set.
+You may omit "--retryJitter=<value>" if the $SAM_PYAPI_RETRY_JITTER environmental variable is set.
+You may omit "--retryMaxCount=<value>" if the $SAM_PYAPI_RETRY_MAX_COUNT environmental variable is set.
+You may omit "-s" if the $SAM_PYAPI_RETRY_SILENTLY environmental variable is set.
+
+UNIX ExitStatus:
+	             Success :   0
+	Unhandled exceptions : 127
+
+=========== LISTING FILES IN THE SNAP SHOT ==========================
+Command Description:
+
+List the files that match the given dimensions.  NOTE,
+this does not TAKE a snapshot; it merely tells you what files would
+be IN the snapshot if you were to take one using these
+constraints.
+
+If you like what you see with translate constraints, you should
+then use "sam create dataset" to take a snapshot.
+
+The --returnCountOnly option (or, equivalently, --count) will return
+only the count of the number of files matching these constraints.
+
+--fileInfo will print the size and number of events (if any) for each file
+in the list.
+
+--noSummary will not print any summary information, but just a simple list of
+files, one per line. When combined with --fileInfo it will print the filename,
+file size in bytes, and number of events in the file as tab separated fields.
+
+If you are looking for help on dimensions, you should use the
+    sam get dimension info
+command; but for backwards compatibility with one of the most stupid
+things ever done in the original sam interface, we also allow the
+    sam translate constraints --dim=help [--type=<dimensionCategory>]
+
+
+Usage:
+       sam translate constraints <--requiredOptions> [--options] [-flags]
+       sam list files <--requiredOptions> [--options] [-flags]
+       sam translate dimensions <--requiredOptions> [--options] [-flags]
+
+Where:
+
+  --requiredOptions:
+	          --dimensions=<value> # string specifying the dimensional quantities of interest
+
+  --options:
+	                    --fileInfo # Display individual file size and event count
+	                   --noSummary # Do not show summary information; return a simple list of files only
+	             --returnCountOnly # Return only the count of files matching the dimensions
+	                 --summaryOnly # Only display the summary and not the file list
+	    --corbaCallTimeout=<value> # time in seconds for CORBA method calls to return before timing out (default: 0; zero implies no timeout)
+	       --retryInterval=<value> # retry interval base in seconds; will multiply this base times retryCount (default: 5)
+	         --retryJitter=<value> # retry jitter, random jitter added to base retry interval times retryCount (default: 5)
+	       --retryMaxCount=<value> # number of times to retry CORBA calls for retriable exceptions (default: 25; zero implies no retries)
+	                --type=<value> 
+
+   -flags:
+	                            -c # automatically close all servants after each method call
+	                            -d # debug mode
+	                            -s # retrySilently mode (do not issue messages to stderr on proxy retries)
+	                            -t # time-it mode (print additional info on timings)
+	                            -v # verbose mode
+
+Synonymous Options:
+	                       --count # synonym for --returnCountOnly
+	                 --dim=<value> # synonym for --dimensions=<value>
+	           --dimension=<value> # synonym for --dimensions=<value>
+	                --dims=<value> # synonym for --dimensions=<value>
+
+Mutually Exclusive Options:
+	--fileInfo OR --summaryOnly 
+	--returnCountOnly OR --fileInfo 
+	--returnCountOnly OR --noSummary OR --summaryOnly 
+
+Required Data Types:
+	              corbaCallTimeout : int 
+	                    dimensions : string 
+	                 retryInterval : int 
+	                   retryJitter : int 
+	                 retryMaxCount : int 
+	                          type : string 
+
+You may omit "-c" if the $SAM_PYAPI_AUTO_CLOSE_SERVANTS environmental variable is set.
+You may omit "--corbaCallTimeout=<value>" if the $SAM_PYAPI_CORBA_CALL_TIMEOUT environmental variable is set.
+You may omit "--retryInterval=<value>" if the $SAM_PYAPI_RETRY_INTERVAL environmental variable is set.
+You may omit "--retryJitter=<value>" if the $SAM_PYAPI_RETRY_JITTER environmental variable is set.
+You may omit "--retryMaxCount=<value>" if the $SAM_PYAPI_RETRY_MAX_COUNT environmental variable is set.
+You may omit "-s" if the $SAM_PYAPI_RETRY_SILENTLY environmental variable is set.
+
+UNIX ExitStatus:
+	             Success :   0
+	Unhandled exceptions : 127
+
+===========  SAM SNAP SHOT TAKEN ====================================

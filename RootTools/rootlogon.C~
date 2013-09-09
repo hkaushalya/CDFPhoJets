@@ -1,0 +1,16 @@
+//------------------------------------------------------------------------------
+//  rootlogon.C: a sample ROOT logon macro allowing use of ROOT script 
+//               compiler in CDF RunII environment. The name of this macro file
+//               is defined by the .rootrc file
+//
+//
+//
+//------------------------------------------------------------------------------
+{
+#include <iostream>
+//list current working stuff in here to auto compile when root is loaded 
+//within this dir
+	
+	std::cout << "Loading /home/samantha/rootlogon.C" << std::endl;
+	gSystem->CompileMacro("MakeQ2HepgSystHists.C","k");
+}

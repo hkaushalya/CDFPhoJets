@@ -1,0 +1,19 @@
+./mcProduction/scripts/make_joblist.pl mcProduction/book/<your run list> NEV_PER_INV_NB NEV_PER_SECTION
+Summary :
+---------
+Number of runs requested               : ...
+Total luminosity of runs               : ...
+Total number of events to be generated : ...
+Total number of sections               : ...
+
+./mcProduction/scripts/DSdef2SegmentList mcProduction/book/<YOUR BOOK>/<YOUR DATASET>\
+        SEGMENT_SIZE EVENT_SIZE SECT_NUM FILTER_EFF
+		  with the value 0 for SECT_NUM. For Example, you can write:mcPRo
+
+./mcProduction/scripts/run1segment -v 1 -J 1 -b cdfpexo -d pexott -o . -f local
+
+./mcProduction/scripts/MCProd -J 1 -b cdfpexo -d pexott -n 10 -m 1:0:0:0 -x USER_GENMODE=1
+./mcProduction/scripts/make_joblist.pl mcProduction/book/goodrunlistV23_bits_0000_test 10 1000
+./mcProduction/scripts/DSdef2SegmentList mcProduction/book/cdfpexo/pexott 1000 10 0 100
+
+./mcProduction/scripts/MCProd -J 1 -b cdfpexo -d pexott -n 10 -m 1:0:0:0 -x USER_GENMODE=1 -x ISR=0 -x FSR=0 -x Q2=0 -x minPtHat=20 -x minPhoPt=22
